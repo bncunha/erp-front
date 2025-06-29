@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from '../model/menu-item';
+import { MenuItem } from '../models/menu-item';
 
 @Component({
   selector: 'app-sidebar',

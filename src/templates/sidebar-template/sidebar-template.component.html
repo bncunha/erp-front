@@ -1,10 +1,11 @@
 <div class="template">
-  <app-header
-    (menuClicked)="sidebarTemplateService.toggleSidebar(true)"
-  ></app-header>
+  <app-header (menuClicked)="sidebarTemplateService.toggleSidebar(true)" />
   <app-sidebar
     [isOpen]="(isSidebarOpen$ | async)!"
     [itemsList]="itemsList"
     (onClose)="sidebarTemplateService.toggleSidebar(false)"
-  ></app-sidebar>
+  />
+  <div class="p-4">
+    <router-outlet />
+  </div>
 </div>

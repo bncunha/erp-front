@@ -4,7 +4,7 @@
   height: 100%;
   top: 0;
   left: -100vw;
-  padding: 16px;
+  padding: 1rem;
   background-color: var(--p-surface-800);
   transition: left 0.5s ease;
 
@@ -14,12 +14,12 @@
 }
 
 .menu-item {
-  padding: 16px;
+  padding: 1rem;
   border-bottom: 1px solid var(--p-surface-500);
 
   a {
     display: flex;
-    gap: 16px;
+    gap: 1rem;
     align-items: center;
   }
 }

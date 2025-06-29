@@ -10,8 +10,14 @@ export const routes: Routes = [
   {
     path: '',
     component: SidebarTemplateComponent,
-    pathMatch: 'full',
     children: [
+      {
+        path: 'produtos',
+        loadComponent: () =>
+          import('../pages/products-list/products-list.component').then(
+            (m) => m.ProductsListComponent
+          ),
+      },
       {
         path: '',
         pathMatch: 'full',

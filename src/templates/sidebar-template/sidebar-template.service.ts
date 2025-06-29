@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MenuItem } from './model/menu-item';
+import { MenuItem } from './models/menu-item';
 import { PrimeIcons } from 'primeng/api';
 
 @Injectable()
@@ -10,12 +10,12 @@ export class SidebarTemplateService {
     {
       icon: PrimeIcons.HOME,
       name: 'Início',
-      routerLink: '/inicio',
+      routerLink: '/',
     },
     {
-      icon: PrimeIcons.HOME,
-      name: 'Início',
-      routerLink: '/inicio',
+      icon: PrimeIcons.BOX,
+      name: 'Produtos',
+      routerLink: '/produtos',
     },
   ];
 

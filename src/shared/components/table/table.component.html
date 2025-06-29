@@ -1,0 +1,71 @@
+<div class="my-3">
+  <p-toolbar>
+    <ng-template #start>
+      <div class="flex gap-2">
+        <button pButton icon="pi pi-plus" type="button"></button>
+        <button
+          pButton
+          icon="pi pi-pencil"
+          severity="secondary"
+          type="button"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          severity="secondary"
+          type="button"
+        ></button>
+      </div>
+    </ng-template>
+
+    <ng-template #end>
+      <div>
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            type="text"
+            pInputText
+            placeholder="Pesquisar..."
+            (input)="tableService.onSearch($event, primeTable)"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+  </p-toolbar>
+</div>
+
+<div class="my-3">
+  <p-table
+    #primeTable
+    [columns]="columns"
+    [stateKey]="stateKey"
+    stateStorage="session"
+    [globalFilterFields]="filterFields"
+  >
+    <ng-template #header let-columns>
+      <tr>
+        @for (col of columns; track col.header) {
+        <th>
+          {{ col.header }}
+        </th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-rowData let-columns="columns">
+      <tr>
+        @for (col of columns; track col.header) {
+        <td>
+          {{ rowData[col.field] }}
+        </td>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td [attr.colspan]="columns.length">Nenhum item encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
