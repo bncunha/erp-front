@@ -19,6 +19,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'produtos/form',
+        loadComponent: () =>
+          import('../pages/products-form/products-form.component').then(
+            (m) => m.ProductsFormComponent
+          ),
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadComponent: () =>

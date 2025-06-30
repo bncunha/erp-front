@@ -1,8 +1,14 @@
 <div class="my-3">
-  <p-toolbar>
+  <p-toolbar [style]="{ 'flex-wrap': 'nowrap' }">
     <ng-template #start>
       <div class="flex gap-2">
-        <button pButton icon="pi pi-plus" type="button"></button>
+        <button
+          [routerLink]="addRoute"
+          pButton
+          icon="pi pi-plus"
+          type="button"
+          (click)="onAddClick.emit()"
+        ></button>
         <button
           pButton
           icon="pi pi-pencil"

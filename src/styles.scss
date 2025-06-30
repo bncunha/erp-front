@@ -26,6 +26,11 @@ h1 {
   font-weight: 800;
 }
 
+h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
 .field {
   margin-bottom: 0.8rem;
 
@@ -50,6 +55,7 @@ label {
 .p-password,
 .p-chips,
 .p-autocomplete,
+.p-textarea,
 .p-inputmask {
   width: 100%;
 }

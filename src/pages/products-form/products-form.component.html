@@ -1,0 +1,25 @@
+<h1>Produtos</h1>
+
+<form class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="sm:col-span-1">
+    <label for="name"> Nome </label>
+    <input pInputText ngModel type="text" name="name" id="name" required />
+  </div>
+  <div class="sm:col-span-1">
+    <label for="category"> Categoria </label>
+    <p-autoComplete ngModel name="category" inputId="category" />
+  </div>
+  <div class="sm:col-span-2">
+    <label for="description"> Descrição </label>
+    <textarea
+      pInputTextarea
+      ngModel
+      name="description"
+      inputId="description"
+    ></textarea>
+  </div>
+
+  <div class="sm:col-span-2">
+    <app-sku-list />
+  </div>
+</form>
