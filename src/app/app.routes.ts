@@ -13,17 +13,25 @@ export const routes: Routes = [
     children: [
       {
         path: 'produtos',
-        loadComponent: () =>
-          import('../pages/products-list/products-list.component').then(
-            (m) => m.ProductsListComponent
-          ),
-      },
-      {
-        path: 'produtos/form',
-        loadComponent: () =>
-          import('../pages/products-form/products-form.component').then(
-            (m) => m.ProductsFormComponent
-          ),
+        data: { breadcrumb: 'Produtos' },
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../pages/products-list/products-list.component').then(
+                (m) => m.ProductsListComponent
+              ),
+            data: { breadcrumb: '' },
+          },
+          {
+            path: 'form',
+            loadComponent: () =>
+              import('../pages/products-form/products-form.component').then(
+                (m) => m.ProductsFormComponent
+              ),
+            data: { breadcrumb: 'Formulário' },
+          },
+        ],
       },
       {
         path: '',
