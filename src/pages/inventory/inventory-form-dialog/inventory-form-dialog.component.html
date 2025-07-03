@@ -1,0 +1,91 @@
+<p-dialog
+  [(visible)]="isOpen"
+  [modal]="true"
+  position="bottom"
+  [dismissableMask]="true"
+  header="Movimentar Estoque"
+  [style]="{ width: '700px' }"
+>
+  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="sm:col-span-2">
+      <label> Tipo </label>
+      <div class="flex flex-wrap gap-4 mt-3">
+        <div class="flex items-center">
+          <p-radiobutton
+            name="type"
+            value="STOCK_IN"
+            ngModel
+            inputId="strock_in"
+          />
+          <label for="strock_in" class="ml-2">Entrada</label>
+        </div>
+
+        <div class="flex items-center">
+          <p-radiobutton
+            name="type"
+            value="STOCK_OUT"
+            ngModel
+            inputId="stock_out"
+          />
+          <label for="stock_out" class="ml-2"> Saída </label>
+        </div>
+
+        <div class="flex items-center">
+          <p-radiobutton
+            name="type"
+            value="TRANSFER"
+            ngModel
+            inputId="transfer"
+          />
+          <label for="transfer" class="ml-2"> Transferência </label>
+        </div>
+      </div>
+    </div>
+    <div class="sm:col-span-2">
+      <label for="product"> Produto </label>
+      <p-select [options]="[1, 2, 3]" ngModel name="product" inputId="product">
+        <ng-template let-product #item>
+          <div>
+            <div>Meu produto</div>
+            <small> Quantidade total: {{ product }}</small>
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="col-span-1">
+      <label for="origin"> Origem </label>
+      <p-select [options]="[1, 2, 3]" ngModel name="origin" inputId="origin">
+        <ng-template let-origin #item>
+          <div>
+            <div>Origem</div>
+            <small> Quantidade: {{ origin }}</small>
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="col-span-1">
+      <label for="destination"> Destino </label>
+      <p-select
+        [options]="[1, 2, 3]"
+        ngModel
+        name="destination"
+        inputId="destination"
+      >
+        <ng-template let-destination #item>
+          <div>
+            <div>Origem</div>
+            <small> Quantidade: {{ destination }}</small>
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="sm:col-span-2">
+      <label for="reason"> Motivo </label>
+      <p-select [options]="[1, 2, 3]" ngModel name="reason" inputId="reason" />
+    </div>
+
+    <div class="sm:col-span-2">
+      <button type="submit" pButton fluid>Adicionar</button>
+    </div>
+  </form>
+</p-dialog>

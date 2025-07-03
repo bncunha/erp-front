@@ -17,6 +17,11 @@ export class SidebarTemplateService {
       name: 'Produtos',
       routerLink: '/produtos',
     },
+    {
+      icon: PrimeIcons.WAREHOUSE,
+      name: 'Estoque',
+      routerLink: '/estoque',
+    },
   ];
 
   getMenuItems(): MenuItem[] {

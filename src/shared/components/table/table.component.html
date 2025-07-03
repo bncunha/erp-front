@@ -9,18 +9,21 @@
           type="button"
           (click)="onAddClick.emit()"
         ></button>
+        @if (showEdit) {
         <button
           pButton
           icon="pi pi-pencil"
           severity="secondary"
           type="button"
         ></button>
+        } @if (showDelete) {
         <button
           pButton
           icon="pi pi-trash"
           severity="secondary"
           type="button"
         ></button>
+        }
       </div>
     </ng-template>
 

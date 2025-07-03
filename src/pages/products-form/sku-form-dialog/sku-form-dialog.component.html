@@ -1,18 +1,24 @@
-<p-dialog [(visible)]="isOpen" header="Variações" [modal]="true">
+<p-dialog
+  [(visible)]="isOpen"
+  header="Variações"
+  [modal]="true"
+  position="bottom"
+  [dismissableMask]="true"
+>
   <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <div class="sm:grid-cols-2">
+    <div class="sm:col-span-2">
       <label for="sku-code"> Código </label>
       <input pInputText ngModel name="code" id="sku-code" />
     </div>
-    <div class="sm:grid-cols-1">
+    <div class="sm:col-span-1">
       <label for="sku-color"> Cor </label>
       <input pInputText ngModel name="color" id="sku-color" />
     </div>
-    <div class="sm:grid-cols-1">
+    <div class="sm:col-span-1">
       <label for="sku-size"> Tamanho </label>
       <input pInputText ngModel name="size" id="sku-size" />
     </div>
-    <div class="sm:grid-cols-1">
+    <div class="sm:col-span-1">
       <label for="sku-cost"> Custo </label>
       <p-inputnumber
         ngModel
@@ -22,7 +28,7 @@
         currency="BRL"
       />
     </div>
-    <div class="sm:grid-cols-1">
+    <div class="sm:col-span-1">
       <label for="sku-price"> Preço de Venda </label>
       <p-inputnumber
         ngModel
@@ -33,6 +39,8 @@
       />
     </div>
 
-    <button pButton type="submit">Salvar</button>
+    <div class="sm:col-span-2">
+      <button pButton type="submit" fluid="">Salvar</button>
+    </div>
   </form>
 </p-dialog>

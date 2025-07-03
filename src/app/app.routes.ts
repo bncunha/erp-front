@@ -34,6 +34,20 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'estoque',
+        data: { breadcrumb: 'Estoque' },
+        children: [
+          {
+            path: '',
+            data: { breadcrumb: '' },
+            loadComponent: () =>
+              import('./../pages/inventory/inventory.component').then(
+                (m) => m.InventoryComponent
+              ),
+          },
+        ],
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadComponent: () =>

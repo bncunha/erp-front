@@ -35,6 +35,8 @@ export class TableComponent implements OnInit {
   @Output() onAddClick = new EventEmitter();
   @Input() stateKey: string = '';
   @Input() keepState: boolean = true;
+  @Input() showEdit: boolean = true;
+  @Input() showDelete: boolean = true;
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
   tableService = inject(TableService);

@@ -1,0 +1,8 @@
+<app-inventory-form-dialog #formDialog />
+
+<app-table
+  [showEdit]="false"
+  [showDelete]="false"
+  [columns]="columns"
+  (onAddClick)="formDialog.open()"
+/>
