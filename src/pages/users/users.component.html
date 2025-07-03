@@ -1,0 +1,34 @@
+<h1>Revendedores</h1>
+
+<app-table
+  [value]="[
+    {
+      name: 'Bruno',
+      phone_number: '1234'
+    }
+  ]"
+  [columns]="columns"
+>
+  <ng-template #actions>
+    <div class="flex gap-4 align-center">
+      <button
+        type="button"
+        pButton
+        size="small"
+        severity="secondary"
+        icon="pi pi-box"
+      >
+        Produtos
+      </button>
+      <button
+        type="button"
+        pButton
+        size="small"
+        severity="secondary"
+        icon="pi pi-dollar"
+      >
+        Vendas
+      </button>
+    </div>
+  </ng-template>
+</app-table>

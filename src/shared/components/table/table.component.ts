@@ -1,10 +1,12 @@
 import {
   Component,
+  ContentChild,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
+  TemplateRef,
 } from '@angular/core';
 import { TableService } from './table.service';
 import { TableModule } from 'primeng/table';
@@ -15,10 +17,12 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-table',
   imports: [
+    CommonModule,
     TableModule,
     ToolbarModule,
     ButtonModule,
@@ -32,7 +36,9 @@ import { RouterModule } from '@angular/router';
   providers: [TableService],
 })
 export class TableComponent implements OnInit {
+  @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
   @Output() onAddClick = new EventEmitter();
+  @Input() value: any[] = [];
   @Input() stateKey: string = '';
   @Input() keepState: boolean = true;
   @Input() showEdit: boolean = true;

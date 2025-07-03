@@ -48,6 +48,20 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'revendedores',
+        data: { breadcrumb: 'Revendedores' },
+        children: [
+          {
+            path: '',
+            data: { breadcrumb: '' },
+            loadComponent: () =>
+              import('./../pages/users/users.component').then(
+                (m) => m.UsersComponent
+              ),
+          },
+        ],
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadComponent: () =>
