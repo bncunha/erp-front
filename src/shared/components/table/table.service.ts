@@ -12,4 +12,13 @@ export class TableService {
     const target = event.target as HTMLInputElement;
     primeTable.filterGlobal(target.value, 'contains');
   }
+
+  getInitialSearch(stateKey?: string): string {
+    if (stateKey) {
+      const saved = sessionStorage.getItem(stateKey);
+      const filter = saved ? JSON.parse(saved) : null;
+      return filter?.filters?.global?.value ?? '';
+    }
+    return '';
+  }
 }

@@ -39,7 +39,7 @@ export class TableComponent implements OnInit {
   @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
   @Output() onAddClick = new EventEmitter();
   @Input() value: any[] = [];
-  @Input() stateKey: string = '';
+  @Input() stateKey?: string;
   @Input() keepState: boolean = true;
   @Input() showEdit: boolean = true;
   @Input() showDelete: boolean = true;
@@ -49,8 +49,10 @@ export class TableComponent implements OnInit {
   tableService = inject(TableService);
 
   filterFields!: string[];
+  initialSearch?: string;
 
   ngOnInit(): void {
     this.filterFields = this.tableService.getFilterFields(this.columns);
+    this.initialSearch = this.tableService.getInitialSearch(this.stateKey);
   }
 }

@@ -1,0 +1,36 @@
+<p-dialog
+  [(visible)]="isOpen"
+  header="Revendedor"
+  [modal]="true"
+  position="bottom"
+  [dismissableMask]="true"
+  [draggable]="false"
+>
+  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="sm:col-span-2">
+      <label for="name"> Nome </label>
+      <input pInputText ngModel name="name" id="name" />
+    </div>
+    <div class="sm:col-span-2">
+      <label for="phone_number"> Telefone </label>
+      <p-inputmask
+        mask="(99) 99999-9999"
+        ngModel
+        name="phone_number"
+        inputId="phone_number"
+        placeholder="(99) 99999-9999"
+      />
+    </div>
+    <div class="sm:col-span-1">
+      <label for="username"> Usuário </label>
+      <input pInputText ngModel name="username" id="username" />
+    </div>
+    <div class="sm:col-span-1">
+      <label for="password"> Senha </label>
+      <input pInputText ngModel name="password" id="password" type="password" />
+    </div>
+    <div class="sm:col-span-2">
+      <button pButton type="submit" fluid="">Salvar</button>
+    </div>
+  </form>
+</p-dialog>

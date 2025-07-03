@@ -1,5 +1,7 @@
 <h1>Revendedores</h1>
 
+<app-users-form-dialog #formDialog />
+
 <app-table
   [value]="[
     {
@@ -8,6 +10,8 @@
     }
   ]"
   [columns]="columns"
+  stateKey="users-list"
+  (onAddClick)="formDialog.open()"
 >
   <ng-template #actions>
     <div class="flex gap-4 align-center">
