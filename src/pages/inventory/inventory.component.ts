@@ -4,10 +4,16 @@ import { InventoryService } from './inventory.service';
 import { Column } from '../../shared/components/table/models/column';
 import { TabsModule } from 'primeng/tabs';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
+import { InventoryHistoryComponent } from './inventory-history/inventory-history.component';
 
 @Component({
   selector: 'app-inventory',
-  imports: [SharedModule, TabsModule, InventoryListComponent],
+  imports: [
+    SharedModule,
+    TabsModule,
+    InventoryListComponent,
+    InventoryHistoryComponent,
+  ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.scss',
   providers: [InventoryService],

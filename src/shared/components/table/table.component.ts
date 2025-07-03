@@ -37,6 +37,7 @@ export class TableComponent implements OnInit {
   @Input() keepState: boolean = true;
   @Input() showEdit: boolean = true;
   @Input() showDelete: boolean = true;
+  @Input() showToolbar: boolean = true;
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
   tableService = inject(TableService);
