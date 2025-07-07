@@ -1,0 +1,38 @@
+<p-dialog
+  header="Item"
+  position="bottom"
+  [(visible)]="isOpen"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+>
+  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="sm:col-span-1">
+      <label for="product"> Produto </label>
+      <p-select
+        [options]="[1, 2, 3]"
+        ngModel
+        name="product"
+        inputId="product"
+        [filter]="true"
+        appendTo="body"
+      >
+        <ng-template let-product #item>
+          <div>
+            <div>Roupa - M - Rosa</div>
+            <small> Quantidade em estoque: {{ product }}</small>
+            <br />
+            <small> Valor: R$10,00</small>
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+    <div class="sm:col-span-1">
+      <label for="quantity"> Quantidade </label>
+      <p-inputNumber ngModel name="quantity" inputId="quantity" />
+    </div>
+    <div class="sm:col-span-2">
+      <button pButton type="submit" fluid="">Salvar</button>
+    </div>
+  </form>
+</p-dialog>

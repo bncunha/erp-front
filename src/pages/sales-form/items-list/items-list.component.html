@@ -1,0 +1,11 @@
+<app-items-form-dialog #formDialog />
+<app-table
+  [value]="[{
+    product: 'Roupa - M - Rosa',
+quantity: '3',
+unit_value: 'R$10,00',
+total_value: 'R$30,00',
+}]"
+  [columns]="columns"
+  (onAddClick)="formDialog.open()"
+/>

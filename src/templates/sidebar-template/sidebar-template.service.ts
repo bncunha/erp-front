@@ -27,6 +27,11 @@ export class SidebarTemplateService {
       name: 'Revendedores',
       routerLink: '/revendedores',
     },
+    {
+      icon: PrimeIcons.DOLLAR,
+      name: 'Vendas',
+      routerLink: '/vendas',
+    },
   ];
 
   getMenuItems(): MenuItem[] {

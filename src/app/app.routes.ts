@@ -62,6 +62,28 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'vendas',
+        data: { breadcrumb: 'Vendas' },
+        children: [
+          {
+            path: '',
+            data: { breadcrumb: '' },
+            loadComponent: () =>
+              import('./../pages/sales-list/sales-list.component').then(
+                (m) => m.SalesListComponent
+              ),
+          },
+          {
+            path: 'novo',
+            data: { breadcrumb: 'Novo' },
+            loadComponent: () =>
+              import('./../pages/sales-form/sales-form.component').then(
+                (m) => m.SalesFormComponent
+              ),
+          },
+        ],
+      },
+      {
         path: '',
         pathMatch: 'full',
         loadComponent: () =>

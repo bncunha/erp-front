@@ -1,8 +1,8 @@
 //mypreset.ts
 import { definePreset } from '@primeng/themes';
-import Lara from '@primeng/themes/lara';
+import Aura from '@primeng/themes/aura';
 
-const CustomThemePreset = definePreset(Lara, {
+const CustomThemePreset = definePreset(Aura, {
   semantic: {
     primary: {
       50: '{indigo.50}',

@@ -1,0 +1,39 @@
+<h1>Vendas</h1>
+
+<form class="grid gap-4 grid-cols-1 sm:grid-cols-2 my-4">
+  <div class="sm:col-span-1">
+    <label for="date"> Data </label>
+    <p-datepicker ngModel name="date" inputId="date" />
+  </div>
+  <div class="sm:col-span-2">
+    <label form="customer"> Cliente </label>
+    <p-select
+      [options]="[1, 2, 3]"
+      ngModel
+      name="customer"
+      inputId="customer"
+      [filter]="true"
+    >
+      <ng-template let-customer #item>
+        <div>
+          <div>Cliente {{ customer }}</div>
+          <small> Telefone: (27) 99787-3029</small>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+</form>
+
+<h2>Itens</h2>
+<app-items-list />
+
+<div class="total-summary">
+  <p>
+    <strong> Quantidade itens: </strong>
+    <span>3</span>
+    <br />
+    <strong> Valor total: </strong>
+    <span>R$30,00</span>
+  </p>
+  <button type="submit" pButton fluid class="mt-4">Finalizar Venda</button>
+</div>
