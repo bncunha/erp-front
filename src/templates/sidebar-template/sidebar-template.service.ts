@@ -18,20 +18,25 @@ export class SidebarTemplateService {
       routerLink: '/produtos',
     },
     {
-      icon: PrimeIcons.WAREHOUSE,
-      name: 'Estoque',
-      routerLink: '/estoque',
+      icon: PrimeIcons.LIST,
+      name: 'Categorias',
+      routerLink: '/categorias',
     },
-    {
-      icon: PrimeIcons.ID_CARD,
-      name: 'Revendedores',
-      routerLink: '/revendedores',
-    },
-    {
-      icon: PrimeIcons.DOLLAR,
-      name: 'Vendas',
-      routerLink: '/vendas',
-    },
+    // {
+    //   icon: PrimeIcons.WAREHOUSE,
+    //   name: 'Estoque',
+    //   routerLink: '/estoque',
+    // },
+    // {
+    //   icon: PrimeIcons.ID_CARD,
+    //   name: 'Revendedores',
+    //   routerLink: '/revendedores',
+    // },
+    // {
+    //   icon: PrimeIcons.DOLLAR,
+    //   name: 'Vendas',
+    //   routerLink: '/vendas',
+    // },
   ];
 
   getMenuItems(): MenuItem[] {

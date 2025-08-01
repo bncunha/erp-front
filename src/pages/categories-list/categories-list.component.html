@@ -1,0 +1,11 @@
+<h1>Categorias</h1>
+
+<app-categorires-form-dialog #formDialog (onSubmitSuccess)="service.reload()" />
+
+<app-table
+  [columns]="service.getColumns()"
+  [value]="(categories | async)!"
+  (onAddClick)="formDialog.open()"
+  (onEditClick)="formDialog.open($event)"
+  (onDeleteClick)="service.delete($event)"
+/>

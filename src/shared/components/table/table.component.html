@@ -10,19 +10,21 @@
           type="button"
           (click)="onAddClick.emit()"
         ></button>
-        @if (showEdit) {
+        @if (showEdit && selected) {
         <button
           pButton
           icon="pi pi-pencil"
           severity="secondary"
           type="button"
+          (click)="onEditClick.emit(selected)"
         ></button>
-        } @if (showDelete) {
+        } @if (showDelete && selected) {
         <button
           pButton
           icon="pi pi-trash"
           severity="secondary"
           type="button"
+          (click)="onDeleteClick.emit(selected)"
         ></button>
         }
       </div>
@@ -57,6 +59,9 @@
     stateStorage="session"
     [globalFilterFields]="filterFields"
     selectionMode="single"
+    [paginator]="true"
+    [rows]="10"
+    [(selection)]="selected"
   >
     <ng-template #header let-columns>
       <tr>
@@ -70,7 +75,7 @@
       </tr>
     </ng-template>
     <ng-template #body let-rowData let-columns="columns">
-      <tr>
+      <tr [pSelectableRow]="rowData">
         @for (col of columns; track col.header) {
         <td>
           {{ rowData[col.field] }}
@@ -82,6 +87,7 @@
         }
       </tr>
     </ng-template>
+    @if(value && value.length == 0) {
     <ng-template #emptymessage>
       <tr>
         <td [attr.colspan]="columns.length + (actionsTemplate ? 1 : 0)">
@@ -89,5 +95,6 @@
         </td>
       </tr>
     </ng-template>
+    }
   </p-table>
 </div>

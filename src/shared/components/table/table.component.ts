@@ -38,7 +38,9 @@ import { CommonModule } from '@angular/common';
 export class TableComponent implements OnInit {
   @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
   @Output() onAddClick = new EventEmitter();
-  @Input() value: any[] = [];
+  @Output() onEditClick = new EventEmitter<any>();
+  @Output() onDeleteClick = new EventEmitter<any>();
+  @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;
   @Input() showEdit: boolean = true;
@@ -46,6 +48,8 @@ export class TableComponent implements OnInit {
   @Input() showToolbar: boolean = true;
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
+
+  selected?: any;
   tableService = inject(TableService);
 
   filterFields!: string[];

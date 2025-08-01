@@ -1,0 +1,29 @@
+<p-dialog
+  [(visible)]="service.isOpen"
+  header="Categorias"
+  position="bottom"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+>
+  <form
+    #form="ngForm"
+    class="grid grid-cols-1 gap-4"
+    (submit)="handleSubmit(form)"
+  >
+    <div class="sm:col-span-1">
+      <label for="name"> Nome </label>
+      <input
+        pInputText
+        ngModel
+        name="name"
+        id="name"
+        required
+        maxlength="200"
+      />
+    </div>
+    <div class="sm:col-span-1">
+      <button pButton type="submit" fluid="">Salvar</button>
+    </div>
+  </form>
+</p-dialog>

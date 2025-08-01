@@ -34,6 +34,20 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'categorias',
+        data: { breadcrumb: 'Categorias' },
+        children: [
+          {
+            path: '',
+            data: { breadcrumb: '' },
+            loadComponent: () =>
+              import(
+                './../pages/categories-list/categories-list.component'
+              ).then((m) => m.CategoriesListComponent),
+          },
+        ],
+      },
+      {
         path: 'estoque',
         data: { breadcrumb: 'Estoque' },
         children: [
