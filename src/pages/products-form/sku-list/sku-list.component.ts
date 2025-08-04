@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { SkuListService } from './sku-list.service';
 import { Column } from '../../../shared/components/table/models/column';
 import { SkuFormDialogComponent } from '../sku-form-dialog/sku-form-dialog.component';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { SubmitSkuResponse } from '../sku-form-dialog/sku-form-dialog.service';
 
 @Component({
   selector: 'app-sku-list',
@@ -14,6 +15,9 @@ import { CommonModule } from '@angular/common';
   providers: [SkuListService],
 })
 export class SkuListComponent {
+  @Output() onCreateSkuSuccess = new EventEmitter<SubmitSkuResponse>();
+  @Input() disableCreate: boolean = false;
+
   service: SkuListService = inject(SkuListService);
 
   columns: Column[] = this.service.getColumns();

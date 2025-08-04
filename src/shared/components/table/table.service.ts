@@ -21,4 +21,11 @@ export class TableService {
     }
     return '';
   }
+
+  getValue(item: any, column: Column): string {
+    if (column.valueFn) {
+      return column.valueFn(item);
+    }
+    return item[column.field];
+  }
 }

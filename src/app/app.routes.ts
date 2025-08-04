@@ -31,6 +31,14 @@ export const routes: Routes = [
               ),
             data: { breadcrumb: 'Formulário' },
           },
+          {
+            path: 'form/:id',
+            loadComponent: () =>
+              import('../pages/products-form/products-form.component').then(
+                (m) => m.ProductsFormComponent
+              ),
+            data: { breadcrumb: 'Formulário' },
+          },
         ],
       },
       {

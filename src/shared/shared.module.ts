@@ -15,6 +15,7 @@ import { ValidatorMessageDirective } from './directives/validator-message.direct
 import { ToastModule } from 'primeng/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -25,6 +26,7 @@ const PRIME_NG_MODULES = [
   SelectModule,
   ToastModule,
   ConfirmDialogModule,
+  DropdownModule,
 ];
 
 @NgModule({

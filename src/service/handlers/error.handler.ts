@@ -7,5 +7,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(err: any): void {
     this.toastService.showError(err?.error?.message || 'Erro inesperado!');
+    console.error(err);
   }
 }

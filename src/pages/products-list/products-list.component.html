@@ -2,6 +2,9 @@
 
 <app-table
   addRoute="/produtos/form"
-  [columns]="service.getColumns()"
+  [columns]="columns"
+  [value]="(products | async)!"
   stateKey="products-list"
+  (onEditClick)="service.toEditPage($event)"
+  (onDeleteClick)="service.delete($event)"
 />

@@ -8,6 +8,7 @@
           pButton
           icon="pi pi-plus"
           type="button"
+          [disabled]="disableCreate"
           (click)="onAddClick.emit()"
         ></button>
         @if (showEdit && selected) {
@@ -78,7 +79,7 @@
       <tr [pSelectableRow]="rowData">
         @for (col of columns; track col.header) {
         <td>
-          {{ rowData[col.field] }}
+          {{ tableService.getValue(rowData, col) }}
         </td>
         } @if (actionsTemplate) {
         <td>

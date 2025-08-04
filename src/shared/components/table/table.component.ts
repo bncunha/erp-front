@@ -46,6 +46,7 @@ export class TableComponent implements OnInit {
   @Input() showEdit: boolean = true;
   @Input() showDelete: boolean = true;
   @Input() showToolbar: boolean = true;
+  @Input() disableCreate: boolean = false;
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
 

@@ -6,10 +6,14 @@
   [dismissableMask]="true"
   [draggable]="false"
 >
-  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <form
+    #f="ngForm"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    (submit)="handleSubmit(f)"
+  >
     <div class="sm:col-span-2">
       <label for="sku-code"> Código </label>
-      <input pInputText ngModel name="code" id="sku-code" />
+      <input pInputText ngModel name="code" id="sku-code" required />
     </div>
     <div class="sm:col-span-1">
       <label for="sku-color"> Cor </label>

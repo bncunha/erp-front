@@ -1,13 +1,51 @@
+<app-categorires-form-dialog
+  #formDialog
+  (onSubmitSuccess)="service.onCreateCategorySuccess(f)"
+/>
+
 <h1>Produtos</h1>
 
-<form class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+<form
+  #f="ngForm"
+  class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"
+  (submit)="handleSubmit(f)"
+>
   <div class="sm:col-span-1">
     <label for="name"> Nome </label>
-    <input pInputText ngModel type="text" name="name" id="name" required />
+    <input
+      pInputText
+      ngModel
+      type="text"
+      name="name"
+      id="name"
+      required
+      maxlength="200"
+    />
   </div>
   <div class="sm:col-span-1">
-    <label for="category"> Categoria </label>
-    <p-autoComplete ngModel name="category" inputId="category" />
+    <div class="flex flex-row items-end gap-2">
+      <div class="w-full">
+        <label for="category"> Categoria </label>
+        <p-dropdown
+          ngModel
+          name="categoryId"
+          inputId="category"
+          [filter]="true"
+          [options]="(categories | async)!"
+          optionLabel="name"
+          optionValue="id"
+        />
+      </div>
+      <div>
+        <button
+          type="button"
+          pButton
+          severity="secondary"
+          icon="pi pi-plus"
+          (click)="formDialog.open()"
+        ></button>
+      </div>
+    </div>
   </div>
   <div class="sm:col-span-2">
     <label for="description"> Descrição </label>
@@ -16,10 +54,19 @@
       ngModel
       name="description"
       inputId="description"
+      maxlength="1000"
     ></textarea>
+  </div>
+  <div class="sm:col-span-2">
+    <button pButton type="submit" fluid="">Salvar</button>
+    @if(!id) {
+    <small class="text-center block">
+      Para adicionar variações, primeiramente salve o produto.
+    </small>
+    }
   </div>
 
   <div class="sm:col-span-2">
-    <app-sku-list />
+    <app-sku-list [disableCreate]="!id" />
   </div>
 </form>

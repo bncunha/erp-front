@@ -1,4 +1,11 @@
 <h2>Variações</h2>
 
-<app-table (onAddClick)="skuDialog.open()" [columns]="columns" />
-<app-sku-form-dialog #skuDialog />
+<app-table
+  [columns]="columns"
+  [disableCreate]="disableCreate"
+  (onAddClick)="skuDialog.open()"
+/>
+<app-sku-form-dialog
+  #skuDialog
+  (onSubmitSuccess)="onCreateSkuSuccess.emit($event)"
+/>
