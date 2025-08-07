@@ -1,0 +1,11 @@
+.card {
+  background-color: var(--overlay-background);
+  flex-basis: 300px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

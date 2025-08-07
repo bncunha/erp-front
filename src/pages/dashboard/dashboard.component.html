@@ -1,1 +1,10 @@
-<p>dashboard works!</p>
+<div class="card-container">
+  @for (item of menuItems; track $index) {
+  <a class="card shadow-md rounded-md p-4" routerLink="{{ item.routerLink }}">
+    <div class="card-header">
+      <i [class]="item.icon"></i>
+      <p class="card-title">{{ item.name }}</p>
+    </div>
+  </a>
+  }
+</div>
