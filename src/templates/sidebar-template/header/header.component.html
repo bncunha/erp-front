@@ -5,4 +5,7 @@
     icon="pi pi-bars"
     (click)="menuClicked.emit()"
   ></button>
+  @if(name) {
+  <span class="name">Olá {{ name }}!</span>
+  }
 </div>

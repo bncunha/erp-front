@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { SidebarTemplateComponent } from '../templates/sidebar-template/sidebar-template.component';
+import { authGuard } from '../service/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,7 @@ export const routes: Routes = [
   {
     path: '',
     component: SidebarTemplateComponent,
+    canActivateChild: [authGuard],
     children: [
       {
         path: 'produtos',

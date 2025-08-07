@@ -1,14 +1,20 @@
 <div class="container">
   <p-card>
-    <form>
+    <form #f="ngForm" (submit)="service.handleSubmit(f)">
       <h1 class="text-center mb-4">Login</h1>
       <div class="field">
         <label for="login"> Usuário </label>
-        <input id="login" type="text" pInputText />
+        <input id="username" type="text" pInputText ngModel name="username" />
       </div>
       <div class="field">
         <label for="password"> Senha </label>
-        <input id="password" type="password" pInputText />
+        <input
+          id="password"
+          type="password"
+          pInputText
+          ngModel
+          name="password"
+        />
       </div>
       <div class="field">
         <button type="submit" pButton label="Entrar" class="w-full"></button>

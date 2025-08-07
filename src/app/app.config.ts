@@ -12,6 +12,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { loaderInterceptor } from '../service/interceptors/loader.interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from '../service/handlers/error.handler';
+import { authInterceptor } from '../service/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([loaderInterceptor])),
+    provideHttpClient(withInterceptors([loaderInterceptor, authInterceptor])),
     MessageService,
     ConfirmationService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

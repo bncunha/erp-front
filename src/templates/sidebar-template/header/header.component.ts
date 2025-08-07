@@ -9,4 +9,6 @@ import { SharedModule } from '../../../shared/shared.module';
 })
 export class HeaderComponent {
   @Output() menuClicked = new EventEmitter();
+
+  name = localStorage.getItem('name');
 }
