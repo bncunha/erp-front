@@ -17,20 +17,22 @@ import { ProductsApiService } from '../../service/api-service/products-api.servi
 import { ToastService } from '../../shared/components/toast/toast.service';
 import { CategoriesApiService } from '../../service/api-service/categories-api.service';
 import { GetCategoriesResponse } from '../../service/responses/categories-response';
-import { SubmitSkuResponse } from './sku-form-dialog/sku-form-dialog.service';
 import { CreateSkuRequest } from '../../service/requests/skus-request';
 import { Router } from '@angular/router';
+import { GetSkuResponse } from '../../service/responses/products-response';
+import { SkuApiService } from '../../service/api-service/sku-api.service';
 
 @Injectable()
 export class ProductsFormService {
   private categoriesReloadSubject = new BehaviorSubject<void>(undefined);
 
+  private skusApiService = inject(SkuApiService);
   private categoryApiService = inject(CategoriesApiService);
   private productService = inject(ProductsApiService);
   private toastService = inject(ToastService);
   private router = inject(Router);
 
-  private skus: CreateSkuRequest[] = [];
+  skusList: GetSkuResponse[] = [];
 
   getCategories(): Observable<GetCategoriesResponse[]> {
     return this.categoriesReloadSubject.pipe(
@@ -59,6 +61,7 @@ export class ProductsFormService {
     form.resetForm();
     this.productService.getProductByID(id).subscribe((product) => {
       form.form.patchValue(product);
+      this.skusList = product.skus;
     });
   }
 
@@ -83,17 +86,19 @@ export class ProductsFormService {
     this.categoriesReloadSubject.next();
   }
 
-  onCreateSkuSuccess(skuRequest: SubmitSkuResponse) {
-    if (!skuRequest.submited) {
-      this.skus.push(skuRequest.request);
-    }
-  }
-
   backPage(id?: number) {
     if (id) {
       this.router.navigate(['/produtos/form', id]);
     } else {
       this.router.navigate(['/produtos']);
     }
+  }
+
+  deleteSku(sku: GetSkuResponse, productId: number, form: NgForm) {
+    this.toastService.confirm(() => {
+      this.skusApiService.deleteSku(sku.id).subscribe(() => {
+        this.getProduct(productId, form);
+      });
+    });
   }
 }

@@ -37,9 +37,13 @@ import { CommonModule } from '@angular/common';
 })
 export class TableComponent implements OnInit {
   @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
+  @ContentChild('rowExpand') rowExpandTemplate?: TemplateRef<any>;
+
   @Output() onAddClick = new EventEmitter();
   @Output() onEditClick = new EventEmitter<any>();
   @Output() onDeleteClick = new EventEmitter<any>();
+  @Output() onRowExpand = new EventEmitter<any>();
+  @Output() onRowCollapse = new EventEmitter<any>();
   @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;
@@ -49,6 +53,7 @@ export class TableComponent implements OnInit {
   @Input() disableCreate: boolean = false;
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
+  @Input() dataKey?: string;
 
   selected?: any;
   tableService = inject(TableService);

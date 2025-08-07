@@ -1,11 +1,15 @@
+@if(!showOnlyTable) {
 <h2>Variações</h2>
+}
 
 <app-table
   [columns]="columns"
+  [value]="skus"
+  [showToolbar]="!showOnlyTable"
   [disableCreate]="disableCreate"
-  (onAddClick)="skuDialog.open()"
+  (onAddClick)="skuDialog.open(productId)"
+  (onDeleteClick)="onDelete.emit($event)"
+  (onEditClick)="skuDialog.open(productId, $event)"
 />
-<app-sku-form-dialog
-  #skuDialog
-  (onSubmitSuccess)="onCreateSkuSuccess.emit($event)"
-/>
+
+<app-sku-form-dialog #skuDialog (onSubmitSuccess)="onSubmitSuccess.emit()" />

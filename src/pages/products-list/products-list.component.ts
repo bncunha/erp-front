@@ -3,10 +3,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { ProductsListService } from './products-list.service';
 import { GetProductResponse } from '../../service/responses/products-response';
 import { Observable } from 'rxjs';
+import { SkuListComponent } from '../products-form/sku-list/sku-list.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [SharedModule],
+  imports: [SharedModule, SkuListComponent],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss',
   providers: [ProductsListService],

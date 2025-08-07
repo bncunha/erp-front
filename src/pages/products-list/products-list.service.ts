@@ -2,16 +2,23 @@ import { inject, Injectable } from '@angular/core';
 import { Column } from '../../shared/components/table/models/column';
 import { ProductsApiService } from '../../service/api-service/products-api.service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { GetProductResponse } from '../../service/responses/products-response';
+import {
+  GetProductResponse,
+  GetSkuResponse,
+} from '../../service/responses/products-response';
 import { Router } from '@angular/router';
 import { ToastService } from '../../shared/components/toast/toast.service';
+import { SkuApiService } from '../../service/api-service/sku-api.service';
 
 @Injectable()
 export class ProductsListService {
   private reloadSubject = new BehaviorSubject<void>(undefined);
   private productApiService = inject(ProductsApiService);
+  private skuApiService = inject(SkuApiService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+
+  private skusByProductId = new Map<number, GetSkuResponse[]>();
 
   getAll(): Observable<GetProductResponse[]> {
     return this.reloadSubject.pipe(
@@ -65,5 +72,15 @@ export class ProductsListService {
         this.reloadSubject.next();
       });
     });
+  }
+
+  onRowExpand(item: GetProductResponse) {
+    this.productApiService.getProductByID(item.id).subscribe((product) => {
+      this.skusByProductId.set(product.id, product.skus);
+    });
+  }
+
+  getSkus(productId: number): GetSkuResponse[] {
+    return this.skusByProductId.get(productId) ?? [];
   }
 }

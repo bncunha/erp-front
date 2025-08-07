@@ -67,6 +67,12 @@
   </div>
 
   <div class="sm:col-span-2">
-    <app-sku-list [disableCreate]="!id" />
+    <app-sku-list
+      [disableCreate]="!id"
+      [productId]="id!"
+      [skus]="service.skusList"
+      (onSubmitSuccess)="service.getProduct(id!, f)"
+      (onDelete)="service.deleteSku($event, id!, f)"
+    />
   </div>
 </form>

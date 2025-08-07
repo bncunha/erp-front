@@ -1,10 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Column } from '../../../shared/components/table/models/column';
+import { CurrencyPipe } from '@angular/common';
 
 @Injectable()
 export class SkuListService {
+  private currencyPipe = inject(CurrencyPipe);
+
   getColumns(): Column[] {
     return [
+      {
+        header: 'ID',
+        field: 'id',
+      },
       {
         header: 'Código',
         field: 'code',
@@ -20,10 +27,16 @@ export class SkuListService {
       {
         header: 'Custo',
         field: 'cost',
+        valueFn: (item) => {
+          return this.currencyPipe.transform(item.cost, 'BRL') || '';
+        },
       },
       {
         header: 'Preço',
         field: 'price',
+        valueFn: (item) => {
+          return this.currencyPipe.transform(item.price, 'BRL') || '';
+        },
       },
       {
         header: 'Qtd.',

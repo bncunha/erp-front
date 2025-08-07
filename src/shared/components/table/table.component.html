@@ -54,6 +54,7 @@
 <div class="my-3">
   <p-table
     #primeTable
+    [dataKey]="dataKey"
     [value]="value"
     [columns]="columns"
     [stateKey]="stateKey"
@@ -63,10 +64,14 @@
     [paginator]="true"
     [rows]="10"
     [(selection)]="selected"
+    (onRowExpand)="onRowExpand.emit($event.data)"
+    (onRowCollapse)="onRowCollapse.emit($event.data)"
   >
     <ng-template #header let-columns>
       <tr>
-        @for (col of columns; track col.header) {
+        @if(rowExpandTemplate) {
+        <th></th>
+        } @for (col of columns; track col.header) {
         <th>
           {{ col.header }}
         </th>
@@ -75,9 +80,26 @@
         }
       </tr>
     </ng-template>
-    <ng-template #body let-rowData let-columns="columns">
+    <ng-template
+      #body
+      let-rowData
+      let-columns="columns"
+      let-expanded="expanded"
+    >
       <tr [pSelectableRow]="rowData">
-        @for (col of columns; track col.header) {
+        @if (rowExpandTemplate) {
+        <td>
+          <p-button
+            type="button"
+            pRipple
+            [pRowToggler]="rowData"
+            severity="secondary"
+            size="small"
+            rounded="true"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          />
+        </td>
+        } @for (col of columns; track col.header) {
         <td>
           {{ tableService.getValue(rowData, col) }}
         </td>
@@ -88,7 +110,21 @@
         }
       </tr>
     </ng-template>
-    @if(value && value.length == 0) {
+    @if(rowExpandTemplate) {
+    <ng-template #expandedrow let-rowData>
+      <tr>
+        <td colspan="100%">
+          <ng-container
+            *ngTemplateOutlet="
+              rowExpandTemplate;
+              context: { $implicit: rowData }
+            "
+          >
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+    } @if(value && value.length == 0) {
     <ng-template #emptymessage>
       <tr>
         <td [attr.colspan]="columns.length + (actionsTemplate ? 1 : 0)">

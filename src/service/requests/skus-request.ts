@@ -1,3 +1,5 @@
+import { cleanNulls } from '../../shared/utils/clean-nulls';
+
 export class CreateSkuRequest {
   code!: string;
   color?: string;
@@ -7,6 +9,8 @@ export class CreateSkuRequest {
 
   parseToRequest(formData: any): CreateSkuRequest {
     Object.assign(this, formData);
-    return this;
+    return cleanNulls(this);
   }
 }
+
+export class UpdateSkuRequest extends CreateSkuRequest {}

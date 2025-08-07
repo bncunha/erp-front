@@ -2,9 +2,15 @@
 
 <app-table
   addRoute="/produtos/form"
+  dataKey="id"
   [columns]="columns"
   [value]="(products | async)!"
-  stateKey="products-list"
   (onEditClick)="service.toEditPage($event)"
   (onDeleteClick)="service.delete($event)"
-/>
+  (onRowExpand)="service.onRowExpand($event)"
+>
+  <ng-template #rowExpand let-product>
+    <h3 class="titulo-variacoes">Variações</h3>
+    <app-sku-list [skus]="service.getSkus(product.id)" [showOnlyTable]="true" />
+  </ng-template>
+</app-table>
