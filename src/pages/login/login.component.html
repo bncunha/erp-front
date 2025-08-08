@@ -4,7 +4,14 @@
       <h1 class="text-center mb-4">Login</h1>
       <div class="field">
         <label for="login"> Usuário </label>
-        <input id="username" type="text" pInputText ngModel name="username" />
+        <input
+          id="username"
+          type="text"
+          pInputText
+          ngModel
+          name="username"
+          autocomplete="username"
+        />
       </div>
       <div class="field">
         <label for="password"> Senha </label>
@@ -14,6 +21,7 @@
           pInputText
           ngModel
           name="password"
+          autocomplete="current-password"
         />
       </div>
       <div class="field">

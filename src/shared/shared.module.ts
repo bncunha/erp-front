@@ -12,10 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { LoaderComponent } from './components/loader/loader.component';
 import { RequiredAsteriscDirective } from './directives/required-asterisc/required-asterisc.directive';
 import { ValidatorMessageDirective } from './directives/validator-message.directive';
-import { ToastModule } from 'primeng/toast';
-import { ToastComponent } from './components/toast/toast.component';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastComponent } from './components/toast/toast.component';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -24,8 +22,6 @@ const PRIME_NG_MODULES = [
   DialogModule,
   RadioButtonModule,
   SelectModule,
-  ToastModule,
-  ConfirmDialogModule,
   DropdownModule,
 ];
 
