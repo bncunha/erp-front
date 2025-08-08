@@ -29,10 +29,6 @@ export class ProductsListService {
   getColumns(): Column[] {
     return [
       {
-        header: 'ID',
-        field: 'id',
-      },
-      {
         header: 'Nome',
         field: 'name',
       },

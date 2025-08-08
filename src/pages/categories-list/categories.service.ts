@@ -33,10 +33,6 @@ export class CategoriesService {
   getColumns(): Column[] {
     return [
       {
-        field: 'id',
-        header: 'ID',
-      },
-      {
         field: 'name',
         header: 'Nome',
       },

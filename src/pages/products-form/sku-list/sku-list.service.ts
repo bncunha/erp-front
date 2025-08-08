@@ -9,10 +9,6 @@ export class SkuListService {
   getColumns(): Column[] {
     return [
       {
-        header: 'ID',
-        field: 'id',
-      },
-      {
         header: 'Código',
         field: 'code',
       },
