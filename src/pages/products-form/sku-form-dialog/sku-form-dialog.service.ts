@@ -37,6 +37,11 @@ export class SkuFormDialogService {
     if (sku) {
       this.skuEditing = sku;
       f.form.patchValue(sku);
+    } else {
+      const generatedSkuId = this.generateSkuId('SKU');
+      f.form.patchValue({
+        code: generatedSkuId,
+      });
     }
   }
 
@@ -70,5 +75,14 @@ export class SkuFormDialogService {
         this.toastService.showSuccess('Variação alterada com sucesso!');
       })
     );
+  }
+
+  private generateSkuId(prefix: string = '', length: number = 8) {
+    const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let s = '';
+    for (let i = 0; i < length; i++) {
+      s += charset[Math.floor(Math.random() * charset.length)];
+    }
+    return prefix ? `${prefix}-${s}` : s;
   }
 }
