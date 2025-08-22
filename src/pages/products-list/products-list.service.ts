@@ -53,7 +53,7 @@ export class ProductsListService {
       },
       {
         header: 'Qtd. estoque',
-        field: 'inventory_qtd',
+        field: 'quantity',
       },
     ];
   }

@@ -9,14 +9,21 @@ import { SkuApiService } from '../../../service/api-service/sku-api.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { GetSkuResponse } from '../../../service/responses/products-response';
 import { NgFor } from '@angular/common';
+import { InventoryApiService } from '../../../service/api-service/inventory-api.service';
+import { GetInventoryResponse } from '../../../service/responses/inventory-response';
 
 @Injectable()
 export class SkuFormDialogService {
+  private inventoryApiService = inject(InventoryApiService);
   private skuApiService = inject(SkuApiService);
   private toastService = inject(ToastService);
 
   private productId!: number;
   private skuEditing?: GetSkuResponse;
+
+  canAddQuantity() {
+    return !this.skuEditing;
+  }
 
   setPRoductId(id: number) {
     this.productId = id;
@@ -28,6 +35,10 @@ export class SkuFormDialogService {
 
   getSkuEditing(): GetSkuResponse | undefined {
     return this.skuEditing;
+  }
+
+  getDestinationOptions(): Observable<GetInventoryResponse[]> {
+    return this.inventoryApiService.getAll();
   }
 
   onOpenDialog(productId: number, f: NgForm, sku?: GetSkuResponse) {

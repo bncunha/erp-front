@@ -36,7 +36,7 @@ export class SkuListService {
       },
       {
         header: 'Qtd.',
-        field: 'inventory_qtd',
+        field: 'quantity',
       },
     ];
   }

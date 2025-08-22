@@ -22,11 +22,11 @@ export class SidebarTemplateService {
       name: 'Categorias',
       routerLink: '/categorias',
     },
-    // {
-    //   icon: PrimeIcons.WAREHOUSE,
-    //   name: 'Estoque',
-    //   routerLink: '/estoque',
-    // },
+    {
+      icon: PrimeIcons.WAREHOUSE,
+      name: 'Estoque',
+      routerLink: '/estoque',
+    },
     // {
     //   icon: PrimeIcons.ID_CARD,
     //   name: 'Revendedores',

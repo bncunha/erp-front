@@ -11,6 +11,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { SkuFormDialogService } from './sku-form-dialog.service';
 import { NgForm } from '@angular/forms';
 import { GetSkuResponse } from '../../../service/responses/products-response';
+import { Observable } from 'rxjs';
+import { GetInventoryResponse } from '../../../service/responses/inventory-response';
 
 @Component({
   selector: 'app-sku-form-dialog',
@@ -22,9 +24,12 @@ import { GetSkuResponse } from '../../../service/responses/products-response';
 export class SkuFormDialogComponent {
   @ViewChild('f') form!: NgForm;
   @Output() onSubmitSuccess = new EventEmitter<void>();
-  private service = inject(SkuFormDialogService);
+
+  service = inject(SkuFormDialogService);
 
   isOpen: boolean = false;
+  destinationOptions: Observable<GetInventoryResponse[]> =
+    this.service.getDestinationOptions();
 
   open(productId: number, sku?: GetSkuResponse) {
     this.isOpen = true;

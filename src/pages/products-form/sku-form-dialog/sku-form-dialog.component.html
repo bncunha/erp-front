@@ -2,7 +2,6 @@
   [(visible)]="isOpen"
   header="Variações"
   [modal]="true"
-  position="bottom"
   [dismissableMask]="true"
   [draggable]="false"
 >
@@ -23,6 +22,32 @@
       <label for="sku-size"> Tamanho </label>
       <input pInputText ngModel name="size" id="sku-size" />
     </div>
+    @if(service.canAddQuantity()) {
+    <div class="sm:col-span-1">
+      <label for="sku-quantity"> Quantidade </label>
+      <p-inputNumber
+        ngModel
+        name="quantity"
+        inputId="sku-quantity"
+        mode="decimal"
+        decimalDigits="0"
+        min="0"
+      />
+    </div>
+    <div class="sm:col-span-1">
+      <label for="sku-destionation"> Destino </label>
+      <p-dropdown
+        [options]="(destinationOptions | async)!"
+        ngModel
+        optionLabel="type"
+        optionValue="id"
+        name="destination_id"
+        id="sku-destionation"
+        appendTo="body"
+        [filter]="true"
+      />
+    </div>
+    }
     <div class="sm:col-span-1">
       <label for="sku-cost"> Custo </label>
       <p-inputnumber
