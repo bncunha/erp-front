@@ -2,16 +2,48 @@
   [(visible)]="isOpen"
   header="Usuários"
   [modal]="true"
-  position="bottom"
   [dismissableMask]="true"
   [draggable]="false"
 >
-  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <form
+    #f="ngForm"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    (submit)="handleSubmit(f)"
+  >
     <div class="sm:col-span-2">
       <label for="name"> Nome </label>
-      <input pInputText ngModel name="name" id="name" />
+      <input
+        pInputText
+        ngModel
+        name="name"
+        id="name"
+        required="true"
+        maxlength="200"
+      />
     </div>
-    <div class="sm:col-span-2">
+    <div class="sm:col-span-1">
+      <label for="username"> Usuário </label>
+      <input
+        pInputText
+        ngModel
+        name="username"
+        id="username"
+        required="true"
+        maxlength="50"
+      />
+    </div>
+    <div class="sm:col-span-1">
+      <label for="role"> Função </label>
+      <p-select
+        [options]="service.getRoles()"
+        ngModel
+        name="role"
+        inputId="role"
+        required
+        appendTo="body"
+      />
+    </div>
+    <div class="sm:col-span-1">
       <label for="phone_number"> Telefone </label>
       <p-inputmask
         mask="(99) 99999-9999"
@@ -22,12 +54,16 @@
       />
     </div>
     <div class="sm:col-span-1">
-      <label for="username"> Usuário </label>
-      <input pInputText ngModel name="username" id="username" />
-    </div>
-    <div class="sm:col-span-1">
       <label for="password"> Senha </label>
-      <input pInputText ngModel name="password" id="password" type="password" />
+      <input
+        pInputText
+        ngModel
+        name="password"
+        id="password"
+        type="password"
+        [required]="service.isPasswordRequired()"
+        maxlength="50"
+      />
     </div>
     <div class="sm:col-span-2">
       <button pButton type="submit" fluid="">Salvar</button>

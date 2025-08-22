@@ -13,5 +13,6 @@ import { UsersFormDialogComponent } from './users-form-dialog/users-form-dialog.
 export class UsersComponent {
   service = inject(UsersService);
 
+  users = this.service.getAll();
   columns = this.service.getColumns();
 }

@@ -1,19 +1,16 @@
 <h1>Usuários</h1>
 
-<app-users-form-dialog #formDialog />
+<app-users-form-dialog #formDialog (onSubmitSuccess)="service.reload()" />
 
 <app-table
-  [value]="[
-    {
-      name: 'Bruno',
-      phone_number: '1234'
-    }
-  ]"
+  [value]="(users | async)!"
   [columns]="columns"
   stateKey="users-list"
   (onAddClick)="formDialog.open()"
+  (onEditClick)="formDialog.open($event)"
+  (onDeleteClick)="service.delete($event)"
 >
-  <ng-template #actions>
+  <!-- <ng-template #actions>
     <div class="flex gap-4 align-center">
       <button
         type="button"
@@ -34,5 +31,5 @@
         Vendas
       </button>
     </div>
-  </ng-template>
+  </ng-template> -->
 </app-table>
