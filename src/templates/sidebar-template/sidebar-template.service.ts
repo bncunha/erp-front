@@ -27,11 +27,11 @@ export class SidebarTemplateService {
       name: 'Estoque',
       routerLink: '/estoque',
     },
-    // {
-    //   icon: PrimeIcons.ID_CARD,
-    //   name: 'Revendedores',
-    //   routerLink: '/revendedores',
-    // },
+    {
+      icon: PrimeIcons.ID_CARD,
+      name: 'Usuários',
+      routerLink: '/usuarios',
+    },
     // {
     //   icon: PrimeIcons.DOLLAR,
     //   name: 'Vendas',

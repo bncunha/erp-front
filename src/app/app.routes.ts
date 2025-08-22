@@ -72,8 +72,8 @@ export const routes: Routes = [
         ],
       },
       {
-        path: 'revendedores',
-        data: { breadcrumb: 'Revendedores' },
+        path: 'usuarios',
+        data: { breadcrumb: 'Usuários' },
         children: [
           {
             path: '',
