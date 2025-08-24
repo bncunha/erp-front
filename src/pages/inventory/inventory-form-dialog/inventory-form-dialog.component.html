@@ -6,28 +6,38 @@
   [style]="{ width: '700px' }"
   [draggable]="false"
 >
-  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  @if (isOpen) {
+  <form
+    #f="ngForm"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    (submit)="handleSubmit(f)"
+  >
     <div class="sm:col-span-2">
       <label> Tipo </label>
+      <input type="hidden" name="type" required />
       <div class="flex flex-wrap gap-4 mt-3">
         <div class="flex items-center">
           <p-radiobutton
             name="type"
-            value="STOCK_IN"
+            value="IN"
             ngModel
             inputId="strock_in"
+            required
+            (onClick)="service.onTypeChange($event, f)"
           />
-          <label for="strock_in" class="ml-2">Entrada</label>
+          <label for="strock_in" class="ml-2 mb-0">Entrada</label>
         </div>
 
         <div class="flex items-center">
           <p-radiobutton
             name="type"
-            value="STOCK_OUT"
+            value="OUT"
             ngModel
             inputId="stock_out"
+            required
+            (onClick)="service.onTypeChange($event, f)"
           />
-          <label for="stock_out" class="ml-2"> Saída </label>
+          <label for="stock_out" class="ml-2 mb-0"> Saída </label>
         </div>
 
         <div class="flex items-center">
@@ -36,56 +46,92 @@
             value="TRANSFER"
             ngModel
             inputId="transfer"
+            required
+            (onClick)="service.onTypeChange($event, f)"
           />
-          <label for="transfer" class="ml-2"> Transferência </label>
+          <label for="transfer" class="ml-2 mb-0"> Transferência </label>
         </div>
       </div>
     </div>
-    <div class="sm:col-span-2">
-      <label for="product"> Produto </label>
-      <p-select [options]="[1, 2, 3]" ngModel name="product" inputId="product">
-        <ng-template let-product #item>
-          <div>
-            <div>Meu produto</div>
-            <small> Quantidade total: {{ product }}</small>
-          </div>
-        </ng-template>
-      </p-select>
-    </div>
     <div class="col-span-1">
       <label for="origin"> Origem </label>
-      <p-select [options]="[1, 2, 3]" ngModel name="origin" inputId="origin">
-        <ng-template let-origin #item>
-          <div>
-            <div>Origem</div>
-            <small> Quantidade: {{ origin }}</small>
-          </div>
-        </ng-template>
-      </p-select>
+      <p-select
+        appendTo="body"
+        [options]="(inventories | async)!"
+        ngModel
+        name="inventory_origin_id"
+        inputId="origin"
+        required
+        optionLabel="type"
+        optionValue="id"
+        [filter]="true"
+        [disabled]="!service.isOriginEnabled"
+        (onChange)="service.onOriginChange($event)"
+      />
     </div>
     <div class="col-span-1">
       <label for="destination"> Destino </label>
       <p-select
-        [options]="[1, 2, 3]"
+        appendTo="body"
+        [options]="(inventories | async)!"
         ngModel
-        name="destination"
+        name="inventory_destination_id"
         inputId="destination"
+        required
+        optionLabel="type"
+        optionValue="id"
+        [filter]="true"
+        [disabled]="!service.isDestinationEnabled"
+      />
+    </div>
+    <div class="sm:col-span-2">
+      <label for="product"> Produto </label>
+      <p-select
+        [options]="(allProducts | async)!"
+        [filter]="true"
+        ngModel
+        name="sku_id"
+        inputId="product"
+        appendTo="body"
+        optionLabel="product_name"
+        optionValue="sku_id"
+        required
       >
-        <ng-template let-destination #item>
+        <ng-template let-product #item>
           <div>
-            <div>Origem</div>
-            <small> Quantidade: {{ destination }}</small>
+            <div>{{ product.product_name }}</div>
+            <small> Código: {{ product.sku_code }} </small> <br />
+            <small> Estoque: {{ product.inventory_type }} </small> <br />
+            <small> Usuário: {{ product.user_name }} </small> <br />
+            <small> Quantidade: {{ product.quantity }} </small>
           </div>
         </ng-template>
       </p-select>
     </div>
     <div class="sm:col-span-2">
+      <label for="sku-quantity"> Quantidade </label>
+      <p-inputNumber
+        ngModel
+        name="quantity"
+        inputId="sku-quantity"
+        required
+        min="0"
+      />
+    </div>
+    <div class="sm:col-span-2">
       <label for="reason"> Motivo </label>
-      <p-select [options]="[1, 2, 3]" ngModel name="reason" inputId="reason" />
+      <textarea
+        ngModel
+        pTextarea
+        name="justification"
+        maxlength="200"
+        inputId="reason"
+      ></textarea>
     </div>
 
     <div class="sm:col-span-2">
       <button type="submit" pButton fluid>Adicionar</button>
     </div>
   </form>
+  }
 </p-dialog>

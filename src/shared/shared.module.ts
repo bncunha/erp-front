@@ -14,6 +14,7 @@ import { RequiredAsteriscDirective } from './directives/required-asterisc/requir
 import { ValidatorMessageDirective } from './directives/validator-message.directive';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastComponent } from './components/toast/toast.component';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -23,6 +24,7 @@ const PRIME_NG_MODULES = [
   RadioButtonModule,
   SelectModule,
   DropdownModule,
+  InputNumberModule,
 ];
 
 @NgModule({

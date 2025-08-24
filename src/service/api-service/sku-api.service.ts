@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreateSkuRequest, UpdateSkuRequest } from '../requests/skus-request';
 import { environment } from '../../environments/environment';
+import { GetSkuResponse } from '../responses/products-response';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,9 @@ export class SkuApiService {
 
   updateSku(id: number, sku: UpdateSkuRequest): Observable<void> {
     return this.http.put<void>(environment.API_URL + `/skus/${id}`, sku);
+  }
+
+  getAll(): Observable<GetSkuResponse[]> {
+    return this.http.get<GetSkuResponse[]>(environment.API_URL + '/skus');
   }
 }
