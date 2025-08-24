@@ -24,6 +24,7 @@ export class UsersFormDialogComponent {
   service = inject(UsersFormDialogService);
 
   isOpen: boolean = false;
+  isLoading = false;
 
   open(user?: GetUserResponse) {
     this.service.onOpenDialog(this.form, user);
@@ -31,9 +32,17 @@ export class UsersFormDialogComponent {
   }
 
   handleSubmit(form: NgForm) {
-    this.service.submitForm(form).subscribe(() => {
-      this.isOpen = false;
-      this.onSubmitSuccess.emit();
-    });
+    this.isLoading = true;
+    this.service.submitForm(form).subscribe(
+      () => {
+        this.isLoading = false;
+        this.isOpen = false;
+        this.onSubmitSuccess.emit();
+      },
+      (err) => {
+        this.isLoading = false;
+        throw err;
+      }
+    );
   }
 }

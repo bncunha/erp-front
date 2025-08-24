@@ -28,6 +28,7 @@ export class SkuFormDialogComponent {
   service = inject(SkuFormDialogService);
 
   isOpen: boolean = false;
+  isLoading = false;
   destinationOptions: Observable<GetInventoryResponse[]> =
     this.service.getDestinationOptions();
 
@@ -37,16 +38,24 @@ export class SkuFormDialogComponent {
   }
 
   handleSubmit(form: NgForm) {
+    this.isLoading = true;
     this.service
       .submitForm(
         form,
         this.service.getProductId(),
         this.service.getSkuEditing()?.id
       )
-      .subscribe(() => {
-        this.isOpen = false;
-        this.service.setPRoductId(0);
-        this.onSubmitSuccess.emit();
-      });
+      .subscribe(
+        () => {
+          this.isOpen = false;
+          this.isLoading = false;
+          this.service.setPRoductId(0);
+          this.onSubmitSuccess.emit();
+        },
+        (err) => {
+          this.isLoading = false;
+          throw err;
+        }
+      );
   }
 }

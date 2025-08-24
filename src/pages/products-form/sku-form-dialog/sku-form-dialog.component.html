@@ -70,7 +70,9 @@
     </div>
 
     <div class="sm:col-span-2">
-      <button pButton type="submit" fluid="">Salvar</button>
+      <button pButton type="submit" fluid="" [disabled]="isLoading">
+        Salvar
+      </button>
     </div>
   </form>
 </p-dialog>

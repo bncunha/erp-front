@@ -22,6 +22,7 @@ export class CategoriresFormDialogComponent {
   @Output() onSubmitSuccess = new EventEmitter<void>();
 
   service = inject(CategoriesFormDialogService);
+  isLoading = false;
 
   open(item?: GetCategoriesResponse) {
     this.service.updateForm(this.ngForm, item);
@@ -29,6 +30,16 @@ export class CategoriresFormDialogComponent {
   }
 
   handleSubmit(form: NgForm) {
-    this.service.submitForm(form).subscribe(() => this.onSubmitSuccess.emit());
+    this.isLoading = true;
+    this.service.submitForm(form).subscribe(
+      () => {
+        this.isLoading = false;
+        this.onSubmitSuccess.emit();
+      },
+      (err) => {
+        this.isLoading = false;
+        throw err;
+      }
+    );
   }
 }

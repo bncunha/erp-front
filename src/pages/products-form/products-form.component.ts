@@ -36,6 +36,7 @@ export class ProductsFormComponent implements AfterViewInit {
   activatedRoute = inject(ActivatedRoute);
 
   id?: number;
+  isLoading = false;
   categories: Observable<GetCategoriesResponse[]> =
     this.service.getCategories();
 
@@ -47,8 +48,16 @@ export class ProductsFormComponent implements AfterViewInit {
   }
 
   handleSubmit(form: any) {
-    this.service.submitForm(form, this.id).subscribe((insertedId) => {
-      this.service.backPage(insertedId);
-    });
+    this.isLoading = true;
+    this.service.submitForm(form, this.id).subscribe(
+      (insertedId) => {
+        this.isLoading = false;
+        this.service.backPage(insertedId);
+      },
+      (err) => {
+        this.isLoading = false;
+        throw err;
+      }
+    );
   }
 }
