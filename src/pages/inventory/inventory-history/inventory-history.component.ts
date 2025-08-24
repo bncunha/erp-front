@@ -14,4 +14,5 @@ export class InventoryHistoryComponent {
   service = inject(InventoryHistoryService);
 
   columns = this.service.getColumns();
+  history = this.service.getHistory();
 }

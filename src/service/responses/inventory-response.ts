@@ -12,3 +12,14 @@ export interface GetInventoryItemsResponse {
   user_name: string;
   quantity: number;
 }
+
+export interface GetTransactionHistoryResponse {
+  id: number;
+  date: string;
+  type: string;
+  quantity: number;
+  sku_code: string;
+  product_name: string;
+  origin: string;
+  destination: string;
+}

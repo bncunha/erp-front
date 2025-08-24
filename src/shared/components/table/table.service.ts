@@ -28,4 +28,11 @@ export class TableService {
     }
     return item[column.field];
   }
+
+  getStyle(item: any, column: Column): any {
+    if (column.styleFn) {
+      return column.styleFn(item);
+    }
+    return {};
+  }
 }

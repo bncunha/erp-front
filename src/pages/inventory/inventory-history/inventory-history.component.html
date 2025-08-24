@@ -1,1 +1,6 @@
-<app-table [columns]="columns" [showToolbar]="false" />
+<app-table
+  [value]="(history | async)!"
+  [columns]="columns"
+  [showToolbar]="true"
+  [showAdd]="false"
+/>

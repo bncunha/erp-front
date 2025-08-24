@@ -130,7 +130,9 @@
     </div>
 
     <div class="sm:col-span-2">
-      <button type="submit" pButton fluid>Adicionar</button>
+      <button type="submit" pButton fluid [disabled]="isLoading">
+        Adicionar
+      </button>
     </div>
   </form>
   }

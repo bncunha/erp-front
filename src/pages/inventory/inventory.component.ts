@@ -19,5 +19,6 @@ import { InventoryHistoryComponent } from './inventory-history/inventory-history
   providers: [InventoryService],
 })
 export class InventoryComponent {
+  tabValue = '0';
   service: InventoryService = inject(InventoryService);
 }

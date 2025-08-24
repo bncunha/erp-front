@@ -24,6 +24,7 @@ export class InventoryFormDialogComponent {
   service = inject(InventoryFormDialogService);
 
   isOpen: boolean = false;
+  isLoading: boolean = false;
 
   inventories = this.service.getInventoriesSubject();
   allProducts = this.service.getProductsSubject();
@@ -37,9 +38,17 @@ export class InventoryFormDialogComponent {
   }
 
   handleSubmit(f: NgForm) {
-    this.service.handleSubmit(f).subscribe(() => {
-      this.isOpen = false;
-      this.onSubmitSuccess.emit();
-    });
+    this.isLoading = true;
+    this.service.handleSubmit(f).subscribe(
+      () => {
+        this.isOpen = false;
+        this.isLoading = false;
+        this.onSubmitSuccess.emit();
+      },
+      (err) => {
+        this.isLoading = false;
+        throw err;
+      }
+    );
   }
 }

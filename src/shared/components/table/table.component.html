@@ -3,6 +3,7 @@
   <p-toolbar [style]="{ 'flex-wrap': 'nowrap' }">
     <ng-template #start>
       <div class="flex gap-2">
+        @if(showAdd) {
         <button
           [routerLink]="addRoute"
           pButton
@@ -11,7 +12,7 @@
           [disabled]="disableCreate"
           (click)="onAddClick.emit()"
         ></button>
-        @if (showEdit && selected) {
+        } @if (showEdit && selected) {
         <button
           pButton
           icon="pi pi-pencil"
@@ -100,7 +101,7 @@
           />
         </td>
         } @for (col of columns; track col.header) {
-        <td>
+        <td [style]="tableService.getStyle(rowData, col)">
           {{ tableService.getValue(rowData, col) }}
         </td>
         } @if (actionsTemplate) {

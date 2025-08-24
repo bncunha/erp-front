@@ -48,6 +48,7 @@ export class TableComponent implements OnInit {
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;
   @Input() showEdit: boolean = true;
+  @Input() showAdd: boolean = true;
   @Input() showDelete: boolean = true;
   @Input() showToolbar: boolean = true;
   @Input() disableCreate: boolean = false;

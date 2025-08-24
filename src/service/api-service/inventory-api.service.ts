@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import {
   GetInventoryItemsResponse,
   GetInventoryResponse,
+  GetTransactionHistoryResponse,
 } from '../responses/inventory-response';
 import { DoIventoryTransationRequest } from '../requests/inventory-request';
 
@@ -38,6 +39,12 @@ export class InventoryApiService {
     return this.httpCliente.post<void>(
       environment.API_URL + `/inventory/transaction`,
       request
+    );
+  }
+
+  getTransactionsHistory(): Observable<GetTransactionHistoryResponse[]> {
+    return this.httpCliente.get<GetTransactionHistoryResponse[]>(
+      environment.API_URL + `/inventory/transaction`
     );
   }
 }
