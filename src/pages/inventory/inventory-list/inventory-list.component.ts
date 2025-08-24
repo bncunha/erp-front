@@ -14,5 +14,6 @@ import { InventoryFormDialogComponent } from '../inventory-form-dialog/inventory
 export class InventoryListComponent {
   service: InventoryListService = inject(InventoryListService);
 
+  items = this.service.getAllItems();
   columns: Column[] = this.service.getColums();
 }
