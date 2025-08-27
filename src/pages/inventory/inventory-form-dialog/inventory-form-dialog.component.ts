@@ -9,7 +9,7 @@ import {
 import { SharedModule } from '../../../shared/shared.module';
 import { InventoryFormDialogService } from './inventory-form-dialog.service';
 import { TextareaModule } from 'primeng/textarea';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-inventory-form-dialog',
@@ -20,7 +20,6 @@ import { NgForm } from '@angular/forms';
 })
 export class InventoryFormDialogComponent {
   @Output() onSubmitSuccess = new EventEmitter<void>();
-  @ViewChild('f') form!: NgForm;
   service = inject(InventoryFormDialogService);
 
   isOpen: boolean = false;
@@ -28,6 +27,7 @@ export class InventoryFormDialogComponent {
 
   inventories = this.service.getInventoriesSubject();
   allProducts = this.service.getProductsSubject();
+  form: FormGroup = this.service.createForm();
 
   open() {
     this.isOpen = true;
@@ -37,7 +37,7 @@ export class InventoryFormDialogComponent {
     });
   }
 
-  handleSubmit(f: NgForm) {
+  handleSubmit(f: FormGroup) {
     this.isLoading = true;
     this.service.handleSubmit(f).subscribe(
       () => {
@@ -48,6 +48,9 @@ export class InventoryFormDialogComponent {
       (err) => {
         this.isLoading = false;
         throw err;
+      },
+      () => {
+        this.isLoading = false;
       }
     );
   }

@@ -8,13 +8,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
 import { RouterModule } from '@angular/router';
 import { TableComponent } from './components/table/table.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './components/loader/loader.component';
 import { RequiredAsteriscDirective } from './directives/required-asterisc/required-asterisc.directive';
-import { ValidatorMessageDirective } from './directives/validator-message.directive';
+import { ValidatorMessageDirective } from './directives/validator-message/validator-message.directive';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastComponent } from './components/toast/toast.component';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { FormGroupRequiredAsteriscDirective } from './directives/required-asterisc/form-group-required-asterisc.directive.';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -34,6 +35,7 @@ const PRIME_NG_MODULES = [
     TableComponent,
     LoaderComponent,
     RequiredAsteriscDirective,
+    FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
   ],
@@ -44,7 +46,9 @@ const PRIME_NG_MODULES = [
     RouterModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RequiredAsteriscDirective,
+    FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
   ],

@@ -57,6 +57,9 @@ export class ProductsFormComponent implements AfterViewInit {
       (err) => {
         this.isLoading = false;
         throw err;
+      },
+      () => {
+        this.isLoading = false;
       }
     );
   }

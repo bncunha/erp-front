@@ -7,10 +7,17 @@ import { BehaviorSubject, EMPTY, Observable, tap } from 'rxjs';
 import { InventoryApiService } from '../../../service/api-service/inventory-api.service';
 import { RadioButtonClickEvent } from 'primeng/radiobutton';
 import { SelectChangeEvent } from 'primeng/select';
-import { NgForm } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { SkuApiService } from '../../../service/api-service/sku-api.service';
 import { DoIventoryTransationRequest } from '../../../service/requests/inventory-request';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { FormUtil } from '../../../shared/utils/form.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -25,13 +32,56 @@ export class InventoryFormDialogService {
   private skuApiService = inject(SkuApiService);
   private toastService = inject(ToastService);
 
-  isOriginEnabled = false;
-  isDestinationEnabled = false;
+  createForm() {
+    return new FormBuilder().group({
+      type: [null, [Validators.required]],
+      inventory_origin_id: [null, [Validators.required]],
+      inventory_destination_id: [null, [Validators.required]],
+      justification: [null, [Validators.max(200)]],
+      skus: new FormBuilder().array([]),
+    });
+  }
 
-  resetForm(f: NgForm) {
-    f.resetForm();
-    this.isOriginEnabled = false;
-    this.isDestinationEnabled = false;
+  addSku(form: FormGroup) {
+    const control = new FormBuilder().group({
+      sku_id: [null, [Validators.required]],
+      quantity: [null, [Validators.required]],
+    });
+    const skuArray = form.get('skus') as FormArray;
+    skuArray.push(control);
+  }
+
+  removeSku(form: FormGroup, index: number) {
+    const skuArray = form.get('skus') as FormArray;
+    skuArray.removeAt(index);
+  }
+
+  enableOrigin(form: FormGroup, enabled: boolean) {
+    if (enabled) {
+      form.get('inventory_origin_id')?.enable();
+    } else {
+      form.get('inventory_origin_id')?.disable();
+    }
+  }
+
+  enableDestination(form: FormGroup, enabled: boolean) {
+    if (enabled) {
+      form.get('inventory_destination_id')?.enable();
+    } else {
+      form.get('inventory_destination_id')?.disable();
+    }
+  }
+
+  getSkus(form: FormGroup): FormArray {
+    return form.get('skus') as FormArray;
+  }
+
+  resetForm(f: FormGroup) {
+    f.reset();
+    new FormUtil().zerarFormArray(f.get('skus') as FormArray);
+    this.addSku(f);
+    this.enableOrigin(f, false);
+    this.enableDestination(f, false);
     this.inventoriesSubject.next([]);
     this.productsSubject.next([]);
   }
@@ -50,21 +100,21 @@ export class InventoryFormDialogService {
     });
   }
 
-  onTypeChange(event: RadioButtonClickEvent, f: NgForm) {
-    f.form.get('inventory_origin_id')?.setValue(null);
-    f.form.get('inventory_destination_id')?.setValue(null);
-    f.form.get('sku_id')?.setValue(null);
+  onTypeChange(event: RadioButtonClickEvent, f: FormGroup) {
+    f.get('inventory_origin_id')?.setValue(null);
+    f.get('inventory_destination_id')?.setValue(null);
+    f.get('sku_id')?.setValue(null);
     this.productsSubject.next([]);
     if (event.value === 'IN') {
-      this.isOriginEnabled = false;
-      this.isDestinationEnabled = true;
+      this.enableOrigin(f, false);
+      this.enableDestination(f, true);
       this.fetchAllProducts();
     } else if (event.value === 'OUT') {
-      this.isOriginEnabled = true;
-      this.isDestinationEnabled = false;
+      this.enableOrigin(f, true);
+      this.enableDestination(f, false);
     } else {
-      this.isOriginEnabled = true;
-      this.isDestinationEnabled = true;
+      this.enableOrigin(f, true);
+      this.enableDestination(f, true);
     }
   }
 
@@ -99,7 +149,7 @@ export class InventoryFormDialogService {
     this.fetchOriginProducts(event.value);
   }
 
-  handleSubmit(f: NgForm): Observable<void> {
+  handleSubmit(f: FormGroup): Observable<void> {
     if (f.valid) {
       const request = new DoIventoryTransationRequest().parseToRequest(f.value);
       return this.inventoryApiService.doTransaction(request).pipe(

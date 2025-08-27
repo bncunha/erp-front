@@ -39,6 +39,9 @@ export class CategoriresFormDialogComponent {
       (err) => {
         this.isLoading = false;
         throw err;
+      },
+      () => {
+        this.isLoading = false;
       }
     );
   }

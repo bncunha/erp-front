@@ -27,7 +27,7 @@ export class InventoryListService {
       },
       {
         header: 'Local',
-        field: 'item.user_name',
+        field: 'user_name',
         valueFn: (item) => {
           if (item.user_name) {
             return item.user_name + ' - ' + item.inventory_type;

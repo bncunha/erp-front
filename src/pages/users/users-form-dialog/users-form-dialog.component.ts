@@ -42,6 +42,9 @@ export class UsersFormDialogComponent {
       (err) => {
         this.isLoading = false;
         throw err;
+      },
+      () => {
+        this.isLoading = false;
       }
     );
   }

@@ -3,51 +3,45 @@
   [modal]="true"
   [dismissableMask]="true"
   header="Movimentar Estoque"
-  [style]="{ width: '700px' }"
+  [style]="{ width: '900px' }"
   [draggable]="false"
 >
   @if (isOpen) {
   <form
-    #f="ngForm"
     class="grid grid-cols-1 sm:grid-cols-2 gap-4"
-    (submit)="handleSubmit(f)"
+    [formGroup]="form"
+    (submit)="handleSubmit(form)"
   >
     <div class="sm:col-span-2">
       <label> Tipo </label>
-      <input type="hidden" name="type" required />
+      <input type="hidden" formControlName="type" />
       <div class="flex flex-wrap gap-4 mt-3">
         <div class="flex items-center">
           <p-radiobutton
-            name="type"
+            formControlName="type"
             value="IN"
-            ngModel
             inputId="strock_in"
-            required
-            (onClick)="service.onTypeChange($event, f)"
+            (onClick)="service.onTypeChange($event, form)"
           />
           <label for="strock_in" class="ml-2 mb-0">Entrada</label>
         </div>
 
         <div class="flex items-center">
           <p-radiobutton
-            name="type"
+            formControlName="type"
             value="OUT"
-            ngModel
             inputId="stock_out"
-            required
-            (onClick)="service.onTypeChange($event, f)"
+            (onClick)="service.onTypeChange($event, form)"
           />
           <label for="stock_out" class="ml-2 mb-0"> Saída </label>
         </div>
 
         <div class="flex items-center">
           <p-radiobutton
-            name="type"
+            formControlName="type"
             value="TRANSFER"
-            ngModel
             inputId="transfer"
-            required
-            (onClick)="service.onTypeChange($event, f)"
+            (onClick)="service.onTypeChange($event, form)"
           />
           <label for="transfer" class="ml-2 mb-0"> Transferência </label>
         </div>
@@ -58,14 +52,11 @@
       <p-select
         appendTo="body"
         [options]="(inventories | async)!"
-        ngModel
-        name="inventory_origin_id"
+        formControlName="inventory_origin_id"
         inputId="origin"
-        required
         optionLabel="type"
         optionValue="id"
         [filter]="true"
-        [disabled]="!service.isOriginEnabled"
         (onChange)="service.onOriginChange($event)"
       />
     </div>
@@ -74,57 +65,83 @@
       <p-select
         appendTo="body"
         [options]="(inventories | async)!"
-        ngModel
-        name="inventory_destination_id"
+        formControlName="inventory_destination_id"
         inputId="destination"
-        required
         optionLabel="type"
         optionValue="id"
         [filter]="true"
-        [disabled]="!service.isDestinationEnabled"
       />
     </div>
-    <div class="sm:col-span-2">
-      <label for="product"> Produto </label>
-      <p-select
-        [options]="(allProducts | async)!"
-        [filter]="true"
-        ngModel
-        name="sku_id"
-        inputId="product"
-        appendTo="body"
-        optionLabel="product_name"
-        optionValue="sku_id"
-        required
+    <div class="sm:col-span-1">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        size="small"
+        severity="contrast"
+        (click)="service.addSku(form)"
       >
-        <ng-template let-product #item>
-          <div>
-            <div>{{ product.product_name }}</div>
-            <small> Código: {{ product.sku_code }} </small> <br />
-            <small> Estoque: {{ product.inventory_type }} </small> <br />
-            <small> Usuário: {{ product.user_name }} </small> <br />
-            <small> Quantidade: {{ product.quantity }} </small>
-          </div>
-        </ng-template>
-      </p-select>
+        Adicionar Produto
+      </button>
     </div>
-    <div class="sm:col-span-2">
-      <label for="sku-quantity"> Quantidade </label>
-      <p-inputNumber
-        ngModel
-        name="quantity"
-        inputId="sku-quantity"
-        required
-        min="0"
-      />
+    <div class="col-span-2 grid grid-cols-subgrid gap-4 skus-container">
+      <div
+        *ngFor="let sku of service.getSkus(form).controls; let i = index"
+        class="col-span-2"
+        formArrayName="skus"
+      >
+        <div class="grid grid-flow-col grid-cols-4 gap-4" [formGroupName]="i">
+          <div class="sm:col-span-full">
+            <p-select
+              placeholder="Produto"
+              [options]="(allProducts | async)!"
+              [filter]="true"
+              formControlName="sku_id"
+              inputId="product"
+              appendTo="body"
+              optionLabel="product_name"
+              optionValue="sku_id"
+              required
+            >
+              <ng-template let-product #item>
+                <div>
+                  <div>{{ product.product_name }}</div>
+                  <small> Código: {{ product.sku_code }} </small> <br />
+                  <small> Estoque: {{ product.inventory_type }} </small> <br />
+                  <small> Usuário: {{ product.user_name }} </small> <br />
+                  <small> Quantidade: {{ product.quantity }} </small>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+          <div class="sm:col-span-1">
+            <p-inputNumber
+              placeholder="Quantidade"
+              formControlName="quantity"
+              inputId="sku-quantity"
+              required
+              min="0"
+            />
+          </div>
+          <div class="sm:col-span-1 flex items-start">
+            <button
+              type="button"
+              pButton
+              icon="pi pi-trash"
+              size="small"
+              severity="danger"
+              [disabled]="i == 0"
+              (click)="service.removeSku(form, i)"
+            ></button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="sm:col-span-2">
       <label for="reason"> Motivo </label>
       <textarea
-        ngModel
         pTextarea
-        name="justification"
-        maxlength="200"
+        formControlName="justification"
         inputId="reason"
       ></textarea>
     </div>

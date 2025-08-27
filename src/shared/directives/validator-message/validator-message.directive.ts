@@ -5,33 +5,41 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  Optional,
 } from '@angular/core';
-import { FormsModule, NgControl, NgForm } from '@angular/forms';
+import { NgControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Directive({
-  selector: '[ngModel]',
+  selector: '[formControlName], [ngModel]', // funciona para os dois
   standalone: true,
 })
 export class ValidatorMessageDirective implements OnInit, OnDestroy {
-  isInsideFormGroup: boolean = false;
-  subscription: (Subscription | undefined)[] = [];
+  private subscription: Subscription[] = [];
 
   constructor(
     private el: ElementRef,
     private control: NgControl,
-    private form: NgForm,
+    @Optional() private formGroup: FormGroupDirective, // Reactive Forms
+    @Optional() private form: NgForm,
     private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
-    this.isInsideFormGroup = this.el.nativeElement.closest('form');
-    if (this.isInsideFormGroup) {
-      const sub1 = this.form.ngSubmit.subscribe(() => this.updateError());
-      const sub2 = this.control.valueChanges?.subscribe(() =>
-        this.updateError()
-      );
-      this.subscription.push(sub1, sub2);
+    const sub1 = this.control.valueChanges?.subscribe(() => this.updateError());
+    if (sub1) this.subscription.push(sub1);
+
+    // se for reactive form
+    if (this.formGroup) {
+      const sub2 = this.formGroup.ngSubmit.subscribe((event: SubmitEvent) => {
+        this.updateError();
+      });
+      this.subscription.push(sub2);
+    } else if (this.form) {
+      const sub3 = this.form.ngSubmit.subscribe(() => {
+        this.updateError();
+      });
+      this.subscription.push(sub3);
     }
   }
 
@@ -41,7 +49,7 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
     const existing = parent.querySelector('.auto-error-message');
     if (existing) this.renderer.removeChild(parent, existing);
 
-    if (this.control.invalid && this.form.submitted) {
+    if (this.control.invalid && this.shouldShowError()) {
       const msg = this.getMessage(this.control.errors);
       const errorEl = this.renderer.createElement('small');
       this.renderer.addClass(errorEl, 'auto-error-message');
@@ -50,6 +58,20 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
       this.renderer.appendChild(errorEl, text);
       this.renderer.appendChild(parent, errorEl);
     }
+  }
+
+  private shouldShowError(): boolean {
+    // Reactive forms: mostra se foi tocado ou se o form foi submetido
+    if (this.formGroup) {
+      return (
+        !!this.control.invalid &&
+        (this.control.touched || this.formGroup.submitted)
+      );
+    }
+    if (this.form) {
+      return !!this.control.invalid && this.form.submitted;
+    }
+    return false;
   }
 
   private getMessage(errors: any): string {
@@ -62,6 +84,6 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.forEach((sub) => sub?.unsubscribe());
+    this.subscription.forEach((sub) => sub.unsubscribe());
   }
 }

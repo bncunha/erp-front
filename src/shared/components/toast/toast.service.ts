@@ -13,7 +13,7 @@ export class ToastService {
       severity: 'success',
       summary: title,
       detail: message,
-      life: 3000,
+      life: 4500,
     });
   }
 
@@ -22,7 +22,7 @@ export class ToastService {
       severity: 'error',
       summary: title,
       detail: message,
-      life: 10000000,
+      life: 4500,
     });
   }
 
