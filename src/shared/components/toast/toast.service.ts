@@ -22,7 +22,7 @@ export class ToastService {
       severity: 'error',
       summary: title,
       detail: message,
-      life: 3000,
+      life: 10000000,
     });
   }
 
