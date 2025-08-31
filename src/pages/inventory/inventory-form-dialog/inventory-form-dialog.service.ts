@@ -125,7 +125,7 @@ export class InventoryFormDialogService {
           inventory_item_id: item.id,
           sku_id: item.id,
           sku_code: item.code,
-          product_name: item.name,
+          product_name: `(${item.code}) ${item.name}`,
           inventory_type: '-',
           user_name: '-',
           quantity: item.quantity,
@@ -140,7 +140,14 @@ export class InventoryFormDialogService {
     this.inventoryApiService
       .getProductsByInventory(originId!)
       .subscribe((response) => {
-        this.productsSubject.next(response);
+        this.productsSubject.next(
+          response.map((item) => {
+            return {
+              ...item,
+              product_name: `(${item.sku_code}) ${item.product_name}`,
+            };
+          })
+        );
       });
   }
 
