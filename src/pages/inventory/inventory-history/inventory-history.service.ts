@@ -50,6 +50,10 @@ export class InventoryHistoryService {
         },
       },
       {
+        header: 'Código',
+        field: 'sku_code',
+      },
+      {
         header: 'Produto',
         field: 'product_name',
       },
