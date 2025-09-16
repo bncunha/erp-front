@@ -16,6 +16,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastComponent } from './components/toast/toast.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormGroupRequiredAsteriscDirective } from './directives/required-asterisc/form-group-required-asterisc.directive.';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DrawerModule } from 'primeng/drawer';
+import { ChipModule } from 'primeng/chip';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -26,6 +29,9 @@ const PRIME_NG_MODULES = [
   SelectModule,
   DropdownModule,
   InputNumberModule,
+  MultiSelectModule,
+  DrawerModule,
+  ChipModule,
 ];
 
 @NgModule({

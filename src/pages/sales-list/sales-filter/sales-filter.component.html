@@ -1,0 +1,40 @@
+<form class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+  <div class="col-span-2 sm:col-span-1">
+    <label for="minDate"> Data Inicial </label>
+    <p-datepicker ngModel name="minDate" inputId="minDate" />
+  </div>
+  <div class="col-span-2 sm:col-span-1">
+    <label for="maxDate"> Data Final </label>
+    <p-datepicker ngModel name="maxDate" inputId="maxDate" />
+  </div>
+  <div class="col-span-2 sm:col-span-1">
+    <label for="saler"> Vendedor </label>
+    <p-multiselect
+      [options]="[1, 2, 3]"
+      ngModel
+      name="saler"
+      inputId="saler"
+      [filter]="true"
+    />
+  </div>
+  <div class="col-span-2 sm:col-span-1">
+    <label for="customer"> Cliente </label>
+    <p-multiselect
+      [options]="[1, 2, 3]"
+      ngModel
+      name="customer"
+      inputId="customer"
+      [filter]="true"
+    />
+  </div>
+  <div class="col-span-2">
+    <label for="paymentStatus"> Situação de Pagamento </label>
+    <p-multiselect
+      [options]="[1, 2, 3]"
+      ngModel
+      name="paymentStatus"
+      inputId="paymentStatus"
+      [filter]="false"
+    />
+  </div>
+</form>

@@ -32,11 +32,11 @@ export class SidebarTemplateService {
       name: 'Usuários',
       routerLink: '/usuarios',
     },
-    // {
-    //   icon: PrimeIcons.DOLLAR,
-    //   name: 'Vendas',
-    //   routerLink: '/vendas',
-    // },
+    {
+      icon: PrimeIcons.DOLLAR,
+      name: 'Vendas',
+      routerLink: '/vendas',
+    },
   ];
 
   getMenuItems(): MenuItem[] {

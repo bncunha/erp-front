@@ -87,7 +87,7 @@
       let-columns="columns"
       let-expanded="expanded"
     >
-      <tr [pSelectableRow]="rowData">
+      <tr [pSelectableRow]="rowData" (click)="onRowClick.emit(rowData)">
         @if (rowExpandTemplate) {
         <td>
           <p-button

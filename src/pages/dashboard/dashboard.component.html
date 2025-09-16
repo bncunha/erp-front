@@ -1,10 +1,12 @@
 <div class="card-container">
   @for (item of menuItems; track $index) {
-  <a class="card shadow-md rounded-md p-4" routerLink="{{ item.routerLink }}">
-    <div class="card-header">
-      <i [class]="item.icon"></i>
-      <p class="card-title">{{ item.name }}</p>
-    </div>
+  <a class="card shadow-md" routerLink="{{ item.routerLink }}">
+    <app-card>
+      <div class="card-header">
+        <i [class]="item.icon"></i>
+        <p class="card-title">{{ item.name }}</p>
+      </div>
+    </app-card>
   </a>
   }
 </div>

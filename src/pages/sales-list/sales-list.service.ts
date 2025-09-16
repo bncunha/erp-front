@@ -14,16 +14,20 @@ export class SalesListService {
         field: 'saler',
       },
       {
-        header: 'Quantidade',
-        field: 'quantity',
+        header: 'Cliente',
+        field: 'customer',
       },
       {
-        header: 'Valor Total',
+        header: 'Total (R$)',
         field: 'total_value',
       },
       {
-        header: 'Parcelamento',
-        field: 'installment_plan',
+        header: 'Pagamento',
+        field: 'payment_plan',
+      },
+      {
+        header: 'Situação',
+        field: 'status',
       },
     ];
   }

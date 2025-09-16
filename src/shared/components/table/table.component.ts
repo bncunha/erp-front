@@ -44,6 +44,7 @@ export class TableComponent implements OnInit {
   @Output() onDeleteClick = new EventEmitter<any>();
   @Output() onRowExpand = new EventEmitter<any>();
   @Output() onRowCollapse = new EventEmitter<any>();
+  @Output() onRowClick = new EventEmitter<any>();
   @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;

@@ -13,11 +13,13 @@ import { loaderInterceptor } from '../service/interceptors/loader.interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { GlobalErrorHandler } from '../service/handlers/error.handler';
 import { authInterceptor } from '../service/interceptors/auth.interceptor';
+import { ptBrLocale } from './locales/pt-br.locale';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     providePrimeNG({
+      translation: ptBrLocale,
       theme: {
         preset: CustomThemePreset,
       },
