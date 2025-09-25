@@ -1,33 +1,68 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Column } from '../../shared/components/table/models/column';
+import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
+import { SalesApiService } from '../../service/api-service/sales-api.service';
+import { GetAllSalesResponse } from '../../service/responses/sales-response';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { GetPaymentName } from '../../enums/payment.enum';
+import { ActivatedRoute } from '@angular/router';
+import { GetAllSalesRequest } from '../../service/requests/sales-request';
 
 @Injectable()
 export class SalesListService {
+  private reloadSubject = new BehaviorSubject<void>(undefined);
+
+  private salesApiService = inject(SalesApiService);
+  private datePipe = inject(DatePipe);
+  private currencyPipe = inject(CurrencyPipe);
+
+  getAll(params: any): Observable<GetAllSalesResponse> {
+    const filters = new GetAllSalesRequest().parseToRequest(params);
+    return this.reloadSubject.pipe(
+      switchMap(() => this.salesApiService.getAll(filters))
+    );
+  }
+
   getColumns(): Column[] {
     return [
       {
         header: 'Data',
         field: 'date',
+        valueFn: (item) => {
+          return this.datePipe.transform(item.date, 'short') as string;
+        },
       },
       {
         header: 'Vendedor',
-        field: 'saler',
+        field: 'seller_name',
       },
       {
         header: 'Cliente',
-        field: 'customer',
+        field: 'customer_name',
       },
       {
         header: 'Total (R$)',
         field: 'total_value',
+        valueFn: (item) => {
+          return this.currencyPipe.transform(item.total_value, 'BRL') as any;
+        },
       },
       {
-        header: 'Pagamento',
-        field: 'payment_plan',
+        header: 'Total items',
+        field: 'total_items',
       },
       {
         header: 'Situação',
         field: 'status',
+        styleFn: (item) => {
+          return {
+            color: 'red',
+            fontWeight: 'bold',
+          };
+        },
+        valueFn: (item) => {
+          return GetPaymentName(item.status);
+        },
       },
     ];
   }

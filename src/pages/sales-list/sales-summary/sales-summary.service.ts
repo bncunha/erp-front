@@ -1,29 +1,42 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { GetSummaryResponse } from '../../../service/responses/sales-response';
+import { CurrencyPipe } from '@angular/common';
 
 interface SummaryCard {
   title: string;
-  value: string;
+  value: string | number;
 }
 
 @Injectable()
 export class SalesSummaryService {
-  getSummaryCards(): SummaryCard[] {
+  private currencyPipe = inject(CurrencyPipe);
+
+  getSummaryCards(summary?: GetSummaryResponse): SummaryCard[] {
     return [
       {
         title: 'Total de vendas',
-        value: '100',
+        value: summary?.total_sales || 0,
       },
       {
         title: 'Recebidos',
-        value: 'R$ 100,00',
+        value: this.currencyPipe.transform(
+          summary?.received_value || 0,
+          'BRL'
+        ) as string,
       },
       {
-        title: 'A receber (30 dias)',
-        value: 'R$ 100,00',
+        title: 'A receber',
+        value: this.currencyPipe.transform(
+          summary?.future_revenue || 0,
+          'BRL'
+        ) as string,
       },
       {
         title: 'Ticket Médio',
-        value: 'R$ 100,00',
+        value: this.currencyPipe.transform(
+          summary?.average_ticket || 0,
+          'BRL'
+        ) as string,
       },
     ];
   }

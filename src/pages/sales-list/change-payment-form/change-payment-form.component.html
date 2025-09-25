@@ -1,0 +1,30 @@
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Alterar pagamento">
+  <div class="mb-5 grid grid-cols-2 gap-2">
+    <div><strong> Parcela: </strong> 1º parcela</div>
+    <div><strong> Data: </strong> 10/10/2010 15:40</div>
+    <div><strong> Tipo: </strong> Cartão</div>
+    <div><strong> Valor: </strong> R$ 100,00</div>
+  </div>
+  <form #f="ngForm">
+    <div>
+      <label> Nova situação de pagamento </label>
+      <p-dropdown
+        ngModel
+        name="paymentStatus"
+        appendTo="body"
+        [options]="paymentList"
+      ></p-dropdown>
+    </div>
+    <button type="submit" pButton fluid class="mt-4">Confirmar</button>
+    <button
+      type="button"
+      pButton
+      fluid
+      class="mt-2"
+      severity="secondary"
+      (click)="close()"
+    >
+      Cancelar
+    </button>
+  </form>
+</p-dialog>

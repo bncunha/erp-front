@@ -5,6 +5,7 @@ import { GetUserResponse } from '../responses/users-response';
 import { environment } from '../../environments/environment';
 import {
   CreateUserRequest,
+  GetAllUsersRequest,
   UpdateUserRequest,
 } from '../requests/users-request';
 
@@ -14,9 +15,12 @@ import {
 export class UserApiService {
   private httpCliente = inject(HttpClient);
 
-  getAll(): Observable<GetUserResponse[]> {
+  getAll(
+    filters: GetAllUsersRequest = new GetAllUsersRequest()
+  ): Observable<GetUserResponse[]> {
     return this.httpCliente.get<GetUserResponse[]>(
-      environment.API_URL + '/users'
+      environment.API_URL + '/users',
+      { params: filters.parseToRequest(filters) as any }
     );
   }
 

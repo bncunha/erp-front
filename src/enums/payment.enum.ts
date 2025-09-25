@@ -5,6 +5,19 @@ export enum PaymentEnum {
   DELAYED = 'DELAYED',
 }
 
+export const GetPaymentColor = (payment: PaymentEnum) => {
+  switch (payment) {
+    case PaymentEnum.PAID:
+      return 'green';
+    case PaymentEnum.PENDING:
+      return 'gold';
+    case PaymentEnum.CANCELLED:
+      return 'red';
+    case PaymentEnum.DELAYED:
+      return 'blue';
+  }
+};
+
 export const GetPaymentName = (payment: PaymentEnum) => {
   switch (payment) {
     case PaymentEnum.PAID:

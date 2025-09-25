@@ -19,6 +19,7 @@ import { FormGroupRequiredAsteriscDirective } from './directives/required-asteri
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DrawerModule } from 'primeng/drawer';
 import { ChipModule } from 'primeng/chip';
+import { PanelModule } from 'primeng/panel';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -32,6 +33,7 @@ const PRIME_NG_MODULES = [
   MultiSelectModule,
   DrawerModule,
   ChipModule,
+  PanelModule,
 ];
 
 @NgModule({

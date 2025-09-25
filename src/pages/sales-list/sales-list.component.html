@@ -1,19 +1,11 @@
 <h1>Vendas</h1>
 
 <app-sales-filter />
-<app-sales-summary />
+<app-sales-summary [summary]="response?.summary" />
 <app-sales-details #details />
 
 <app-table
-  [value]="[
-    {
-      date: '03/07/2025',
-      saler: 'João',
-      quantity: '3 itens',
-      total_value: 'R$ 100,00',
-      installment_plan: '3x'
-    }
-  ]"
+  [value]="response?.sales || []"
   addRoute="/vendas/novo"
   [columns]="columns"
   [showEdit]="false"

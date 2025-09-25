@@ -1,4 +1,5 @@
 import { cleanNulls } from './clean-nulls';
+import { deepClone } from './deep-clone.utis';
 
 export class FilterUtils {
   private pageName = window.location.pathname;
@@ -9,8 +10,9 @@ export class FilterUtils {
     return filters ? JSON.parse(filters) : {};
   }
 
-  setFilters(filters: any): void {
-    const formatedFilters = cleanNulls(filters);
+  setFilters(filters: any): any {
+    const clone = deepClone(filters);
+    const formatedFilters = cleanNulls(clone);
     sessionStorage.setItem(this.savedKey, JSON.stringify(formatedFilters));
     return formatedFilters;
   }
