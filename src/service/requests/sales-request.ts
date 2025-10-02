@@ -1,5 +1,6 @@
 import { PaymentEnum } from '../../enums/payment.enum';
 import { cleanNulls } from '../../shared/utils/clean-nulls';
+import { DateUtils } from '../../shared/utils/date.utils';
 
 export class CreateSaleRequest {
   customer_id!: number;
@@ -49,10 +50,11 @@ export class CreateSalePaymentDateRequest {
 
 export class UpdatePaymentStatusRequest {
   status!: PaymentEnum;
-  date!: Date;
+  date?: string;
 
   parseToRequest(formData: any): UpdatePaymentStatusRequest {
     Object.assign(this, formData);
+    this.date = DateUtils.formatDateTime(formData.date);
     return this;
   }
 }

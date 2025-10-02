@@ -35,9 +35,10 @@ export class SalesListComponent implements OnInit, OnDestroy {
   columns = this.service.getColumns();
   response?: GetAllSalesResponse;
   sub!: Subscription;
-
+  params: any;
   ngOnInit(): void {
     this.sub = this.route.queryParams.subscribe((params) => {
+      this.params = params;
       this.getItems(params);
     });
   }

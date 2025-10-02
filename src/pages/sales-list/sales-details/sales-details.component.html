@@ -1,82 +1,90 @@
-<app-change-payment-form #paymentForm />
+<app-change-payment-form
+  #paymentForm
+  (submitSuccess)="onChangePaymentSuccess()"
+/>
 
 <p-drawer
   header="Detalhes da Venda"
   [(visible)]="service.visible"
   position="right"
-  styleClass="!w-full md:!w-80 lg:!w-[30rem]"
+  styleClass="!w-full md:!w-80 lg:!w-[40rem]"
 >
+  @if(service.loading) { @for (i of [1,2,3,4,5]; track i) {
+  <p-skeleton class="my-4 block" height="300px" width="100%" />
+  } } @else {
   <h3>Resumo</h3>
   <div class="mb-5">
-    <app-payment-badge [paymentType]="'PENDING'" />
+    <app-payment-badge [paymentType]="sale?.payment_status" />
   </div>
   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
     <div class="col-span-2">
       <label> Código </label>
-      <p>V-01HY8M2Z2Q8C2X8D7B8G2KZ8NQ</p>
+      <p>{{ sale?.code }}</p>
     </div>
     <div>
       <label> Data </label>
-      <p>12/12/2025 15:00</p>
+      <p>{{ sale?.date | date : "short" }}</p>
     </div>
     <div>
       <label> Valor da venda </label>
-      <p>R$ 200,00</p>
+      <p>{{ sale?.total_value | currency : "BRL" }}</p>
     </div>
     <div>
       <label> Vendedor </label>
-      <p>João Silva</p>
+      <p>{{ sale?.seller_name }}</p>
     </div>
     <div>
       <label> Cliente </label>
-      <p>João Silva</p>
+      <p>{{ sale?.customer_name }}</p>
     </div>
     <div>
       <label> Valor recebido </label>
-      <p>R$ 200,00</p>
+      <p>{{ sale?.received_value | currency : "BRL" }}</p>
     </div>
     <div>
       <label> Valor a receber </label>
-      <p>R$ 100,00</p>
-    </div>
-    <div class="col-span-2">
-      <label> Pagamento </label>
-      <p>
-        1x de R$ 50,00 no PIX <br />
-        3x de R$ 100,00 no Cartão de Crédito <br />
-      </p>
+      <p>{{ sale?.future_revenue | currency : "BRL" }}</p>
     </div>
   </div>
   <h3 class="my-5">Pagamento</h3>
-  <div class="grid gap-4 grid-cols-1 sm:grid-cols-2"></div>
-  <p-timeline [value]="[1, 2]" class="!w-full">
+  <p-divider />
+  @for(payment of sale?.payments; track payment.payment_type) {
+  <h4 class="my-3">{{ service.getPaymentType(payment.payment_type) }}</h4>
+  <p-timeline [value]="payment.installments" class="!w-full timelineDetails">
     <ng-template #opposite let-event>
       <small>
-        1ª Parcela <br />
-        12/12/2025 15:00 <br />
-        <app-payment-badge [paymentType]="'PAID'" />
+        {{ event.installment_number }} ª Parcela <br />
+        {{ event.due_date | date : "short" }} <br />
       </small>
     </ng-template>
     <ng-template #content let-event>
       <p class="mb-4">
-        Cartão <br />
-        R$ 100,00 <br />
-        Pago em: 12/12/2025 15:00 <br />
+        {{ event.installment_value | currency : "BRL" }} <br />
+        @if(event.paid_date) {
+        <small> Pago em: {{ event.paid_date | date : "short" }} </small> <br />
+        }
         <button
           pButton
-          type="button"
-          label="Alterar Situação"
           size="small"
-          severity="secondary"
-          (click)="paymentForm.open()"
-        ></button>
+          [text]="true"
+          (click)="paymentForm.open(event, sale?.id || 0)"
+          [disabled]="!event.canEditPaymentStatus()"
+        >
+          <app-payment-badge [paymentType]="event.payment_status" />
+          @if(event.canEditPaymentStatus()) {
+          <em class="pi pi-pencil"></em>
+          }
+        </button>
       </p>
     </ng-template>
   </p-timeline>
+  <p-divider />
+  }
   <h3 class="my-5">Itens</h3>
   <app-table
     [columns]="itensColumns"
-    [value]="[1, 2, 3, 4, 5]"
+    [value]="sale?.items || []"
     [showToolbar]="false"
   />
+  }
 </p-drawer>

@@ -1,3 +1,4 @@
+import { PaymentTypeEnum } from '../../enums/payment-type.enum';
 import { PaymentEnum } from '../../enums/payment.enum';
 
 export interface GetAllSalesResponse {
@@ -38,18 +39,25 @@ export interface GetSaleResponse {
 }
 
 export interface GetSalePaymentResponse {
-  payment_type: string;
+  payment_type: PaymentTypeEnum;
   installments: GetSaleInstallmentResponse[];
 }
 
-export interface GetSaleInstallmentResponse {
-  id: number;
-  installment_number: number;
-  installment_value: number;
-  due_date: string;
-  paid_date: string;
-  payment_status: string;
-  payment_type: string;
+export class GetSaleInstallmentResponse {
+  id!: number;
+  installment_number!: number;
+  installment_value!: number;
+  due_date!: string;
+  paid_date?: string;
+  payment_status!: string;
+  payment_type!: PaymentTypeEnum;
+
+  canEditPaymentStatus(): boolean {
+    return (
+      this.payment_status === PaymentEnum.PENDING ||
+      this.payment_status === PaymentEnum.DELAYED
+    );
+  }
 }
 
 export interface GetSaleItemResponse {

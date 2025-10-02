@@ -20,6 +20,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DrawerModule } from 'primeng/drawer';
 import { ChipModule } from 'primeng/chip';
 import { PanelModule } from 'primeng/panel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SkeletonModule } from 'primeng/skeleton';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -34,6 +36,8 @@ const PRIME_NG_MODULES = [
   DrawerModule,
   ChipModule,
   PanelModule,
+  DatePickerModule,
+  SkeletonModule,
 ];
 
 @NgModule({

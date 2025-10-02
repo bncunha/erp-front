@@ -2,7 +2,7 @@
 
 <app-sales-filter />
 <app-sales-summary [summary]="response?.summary" />
-<app-sales-details #details />
+<app-sales-details #details (changePaymentSuccess)="getItems(params)" />
 
 <app-table
   [value]="response?.sales || []"
@@ -10,7 +10,7 @@
   [columns]="columns"
   [showEdit]="false"
   [showDelete]="false"
-  (onRowClick)="details.open()"
+  (onRowClick)="details.open($event)"
 >
   <ng-template #actions>
     <div class="flex gap-4 align-items">
@@ -20,7 +20,6 @@
         severity="secondary"
         icon="pi pi-eye"
         size="small"
-        (click)="details.open()"
       >
         Detalhes
       </button>

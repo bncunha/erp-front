@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
 import { SalesApiService } from '../../service/api-service/sales-api.service';
 import { GetAllSalesResponse } from '../../service/responses/sales-response';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { GetPaymentName } from '../../enums/payment.enum';
+import { GetPaymentColor, GetPaymentName } from '../../enums/payment.enum';
 import { ActivatedRoute } from '@angular/router';
 import { GetAllSalesRequest } from '../../service/requests/sales-request';
 
@@ -56,7 +56,7 @@ export class SalesListService {
         field: 'status',
         styleFn: (item) => {
           return {
-            color: 'red',
+            color: GetPaymentColor(item.status),
             fontWeight: 'bold',
           };
         },

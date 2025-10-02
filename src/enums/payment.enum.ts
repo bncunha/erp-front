@@ -1,7 +1,7 @@
 export enum PaymentEnum {
   PAID = 'PAID',
   PENDING = 'PENDING',
-  CANCELLED = 'CANCELLED',
+  CANCELLED = 'CANCEL',
   DELAYED = 'DELAYED',
 }
 
@@ -12,9 +12,9 @@ export const GetPaymentColor = (payment: PaymentEnum) => {
     case PaymentEnum.PENDING:
       return 'gold';
     case PaymentEnum.CANCELLED:
-      return 'red';
+      return 'lightcoral';
     case PaymentEnum.DELAYED:
-      return 'blue';
+      return 'red';
   }
 };
 
@@ -29,6 +29,23 @@ export const GetPaymentName = (payment: PaymentEnum) => {
     case PaymentEnum.DELAYED:
       return 'Atrasado';
   }
+};
+
+export const GetPaymentEnumListEditable = () => {
+  return [
+    {
+      label: 'Pago',
+      value: PaymentEnum.PAID,
+    },
+    {
+      label: 'Pendente',
+      value: PaymentEnum.PENDING,
+    },
+    {
+      label: 'Cancelado',
+      value: PaymentEnum.CANCELLED,
+    },
+  ];
 };
 
 export const GetPaymentEnumList = () => {
