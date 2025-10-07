@@ -10,7 +10,11 @@
   border: 1px solid var(--designer-divider-color);
   border-top: 0;
   border-radius: 0 0 0.4rem 0.4rem;
-  padding-inline: 0.5rem;
+
+  button {
+    border-radius: 0;
+    padding-inline: 0.5rem;
+  }
 }
 
 :host ::ng-deep .p-inputnumber-input {

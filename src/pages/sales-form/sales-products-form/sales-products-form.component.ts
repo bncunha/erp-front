@@ -4,7 +4,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ItemsListComponent } from '../items-list/items-list.component';
 import { SalesFormService } from '../sales-form.service';
 import { tap } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-sales-products-form.component',
@@ -14,9 +14,13 @@ import { FormGroup } from '@angular/forms';
   providers: [SalesFormService],
 })
 export class SalesProductsFormComponent {
-  private service = inject(SalesFormService);
+  service = inject(SalesFormService);
 
   customers = this.service.getCustomers();
   skus = this.service.getSkus();
   form: FormGroup = this.service.buildForm();
+
+  getProductsForm(): FormArray {
+    return this.form.get('products') as FormArray;
+  }
 }

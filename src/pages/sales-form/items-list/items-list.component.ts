@@ -15,6 +15,7 @@ import {
   GetSkuResponse,
 } from '../../../service/responses/products-response';
 import { deepClone } from '../../../shared/utils/deep-clone.utis';
+import { FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-items-list',
@@ -24,12 +25,9 @@ import { deepClone } from '../../../shared/utils/deep-clone.utis';
   providers: [ItemsListService],
 })
 export class ItemsListComponent implements OnChanges {
-  @Output() onQuantityChange = new EventEmitter<{
-    item: GetSkuResponse;
-    quantity: number;
-  }>();
-
   @Input() items: GetSkuResponse[] = [];
+  @Input() productsForm!: FormArray;
+
   service = inject(ItemsListService);
 
   private _allItems: GetSkuResponse[] = [];

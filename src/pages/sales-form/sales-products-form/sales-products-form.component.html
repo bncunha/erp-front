@@ -24,17 +24,19 @@
 </form>
 
 <h2>Produtos</h2>
-<app-items-list [items]="(skus | async)!" />
+<app-items-list [items]="(skus | async)!" [productsForm]="getProductsForm()" />
 
 <div class="total-summary">
   <div class="content">
     <p>
       <strong> Quantidade de itens: </strong>
-      <span>3</span>
+      <span> {{ service.getTotalItems(form) }} </span>
       <br />
       <strong> Valor total: </strong>
-      <span>R$30,00</span>
+      <span> {{ service.getTotalValue(form) | currency : "BRL" }} </span>
     </p>
-    <button type="submit" pButton fluid class="mt-4">Ir para pagamento</button>
+    <button type="submit" pButton fluid class="mt-4" [disabled]="form.invalid">
+      Ir para pagamento
+    </button>
   </div>
 </div>
