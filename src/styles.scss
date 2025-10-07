@@ -77,3 +77,18 @@ nav.p-breadcrumb {
   margin-bottom: 1rem;
   background: initial;
 }
+
+button:not(.p-button) {
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.02);
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

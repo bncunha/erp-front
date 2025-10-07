@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CreateSkuRequest, UpdateSkuRequest } from '../requests/skus-request';
 import { environment } from '../../environments/environment';
 import { GetSkuResponse } from '../responses/products-response';

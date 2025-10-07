@@ -22,6 +22,7 @@ import { ChipModule } from 'primeng/chip';
 import { PanelModule } from 'primeng/panel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
+import { MaskPipe } from './pipes/mask.pipe';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -50,6 +51,7 @@ const PRIME_NG_MODULES = [
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
+    MaskPipe,
   ],
   exports: [
     ...PRIME_NG_MODULES,
@@ -63,6 +65,7 @@ const PRIME_NG_MODULES = [
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
+    MaskPipe,
   ],
 })
 export class SharedModule {}

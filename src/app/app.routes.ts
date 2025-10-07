@@ -101,9 +101,9 @@ export const routes: Routes = [
             path: 'novo',
             data: { breadcrumb: 'Novo' },
             loadComponent: () =>
-              import('./../pages/sales-form/sales-form.component').then(
-                (m) => m.SalesFormComponent
-              ),
+              import(
+                './../pages/sales-form/sales-products-form/sales-products-form.component'
+              ).then((m) => m.SalesProductsFormComponent),
           },
         ],
       },

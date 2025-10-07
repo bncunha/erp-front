@@ -48,7 +48,7 @@ export class SalesListService {
         },
       },
       {
-        header: 'Total items',
+        header: 'Qtd. itens',
         field: 'total_items',
       },
       {
