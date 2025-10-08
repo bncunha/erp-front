@@ -27,6 +27,7 @@ import { FormArray } from '@angular/forms';
 export class ItemsListComponent implements OnChanges {
   @Input() items: GetSkuResponse[] = [];
   @Input() productsForm!: FormArray;
+  @Input() isLoading: boolean = false;
 
   service = inject(ItemsListService);
 

@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { GetSkuResponse } from '../../../service/responses/products-response';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { SalesFormService } from '../sales-form.service';
+import { ConfirmationService } from 'primeng/api';
+import { SalesProductsFormFactory } from '../sales-products-form/form.factory';
 
 @Injectable()
 export class ItemsListService {
-  private salesFormService = inject(SalesFormService);
+  private confirmationService = inject(ConfirmationService);
+  private formFactory = new SalesProductsFormFactory();
 
   filterByText(items: GetSkuResponse[], text: string): GetSkuResponse[] {
     if (!text) {
@@ -48,16 +50,33 @@ export class ItemsListService {
       return;
     }
     if (!productForm) {
-      productForm = this.salesFormService.addNewProduct(form, item);
+      productForm = this.formFactory.addNewProduct(form, item);
     }
     productForm.patchValue({ quantity: productForm.value.quantity + 1 });
   }
 
   subtractOne(item: GetSkuResponse, form: FormArray) {
+    const productForm = this.getFormGroup(form, item.id) as FormGroup;
+    if (productForm.value.quantity <= 1) {
+      this.confirmationService.confirm({
+        message: 'Você realmente deseja remover este item?',
+        header: 'Confirmação',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.subtract(item, form);
+        },
+        reject: () => {},
+      });
+    } else {
+      this.subtract(item, form);
+    }
+  }
+
+  private subtract(item: GetSkuResponse, form: FormArray) {
     let productForm = this.getFormGroup(form, item.id) as FormGroup;
     productForm.patchValue({ quantity: productForm.value.quantity - 1 });
     if (productForm.value.quantity <= 0) {
-      this.salesFormService.removeProduct(form, item.id);
+      this.formFactory.removeProduct(form, item.id);
     }
   }
 }

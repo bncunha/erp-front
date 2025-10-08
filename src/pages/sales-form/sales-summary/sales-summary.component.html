@@ -1,0 +1,21 @@
+<div class="total-summary">
+  <div class="content">
+    <p>
+      <strong> Quantidade de itens: </strong>
+      <span> {{ totalItems | number }} </span>
+      <br />
+      <strong> Valor total: </strong>
+      <span> {{ totalValue | currency : "BRL" }} </span>
+    </p>
+    <button
+      type="submit"
+      pButton
+      fluid
+      class="mt-4"
+      [disabled]="nextDisabled"
+      (click)="next.emit()"
+    >
+      {{ textButton }}
+    </button>
+  </div>
+</div>

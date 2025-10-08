@@ -1,0 +1,18 @@
+.total-summary {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 11;
+
+  background-color: var(--overlay-background);
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--designer-divider-color);
+  border-radius: 0.4rem;
+
+  .content {
+    max-width: 1200px;
+    margin: auto;
+  }
+}

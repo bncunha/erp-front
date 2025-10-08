@@ -19,7 +19,9 @@ total_value: 'R$30,00',
 </div>
 
 <div class="grid gap-4 grid-cols-2 sm:grid-cols-3 items-list">
-  @for(item of items; track item.id) {
+  @if (isLoading) { @for(item of [1,2,3,4,5,6]; track item) {
+  <p-skeleton height="6rem" width="100%" />
+  } } @else { @for(item of items; track item.id) {
   <div class="col-span-2 sm:col-span-1 relative">
     @if (service.showQuantityForm(item, productsForm)) {
     <div class="quantity-holder">
@@ -71,5 +73,5 @@ total_value: 'R$30,00',
       </app-card>
     </button>
   </div>
-  }
+  } }
 </div>
