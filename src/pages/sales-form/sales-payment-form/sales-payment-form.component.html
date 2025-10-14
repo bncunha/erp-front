@@ -1,0 +1,47 @@
+<h1>Nova Venda</h1>
+
+<div class="mt-4">
+  <app-card>
+    <div class="font-bold text-xl text-center">
+      Adicionar Forma da Pagamento
+    </div>
+  </app-card>
+  <div class="p-5 mt-4 grid gap-4 grid-cols-2 sm:grid-cols-5 items-center">
+    @for(payment of payments; track payment.value) {
+    <button
+      pButton
+      type="button"
+      severity="info"
+      class="w-full flex-wrap h-full"
+    >
+      <img class="img" src="assets/{{ payment.icon }}" [alt]="payment.icon" />
+      <span class="font-bold w-full"> {{ payment.label }} </span>
+    </button>
+    }
+  </div>
+  <div class="mt-4">
+    @for(payment of payments; track payment.value) {
+    <p-divider />
+    <div class="payment-wrapper">
+      <img class="img-small" src="assets/credit_card.png" alt="credit-card" />
+      <span class="font-bold"> {{ payment.label }} </span>
+      <p-inputnumber
+        placeholder="Valor a pagar"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+      />
+      <p-dropdown placeholder="Quantidade de Parcelas" />
+      <!-- <p-datepicker placeholder="Data da primeira parcela" /> -->
+      <button
+        pButton
+        type="button"
+        severity="danger"
+        icon="pi pi-trash"
+      ></button>
+    </div>
+    }
+  </div>
+</div>
+
+<app-sales-summary />

@@ -99,11 +99,19 @@ export const routes: Routes = [
           },
           {
             path: 'novo',
-            data: { breadcrumb: 'Novo' },
+            data: { breadcrumb: '' },
             loadComponent: () =>
               import(
                 './../pages/sales-form/sales-products-form/sales-products-form.component'
               ).then((m) => m.SalesProductsFormComponent),
+          },
+          {
+            path: 'novo/pagamento',
+            data: { breadcrumb: '' },
+            loadComponent: () =>
+              import(
+                './../pages/sales-form/sales-payment-form/sales-payment-form.component'
+              ).then((m) => m.SalesPaymentFormComponent),
           },
         ],
       },

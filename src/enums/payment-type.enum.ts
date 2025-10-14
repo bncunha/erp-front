@@ -20,3 +20,25 @@ export const GetPaymentTypeNmae = (paymentType: PaymentTypeEnum) => {
       return 'Notinha';
   }
 };
+
+export const GetPaymentTypeList = () => {
+  return [
+    { value: PaymentTypeEnum.CASH, label: 'Dinheiro', icon: 'money.png' },
+    {
+      value: PaymentTypeEnum.CREDIT_CARD,
+      label: 'Cartão de Crédito',
+      icon: 'credit_card.png',
+    },
+    {
+      value: PaymentTypeEnum.DEBIT_CARD,
+      label: 'Cartão de Débito',
+      icon: 'debit_card.png',
+    },
+    { value: PaymentTypeEnum.PIX, label: 'PIX', icon: 'pix.png' },
+    {
+      value: PaymentTypeEnum.CREDIT_STORE,
+      label: 'Notinha',
+      icon: 'notinha.png',
+    },
+  ];
+};

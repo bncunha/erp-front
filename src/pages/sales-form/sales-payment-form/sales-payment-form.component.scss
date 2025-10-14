@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  padding-bottom: 10rem;
+}
+
+.img {
+  width: 50px;
+  display: block;
+}
+
+.payment-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  span {
+    display: block;
+    flex: 0.5;
+  }
+
+  p-inputnumber,
+  p-dropdown,
+  p-datepicker {
+    flex: 1;
+  }
+
+  .img-small {
+    width: 30px;
+    display: block;
+    flex: initial;
+  }
+}

@@ -13,4 +13,5 @@ export class SalesSummaryComponent {
   @Input() totalValue!: number;
   @Input() nextDisabled: boolean = false;
   @Input() textButton!: string;
+  @Input() paymentValue: number = 10;
 }
