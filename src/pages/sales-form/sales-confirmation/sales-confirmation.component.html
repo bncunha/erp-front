@@ -31,7 +31,7 @@
               <p-skeleton width="60%" height="1rem" />
               <div class="sub"><p-skeleton width="40%" height="0.75rem" /></div>
             </span>
-            <span><p-skeleton width="2rem" height="1rem" /></span>
+            <span><p-skeleton width="2.5rem" height="1rem" /></span>
             <span><p-skeleton width="5rem" height="1rem" /></span>
             <span><p-skeleton width="5rem" height="1rem" /></span>
           </div>
@@ -46,19 +46,23 @@
           <div class="items-row" *ngFor="let it of service.displayItems">
             <span>
               <div>{{ it.name }}</div>
-              <div class="sub">
+              <div class="sub" *ngIf="it.color || it.size">
                 <small>
-                  <span> {{ it.code }}</span>
-                  <span> • </span>
-                  <span>Cor: {{ it.color }}</span>
-                  <span> • </span>
-                  <span>Tamanho: {{ it.size }}</span>
+                  <span *ngIf="it.color">Cor: {{ it.color }}</span>
+                  <span *ngIf="it.color && it.size"> • </span>
+                  <span *ngIf="it.size">Tamanho: {{ it.size }}</span>
+                </small>
+              </div>
+              <div class="sub mobile-meta">
+                <small>
+                  Qtd: {{ it.quantity }} • Unit:
+                  {{ it.unit | currency : "BRL" }}
                 </small>
               </div>
             </span>
-            <span>{{ it.quantity }}</span>
-            <span>{{ it.unit | currency : "BRL" }}</span>
-            <span>{{ it.lineTotal | currency : "BRL" }}</span>
+            <span class="qty-col">{{ it.quantity }}</span>
+            <span class="unit-col">{{ it.unit | currency : "BRL" }}</span>
+            <span class="total-col">{{ it.lineTotal | currency : "BRL" }}</span>
           </div>
         </ng-template>
       </div>
@@ -115,6 +119,7 @@
       type="button"
       (click)="onConfirm()"
       label="Confirmar"
+      [loading]="isLoading"
     ></button>
   </ng-template>
 </p-dialog>

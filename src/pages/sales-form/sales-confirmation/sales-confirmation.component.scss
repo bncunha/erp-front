@@ -38,3 +38,28 @@
   align-items: center;
   font-size: 1rem;
 }
+
+.total-col {
+  text-align: right;
+}
+
+.mobile-meta {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .items-header {
+    display: none;
+  }
+  .items-row {
+    grid-template-columns: 1fr 120px;
+    align-items: start;
+  }
+  .items-row > .qty-col,
+  .items-row > .unit-col {
+    display: none;
+  }
+  .mobile-meta {
+    display: block;
+  }
+}

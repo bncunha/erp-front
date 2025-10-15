@@ -1,4 +1,6 @@
 import { PaymentEnum } from '../../enums/payment.enum';
+import { CreateSalePaymentsFormData } from '../../pages/sales-form/sales-payment-form/form.facotry';
+import { CreateSaleProductsFormData } from '../../pages/sales-form/sales-products-form/form.factory';
 import { cleanNulls } from '../../shared/utils/clean-nulls';
 import { DateUtils } from '../../shared/utils/date.utils';
 
@@ -7,11 +9,16 @@ export class CreateSaleRequest {
   items!: CreateSaleItemRequest[];
   payments!: CreateSalePaymentRequest[];
 
-  parseToRequest(formData: any): CreateSaleRequest {
-    Object.assign(this, formData);
-    this.items = this.items.map((item) => item.parseToRequest(formData.items));
-    this.payments = this.payments.map((payment) =>
-      payment.parseToRequest(formData.payments)
+  parseToRequest(
+    payments: CreateSalePaymentsFormData[],
+    formData: CreateSaleProductsFormData
+  ): CreateSaleRequest {
+    this.customer_id = formData.customer;
+    this.items = formData.products.map((item) =>
+      new CreateSaleItemRequest().parseToRequest(item)
+    );
+    this.payments = payments.map((payment) =>
+      new CreateSalePaymentRequest().parseToRequest(payment)
     );
     return this;
   }
@@ -21,28 +28,22 @@ export class CreateSaleItemRequest {
   sku_id!: number;
   quantity!: number;
 
-  parseToRequest(formData: any): CreateSaleItemRequest {
-    Object.assign(this, formData);
+  parseToRequest(formData: CreateSaleProductsFormData): CreateSaleItemRequest {
+    this.sku_id = formData.id;
+    this.quantity = formData.quantity;
     return this;
   }
 }
 
 export class CreateSalePaymentRequest {
   payment_type!: string;
-  dates!: CreateSalePaymentDateRequest[];
+  value!: number;
+  installments_quantity?: number;
+  first_installment_date?: Date;
 
-  parseToRequest(formData: any): CreateSalePaymentRequest {
-    Object.assign(this, formData);
-    this.dates = this.dates.map((date) => date.parseToRequest(formData.dates));
-    return this;
-  }
-}
-
-export class CreateSalePaymentDateRequest {
-  date!: string;
-  installment_value!: number;
-
-  parseToRequest(formData: any): CreateSalePaymentDateRequest {
+  parseToRequest(
+    formData: CreateSalePaymentsFormData
+  ): CreateSalePaymentRequest {
     Object.assign(this, formData);
     return this;
   }

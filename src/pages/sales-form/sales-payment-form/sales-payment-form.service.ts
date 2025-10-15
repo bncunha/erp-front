@@ -4,9 +4,14 @@ import { SalesPaymentFormFactory } from './form.facotry';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { CreateSaleRequest } from '../../../service/requests/sales-request';
+import { SalesApiService } from '../../../service/api-service/sales-api.service';
+import { ToastService } from '../../../shared/components/toast/toast.service';
 
 @Injectable()
 export class SalesPaymentFormService {
+  private salesApiService = inject(SalesApiService);
+  private toastService = inject(ToastService);
   private router = inject(Router);
   private formFactory = new SalesPaymentFormFactory();
 
@@ -14,9 +19,9 @@ export class SalesPaymentFormService {
 
   // Dialog control
   confirmationVisible$ = new BehaviorSubject<boolean>(false);
-
   today: Date = new Date();
   nextMonth: Date = this.getNextMonth();
+  loading: boolean = false;
 
   initStep(): boolean {
     const onError = () => {
@@ -119,5 +124,24 @@ export class SalesPaymentFormService {
     const date = new Date();
     date.setMonth(date.getMonth() + 1);
     return date;
+  }
+
+  onConfirmSale(form: FormArray) {
+    const request = new CreateSaleRequest().parseToRequest(
+      form.value,
+      this.productsFormValue
+    );
+    this.loading = true;
+    this.salesApiService.createSale(request).subscribe({
+      next: () => {
+        this.toastService.showSuccess('Venda criada com sucesso!');
+        this.router.navigate(['/vendas']);
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        throw err;
+      },
+    });
   }
 }

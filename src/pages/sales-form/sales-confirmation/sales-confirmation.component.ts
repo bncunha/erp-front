@@ -16,7 +16,10 @@ import {
   GetPaymentTypeNmae,
   PaymentTypeEnum,
 } from '../../../enums/payment-type.enum';
-import { ConfirmationProductItem, SalesConfirmationService } from './sales-confirmation.service';
+import {
+  ConfirmationProductItem,
+  SalesConfirmationService,
+} from './sales-confirmation.service';
 
 interface PaymentItem {
   payment_type: PaymentTypeEnum;
@@ -41,6 +44,7 @@ export class SalesConfirmationComponent implements OnChanges {
   @Input() products: ConfirmationProductItem[] = [];
   @Input() total = 0;
   @Input() payments: PaymentItem[] = [];
+  @Input() isLoading: boolean = false;
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() close = new EventEmitter<void>();

@@ -8,10 +8,18 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { PaymentTypeEnum } from '../../../enums/payment-type.enum';
+import { PaymentEnum } from '../../../enums/payment.enum';
+
+export interface CreateSalePaymentsFormData {
+  payment_type: PaymentEnum;
+  value: number;
+  installments_quantity?: number;
+  first_installment_date?: Date;
+}
 
 export class SalesPaymentFormFactory {
   buildForm(totalValue: number): FormArray {
-    return new FormBuilder().array([], {
+    return new FormBuilder().array<CreateSalePaymentsFormData>([], {
       validators: [this.validateInformedPayment(totalValue)],
     });
   }
