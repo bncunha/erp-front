@@ -1,47 +1,94 @@
-<h1>Nova Venda</h1>
+<div class="form-wrapper">
+  <h1>Nova Venda</h1>
 
-<div class="mt-4">
-  <app-card>
-    <div class="font-bold text-xl text-center">
-      Adicionar Forma da Pagamento
-    </div>
-  </app-card>
-  <div class="p-5 mt-4 grid gap-4 grid-cols-2 sm:grid-cols-5 items-center">
-    @for(payment of payments; track payment.value) {
-    <button
-      pButton
-      type="button"
-      severity="info"
-      class="w-full flex-wrap h-full"
-    >
-      <img class="img" src="assets/{{ payment.icon }}" [alt]="payment.icon" />
-      <span class="font-bold w-full"> {{ payment.label }} </span>
-    </button>
-    }
-  </div>
-  <div class="mt-4">
-    @for(payment of payments; track payment.value) {
-    <p-divider />
-    <div class="payment-wrapper">
-      <img class="img-small" src="assets/credit_card.png" alt="credit-card" />
-      <span class="font-bold"> {{ payment.label }} </span>
-      <p-inputnumber
-        placeholder="Valor a pagar"
-        mode="currency"
-        currency="BRL"
-        locale="pt-BR"
+  <form class="mt-4">
+    <app-card>
+      <div class="font-bold text-xl text-center">
+        Adicionar Forma da Pagamento
+      </div>
+    </app-card>
+    <div class="p-5 mt-4 grid gap-4 grid-cols-2 sm:grid-cols-5 items-center">
+      @for(payment of payments; track payment.value) {
+      <input
+        type="checkbox"
+        id="payment-{{ payment.value }}"
+        [checked]="service.isPaymentChecked(form, payment.value)"
+        (change)="service.togglePayment(form, payment.value, $event)"
       />
-      <p-dropdown placeholder="Quantidade de Parcelas" />
-      <!-- <p-datepicker placeholder="Data da primeira parcela" /> -->
-      <button
-        pButton
-        type="button"
-        severity="danger"
-        icon="pi pi-trash"
-      ></button>
+      <label class="payment-card" for="payment-{{ payment.value }}">
+        <img class="img" src="assets/{{ payment.icon }}" [alt]="payment.icon" />
+        <span class="font-bold w-full"> {{ payment.label }} </span>
+      </label>
+      }
     </div>
-    }
-  </div>
+    <div class="mt-4">
+      @for(group of getControls(); track group.value) {
+      <p-divider />
+      <div
+        [formGroup]="group"
+        class="payment-wrapper grid gap-4 grid-cols-1 sm:grid-cols-[0.7fr_1fr_1fr_1fr_auto]"
+      >
+        <div class="flex gap-4 items-center">
+          <img
+            class="img-small"
+            src="assets/{{ getPaymentIcon(group.value.payment_type) }}"
+          />
+          <span class="font-bold">
+            {{ getPaymentLabel(group.value.payment_type) }}
+          </span>
+        </div>
+        <p-inputnumber
+          placeholder="Valor a pagar"
+          mode="currency"
+          currency="BRL"
+          locale="pt-BR"
+          formControlName="value"
+          [min]="0.1"
+        />
+        <div>
+          @if(group.get('installments_quantity')?.enabled) {
+          <p-dropdown
+            placeholder="Quantidade de Parcelas"
+            formControlName="installments_quantity"
+            [options]="service.getInstallmentsQuantity(group.value.value)"
+            appendTo="body"
+          />
+          }
+        </div>
+        <div>
+          @if(group.get('first_installment_date')?.enabled) {
+          <p-datepicker
+            placeholder="Data da primeira parcela"
+            formControlName="first_installment_date"
+          />
+          }
+        </div>
+        <button
+          pButton
+          type="button"
+          severity="danger"
+          icon="pi pi-trash"
+          class="ml-auto botao-deletar"
+          size="small"
+          (click)="
+            service.togglePayment(form, group.value.payment_type, {
+              target: { checked: false }
+            })
+          "
+        ></button>
+      </div>
+      }
+    </div>
+  </form>
 </div>
 
-<app-sales-summary />
+<app-sales-summary
+  [textButton]="'Resumo'"
+  [textButtonBack]="'Voltar'"
+  [totalItems]="service.getTotalItems()"
+  [totalValue]="service.calculateTotalValue()"
+  [paymentValue]="service.calculatePayment(form)"
+  [showNeedToPay]="true"
+  [nextDisabled]="form.invalid"
+  (back)="service.toBackStep()"
+/>

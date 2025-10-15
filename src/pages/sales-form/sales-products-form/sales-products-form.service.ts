@@ -4,10 +4,11 @@ import { GetCustomerResponse } from '../../../service/responses/customers-respon
 import { map, Observable } from 'rxjs';
 import { GetSkuResponse } from '../../../service/responses/products-response';
 import { SkuApiService } from '../../../service/api-service/sku-api.service';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { SalesProductsFormFactory } from './form.factory';
+import { FormUtil } from '../../../shared/utils/form.utils';
 
 @Injectable()
 export class SalesProductsFormService {
@@ -16,6 +17,25 @@ export class SalesProductsFormService {
   private router = inject(Router);
   private toastService = inject(ToastService);
   formFactory = new SalesProductsFormFactory();
+
+  buildForm(): FormGroup {
+    const form = this.formFactory.buildForm();
+    this.updateForm(form);
+    return form;
+  }
+
+  private updateForm(form: FormGroup) {
+    const savedForm = sessionStorage.getItem('sales_products_form');
+    if (savedForm) {
+      const formValue = JSON.parse(savedForm);
+      FormUtil.updateFormArray(
+        form.get('products') as FormArray,
+        formValue.products || [],
+        this.formFactory.buildProductForm.bind(this.formFactory)
+      );
+      form.patchValue(formValue);
+    }
+  }
 
   getTotalValue(form: FormGroup): number {
     return form.value.products.reduce((acc: number, item: any) => {
@@ -41,9 +61,9 @@ export class SalesProductsFormService {
 
   toNextStep(form: FormGroup) {
     if (form.invalid) {
-      console.log(form.invalid);
       this.toastService.showError('Formulário inválido');
     } else {
+      sessionStorage.setItem('sales_products_form', JSON.stringify(form.value));
       this.router.navigate(['/vendas/novo/pagamento']);
     }
   }

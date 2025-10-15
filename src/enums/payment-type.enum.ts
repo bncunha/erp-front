@@ -6,6 +6,18 @@ export enum PaymentTypeEnum {
   CREDIT_STORE = 'CREDIT_STORE',
 }
 
+export interface PaymentList {
+  value: PaymentTypeEnum;
+  label: string;
+  icon: string;
+}
+
+export const GetPaymentIcon = (payment: PaymentTypeEnum) => {
+  return GetPaymentTypeList().find(
+    (item: PaymentList) => item.value === payment
+  )?.icon;
+};
+
 export const GetPaymentTypeNmae = (paymentType: PaymentTypeEnum) => {
   switch (paymentType) {
     case PaymentTypeEnum.CASH:
@@ -21,7 +33,7 @@ export const GetPaymentTypeNmae = (paymentType: PaymentTypeEnum) => {
   }
 };
 
-export const GetPaymentTypeList = () => {
+export const GetPaymentTypeList = (): PaymentList[] => {
   return [
     { value: PaymentTypeEnum.CASH, label: 'Dinheiro', icon: 'money.png' },
     {

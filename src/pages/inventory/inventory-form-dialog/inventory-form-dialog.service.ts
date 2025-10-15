@@ -78,7 +78,7 @@ export class InventoryFormDialogService {
 
   resetForm(f: FormGroup) {
     f.reset();
-    new FormUtil().zerarFormArray(f.get('skus') as FormArray);
+    FormUtil.zerarFormArray(f.get('skus') as FormArray);
     this.addSku(f);
     this.enableOrigin(f, false);
     this.enableDestination(f, false);

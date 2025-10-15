@@ -9,7 +9,7 @@ import {
 export class FormUtil {
   fb = new UntypedFormBuilder();
 
-  updateFormArray(formArray: UntypedFormArray, itens: any[], fc: any) {
+  static updateFormArray(formArray: UntypedFormArray, itens: any[], fc: any) {
     const isDisabled = formArray.disabled;
     this.zerarFormArray(formArray);
     if (itens) {
@@ -20,11 +20,11 @@ export class FormUtil {
     }
   }
 
-  removerFormArray(formArray: UntypedFormArray, index: number) {
+  static removerFormArray(formArray: UntypedFormArray, index: number) {
     formArray.removeAt(index);
   }
 
-  zerarFormArray(formArray: UntypedFormArray) {
+  static zerarFormArray(formArray: UntypedFormArray) {
     while (formArray && formArray.length != 0) {
       formArray.removeAt(0);
     }

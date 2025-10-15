@@ -36,7 +36,7 @@ export class ItemsListService {
 
   getFormGroup(form: FormArray, id: number): FormGroup | null {
     const value = form.value;
-    const index = value.findIndex((item: any) => item.product === id);
+    const index = value.findIndex((item: any) => item.id === id);
     if (index === -1) {
       return null;
     }

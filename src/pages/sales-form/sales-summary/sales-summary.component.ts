@@ -9,9 +9,12 @@ import { SharedModule } from '../../../shared/shared.module';
 })
 export class SalesSummaryComponent {
   @Output() next = new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
   @Input() totalItems!: number;
   @Input() totalValue!: number;
   @Input() nextDisabled: boolean = false;
   @Input() textButton!: string;
+  @Input() textButtonBack!: string;
   @Input() paymentValue: number = 10;
+  @Input() showNeedToPay: boolean = false;
 }

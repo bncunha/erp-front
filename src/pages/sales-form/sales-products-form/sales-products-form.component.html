@@ -35,5 +35,6 @@
   [totalValue]="service.getTotalValue(form)"
   [nextDisabled]="form.invalid"
   [textButton]="'Ir para pagamento'"
+  [nextDisabled]="form.invalid"
   (next)="service.toNextStep(form)"
 />

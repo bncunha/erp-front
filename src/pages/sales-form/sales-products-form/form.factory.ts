@@ -19,9 +19,9 @@ export class SalesProductsFormFactory {
     form.removeAt(form.value.findIndex((item: any) => item.product === id));
   }
 
-  private buildProductForm(item: GetSkuResponse): FormGroup {
+  buildProductForm(item: GetSkuResponse): FormGroup {
     return new FormBuilder().group({
-      product: [item.id, [Validators.required]],
+      id: [item.id, [Validators.required]],
       quantity: [0, [Validators.required]],
       price: [item.price],
     });

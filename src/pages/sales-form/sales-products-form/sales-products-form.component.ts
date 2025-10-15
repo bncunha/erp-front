@@ -30,7 +30,7 @@ export class SalesProductsFormComponent {
       .getSkus()
       .pipe(finalize(() => (this.isLoading = false)));
   });
-  form: FormGroup = this.service.formFactory.buildForm();
+  form: FormGroup = this.service.buildForm();
 
   getProductsForm(): FormArray {
     return this.form.get('products') as FormArray;
