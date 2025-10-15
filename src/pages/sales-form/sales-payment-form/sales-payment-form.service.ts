@@ -3,6 +3,7 @@ import { PaymentTypeEnum } from '../../../enums/payment-type.enum';
 import { SalesPaymentFormFactory } from './form.facotry';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SalesPaymentFormService {
@@ -10,6 +11,9 @@ export class SalesPaymentFormService {
   private formFactory = new SalesPaymentFormFactory();
 
   private productsFormValue: any;
+
+  // Dialog control
+  confirmationVisible$ = new BehaviorSubject<boolean>(false);
 
   today: Date = new Date();
   nextMonth: Date = this.getNextMonth();
@@ -91,6 +95,24 @@ export class SalesPaymentFormService {
 
   toBackStep() {
     this.router.navigate(['/vendas/novo']);
+  }
+
+  // Popup de confirmação
+  toNextStep(form?: FormArray) {
+    // apenas abre o popup; os dados são lidos pelos inputs do componente
+    this.confirmationVisible$.next(true);
+  }
+
+  closeConfirmation() {
+    this.confirmationVisible$.next(false);
+  }
+
+  getProducts() {
+    return this.productsFormValue?.products || [];
+  }
+
+  getCustomerId(): number {
+    return this.productsFormValue?.customer;
   }
 
   private getNextMonth(): Date {

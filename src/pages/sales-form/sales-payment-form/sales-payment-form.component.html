@@ -92,5 +92,17 @@
   [paymentValue]="service.calculatePayment(form)"
   [showNeedToPay]="true"
   [nextDisabled]="form.invalid"
+  (next)="service.toNextStep(form)"
   (back)="service.toBackStep()"
+/>
+
+<app-sales-confirmation
+  [visible]="(service.confirmationVisible$ | async) ?? false"
+  [customerId]="service.getCustomerId()"
+  [products]="service.getProducts()"
+  [total]="service.calculateTotalValue()"
+  [payments]="form.value"
+  (visibleChange)="service.closeConfirmation()"
+  (close)="service.closeConfirmation()"
+  (confirm)="service.closeConfirmation()"
 />

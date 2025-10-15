@@ -12,10 +12,11 @@ import {
 import { Divider } from 'primeng/divider';
 import { SalesPaymentFormService } from './sales-payment-form.service';
 import { FormArray, FormGroup } from '@angular/forms';
+import { SalesConfirmationComponent } from '../sales-confirmation/sales-confirmation.component';
 
 @Component({
   selector: 'app-sales-payment-form',
-  imports: [SharedModule, CardComponent, SalesSummaryComponent, Divider],
+  imports: [SharedModule, CardComponent, SalesSummaryComponent, Divider, SalesConfirmationComponent],
   templateUrl: './sales-payment-form.component.html',
   styleUrl: './sales-payment-form.component.scss',
   providers: [SalesPaymentFormService],

@@ -1,0 +1,40 @@
+.section-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.section-body {
+  background: var(--surface-50, #f9fafb);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.items-header,
+.items-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 120px 120px;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+
+.items-header {
+  font-weight: 600;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.items-row {
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.06);
+}
+
+.sub {
+  opacity: 0.75;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}

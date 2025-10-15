@@ -1,0 +1,120 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '960px': '95vw', '640px': '98vw' }"
+  [style]="{ width: '650px', maxWidth: '95vw' }"
+  header="Confirmar Venda"
+  (onHide)="onHide()"
+>
+  <div class="grid gap-4">
+    <div>
+      <h3 class="section-title">Cliente</h3>
+      <div class="section-body">
+        <ng-container *ngIf="service.customerLoading; else customerLoaded">
+          <p-skeleton width="12rem" height="1.5rem" />
+        </ng-container>
+        <ng-template #customerLoaded>
+          {{ service.customerName }}
+        </ng-template>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="section-title">Itens Selecionados</h3>
+      <div class="section-body">
+        <ng-container *ngIf="service.itemsLoading; else itemsLoaded">
+          <div class="items-row" *ngFor="let i of [1, 2, 3]">
+            <span class="w-full">
+              <p-skeleton width="60%" height="1rem" />
+              <div class="sub"><p-skeleton width="40%" height="0.75rem" /></div>
+            </span>
+            <span><p-skeleton width="2rem" height="1rem" /></span>
+            <span><p-skeleton width="5rem" height="1rem" /></span>
+            <span><p-skeleton width="5rem" height="1rem" /></span>
+          </div>
+        </ng-container>
+        <ng-template #itemsLoaded>
+          <div class="items-header">
+            <span>Item</span>
+            <span>Qtd</span>
+            <span>Unitário</span>
+            <span>Total</span>
+          </div>
+          <div class="items-row" *ngFor="let it of service.displayItems">
+            <span>
+              <div>{{ it.name }}</div>
+              <div class="sub">
+                <small>
+                  <span> {{ it.code }}</span>
+                  <span> • </span>
+                  <span>Cor: {{ it.color }}</span>
+                  <span> • </span>
+                  <span>Tamanho: {{ it.size }}</span>
+                </small>
+              </div>
+            </span>
+            <span>{{ it.quantity }}</span>
+            <span>{{ it.unit | currency : "BRL" }}</span>
+            <span>{{ it.lineTotal | currency : "BRL" }}</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="section-title">Pagamentos</h3>
+      <div class="section-body">
+        <div class="items-row" *ngFor="let p of payments">
+          <span>
+            <div>{{ getPaymentLabel(p.payment_type) }}</div>
+            <div
+              class="sub"
+              *ngIf="p.installments_quantity || p.first_installment_date"
+            >
+              <small>
+                <span *ngIf="p.installments_quantity">
+                  {{ p.installments_quantity }}x de
+                  {{
+                    p.value / (p.installments_quantity || 1) | currency : "BRL"
+                  }}
+                </span>
+                <span
+                  *ngIf="p.installments_quantity && p.first_installment_date"
+                >
+                  •
+                </span>
+                <span *ngIf="p.first_installment_date">
+                  1ª parcela:
+                  {{ p.first_installment_date | date : "dd/MM/yyyy" }}
+                </span>
+              </small>
+            </div>
+          </span>
+          <span class="col-span-3 text-right">{{
+            p.value | currency : "BRL"
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="total">
+      <span>Total da Venda</span>
+      <strong>{{ total | currency : "BRL" }}</strong>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" class="p-button-text" (click)="onHide()">
+      Cancelar
+    </button>
+    <button
+      pButton
+      type="button"
+      (click)="onConfirm()"
+      label="Confirmar"
+    ></button>
+  </ng-template>
+</p-dialog>
