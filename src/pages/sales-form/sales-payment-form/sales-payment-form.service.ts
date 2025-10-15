@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { PaymentTypeEnum } from '../../../enums/payment-type.enum';
 import { SalesPaymentFormFactory } from './form.facotry';
-import { FormArray } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -10,6 +10,9 @@ export class SalesPaymentFormService {
   private formFactory = new SalesPaymentFormFactory();
 
   private productsFormValue: any;
+
+  today: Date = new Date();
+  nextMonth: Date = this.getNextMonth();
 
   initStep(): boolean {
     const onError = () => {
@@ -51,15 +54,19 @@ export class SalesPaymentFormService {
     }
   }
 
+  onValueChange(group: FormGroup) {
+    group.get('installments_quantity')?.patchValue(null);
+  }
+
   getInstallmentsQuantity(totalValue: number) {
     if (!totalValue) {
       return [];
     }
-    const maxInstallment = totalValue < 100 ? 1 : 6;
+    const maxInstallment = totalValue < 50 ? 1 : 6;
     const options = [];
     for (let i = 1; i <= maxInstallment; i++) {
       options.push({
-        label: `${i}x de R$ ${Math.round(totalValue / i)}`,
+        label: `${i}x de R$ ${(totalValue / i).toFixed(2)}`,
         value: i,
       });
     }
@@ -84,5 +91,11 @@ export class SalesPaymentFormService {
 
   toBackStep() {
     this.router.navigate(['/vendas/novo']);
+  }
+
+  private getNextMonth(): Date {
+    const date = new Date();
+    date.setMonth(date.getMonth() + 1);
+    return date;
   }
 }

@@ -31,7 +31,7 @@ export class SalesPaymentFormFactory {
   private buildPaymentForm(payment: PaymentTypeEnum): FormGroup {
     const form = new FormBuilder().group({
       payment_type: [payment, [Validators.required]],
-      value: [0, [Validators.required, Validators.min(0.01)]],
+      value: [null, [Validators.required, Validators.min(0.01)]],
       installments_quantity: [null, Validators.required],
       first_installment_date: [null, Validators.required],
     });

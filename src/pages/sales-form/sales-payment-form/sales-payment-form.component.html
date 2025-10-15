@@ -44,6 +44,7 @@
           locale="pt-BR"
           formControlName="value"
           [min]="0.1"
+          (onInput)="service.onValueChange(group)"
         />
         <div>
           @if(group.get('installments_quantity')?.enabled) {
@@ -51,7 +52,6 @@
             placeholder="Quantidade de Parcelas"
             formControlName="installments_quantity"
             [options]="service.getInstallmentsQuantity(group.value.value)"
-            appendTo="body"
           />
           }
         </div>
@@ -60,6 +60,8 @@
           <p-datepicker
             placeholder="Data da primeira parcela"
             formControlName="first_installment_date"
+            [minDate]="service.today"
+            [maxDate]="service.nextMonth"
           />
           }
         </div>
