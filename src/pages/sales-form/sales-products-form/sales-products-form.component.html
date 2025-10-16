@@ -41,7 +41,8 @@
   </div>
 </form>
 
-<h2>Produtos</h2>
+<h2 class="mt-15">Selecione os produtos</h2>
+<p>Clique em um produto para adicioná-lo ao carrinho</p>
 <app-items-list
   [items]="(skus | async)!"
   [productsForm]="getProductsForm()"
