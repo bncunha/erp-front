@@ -18,6 +18,19 @@ total_value: 'R$30,00',
   />
 </div>
 
+<div class="mb-4">
+  <button
+    type="button"
+    pButton
+    [outlined]="true"
+    severity="secondary"
+    [icon]="'pi ' + (showZero ? 'pi-eye' : 'pi-eye-slash')"
+    (click)="toggleShowZero()"
+  >
+    {{ showZero ? 'Ocultar produtos com estoque zero' : 'Exibir produtos com estoque zero' }}
+  </button>
+</div>
+
 <div class="grid gap-6 grid-cols-2 sm:grid-cols-3 items-list">
   @if (isLoading) { @for(item of [1,2,3,4,5,6]; track item) {
   <p-skeleton height="6rem" width="100%" />

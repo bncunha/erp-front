@@ -32,12 +32,29 @@ export class ItemsListComponent implements OnChanges {
   service = inject(ItemsListService);
 
   private _allItems: GetSkuResponse[] = [];
+  showZero: boolean = false;
+  private searchText: string = '';
 
   ngOnChanges(): void {
     this._allItems = deepClone(this.items);
+    this.applyFilters();
   }
 
   onSearch(event: any) {
-    this.items = this.service.filterByText(this._allItems, event.target.value);
+    this.searchText = event.target.value || '';
+    this.applyFilters();
+  }
+
+  toggleShowZero() {
+    this.showZero = !this.showZero;
+    this.applyFilters();
+  }
+
+  private applyFilters() {
+    let result = this.service.filterByText(this._allItems, this.searchText);
+    if (!this.showZero) {
+      result = result.filter((i) => i.quantity > 0);
+    }
+    this.items = result;
   }
 }
