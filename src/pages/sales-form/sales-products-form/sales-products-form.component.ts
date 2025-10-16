@@ -4,6 +4,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { ItemsListComponent } from '../items-list/items-list.component';
 import { FormArray, FormGroup } from '@angular/forms';
 import { SalesSummaryComponent } from '../sales-summary/sales-summary.component';
+import { CustomersFormDialogComponent } from '../customers-form-dialog/customers-form-dialog.component';
 import { SalesProductsFormService } from './sales-products-form.service';
 import { defer, finalize } from 'rxjs';
 
@@ -14,6 +15,7 @@ import { defer, finalize } from 'rxjs';
     DatePickerModule,
     ItemsListComponent,
     SalesSummaryComponent,
+    CustomersFormDialogComponent,
   ],
   templateUrl: './sales-products-form.component.html',
   styleUrl: './sales-products-form.component.scss',

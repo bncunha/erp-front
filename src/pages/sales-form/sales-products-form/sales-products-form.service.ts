@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CustomerApiService } from '../../../service/api-service/customer-api.service';
 import { GetCustomerResponse } from '../../../service/responses/customers-response';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { GetSkuResponse } from '../../../service/responses/products-response';
 import { SkuApiService } from '../../../service/api-service/sku-api.service';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -17,6 +17,7 @@ export class SalesProductsFormService {
   private router = inject(Router);
   private toastService = inject(ToastService);
   formFactory = new SalesProductsFormFactory();
+  private customersReloadSubject = new BehaviorSubject<void>(undefined);
 
   buildForm(): FormGroup {
     const form = this.formFactory.buildForm();
@@ -50,7 +51,9 @@ export class SalesProductsFormService {
   }
 
   getCustomers(): Observable<GetCustomerResponse[]> {
-    return this.customerApiService.getAll();
+    return this.customersReloadSubject.pipe(
+      switchMap(() => this.customerApiService.getAll())
+    );
   }
 
   getSkus(): Observable<GetSkuResponse[]> {
@@ -66,5 +69,9 @@ export class SalesProductsFormService {
       sessionStorage.setItem('sales_products_form', JSON.stringify(form.value));
       this.router.navigate(['/vendas/novo/pagamento']);
     }
+  }
+
+  onCreateCustomerSuccess() {
+    this.customersReloadSubject.next();
   }
 }

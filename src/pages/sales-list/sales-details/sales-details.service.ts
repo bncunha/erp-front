@@ -8,14 +8,21 @@ import {
   PaymentTypeEnum,
 } from '../../../enums/payment-type.enum';
 import { CurrencyPipe } from '@angular/common';
+import { UserApiService } from '../../../service/api-service/user-api.service';
+import { UserRoleEnum } from '../../../enums/user-role.enum';
 
 @Injectable()
 export class SalesDetailsService {
   private salesApiService = inject(SalesApiService);
   private currencyPipe = inject(CurrencyPipe);
+  private userapiService = inject(UserApiService);
 
   loading: boolean = false;
   visible: boolean = false;
+
+  showEditButton() {
+    return this.userapiService.getUserRole() === UserRoleEnum.ADMIN;
+  }
 
   getPaymentType(paymentType: PaymentTypeEnum): string {
     return GetPaymentTypeNmae(paymentType);

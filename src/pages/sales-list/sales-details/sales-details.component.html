@@ -68,11 +68,15 @@
           pButton
           size="small"
           [text]="true"
-          (click)="paymentForm.open(event, sale?.id || 0)"
+          (click)="
+            service.showEditButton()
+              ? paymentForm.open(event, sale?.id || 0)
+              : null
+          "
           [disabled]="!event.canEditPaymentStatus()"
         >
           <app-payment-badge [paymentType]="event.payment_status" />
-          @if(event.canEditPaymentStatus()) {
+          @if(event.canEditPaymentStatus() && service.showEditButton()) {
           <em class="pi pi-pencil"></em>
           }
         </button>

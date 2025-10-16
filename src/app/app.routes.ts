@@ -112,7 +112,7 @@ export const routes: Routes = [
           {
             path: 'novo',
             data: {
-              breadcrumb: '',
+              breadcrumb: 'Nova venda',
               roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
             },
             canActivate: [roleGuard],
@@ -124,7 +124,7 @@ export const routes: Routes = [
           {
             path: 'novo/pagamento',
             data: {
-              breadcrumb: '',
+              breadcrumb: 'Nova venda',
               roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
             },
             canActivate: [roleGuard],
