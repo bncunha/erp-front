@@ -1,0 +1,39 @@
+<h1>{{ id ? "Editar Cliente" : "Novo Cliente" }}</h1>
+
+<form
+  #f="ngForm"
+  (ngSubmit)="handleSubmit(f)"
+  class="grid gap-4 grid-cols-1 sm:grid-cols-2 my-4"
+>
+  <div class="sm:col-span-2">
+    <label for="name">Nome</label>
+    <input id="name" name="name" type="text" pInputText ngModel required />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="cellphone">Telefone</label>
+    <p-input-mask
+      id="cellphone"
+      name="cellphone"
+      type="text"
+      pInputMask
+      mask="(99) 99999-9999"
+      required
+      ngModel
+    />
+  </div>
+
+  <div class="sm:col-span-2 flex gap-2">
+    <button pButton type="submit" [disabled]="f.invalid || isLoading">
+      Salvar
+    </button>
+    <button
+      pButton
+      type="button"
+      severity="secondary"
+      (click)="service.backPage()"
+    >
+      Voltar
+    </button>
+  </div>
+</form>

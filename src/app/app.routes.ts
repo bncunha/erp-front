@@ -49,6 +49,39 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'clientes',
+        data: { breadcrumb: 'Clientes' },
+        children: [
+          {
+            path: '',
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/customers-list/customers-list.component').then(
+                (m) => m.CustomersListComponent
+              ),
+          },
+          {
+            path: 'form',
+            data: { breadcrumb: 'Formulário', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/customers-form/customers-form.component').then(
+                (m) => m.CustomersFormComponent
+              ),
+          },
+          {
+            path: 'form/:id',
+            data: { breadcrumb: 'Formulário', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/customers-form/customers-form.component').then(
+                (m) => m.CustomersFormComponent
+              ),
+          },
+        ],
+      },
+      {
         path: 'categorias',
         data: { breadcrumb: 'Categorias' },
         children: [

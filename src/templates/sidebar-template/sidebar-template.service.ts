@@ -46,6 +46,12 @@ export class SidebarTemplateService {
       routerLink: '/vendas',
       roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
     },
+    {
+      icon: PrimeIcons.USER,
+      name: 'Clientes',
+      routerLink: '/clientes',
+      roles: [UserRoleEnum.ADMIN],
+    },
   ];
 
   getMenuItems(): MenuItem[] {

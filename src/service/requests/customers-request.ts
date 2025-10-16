@@ -9,3 +9,13 @@ export class CreateCustomerRequest {
     return cleanNulls(this);
   }
 }
+
+export class UpdateCustomerRequest {
+  name!: string;
+  cellphone!: string;
+
+  parseToRequest(formData: any): UpdateCustomerRequest {
+    Object.assign(this, formData);
+    return cleanNulls(this);
+  }
+}
