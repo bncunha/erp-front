@@ -30,6 +30,7 @@ export class ChangePaymentFormComponent {
   installment?: GetSaleInstallmentResponse;
   saleId?: number;
   paymentType?: string;
+  selectedDate = new Date();
 
   open(isntallment: GetSaleInstallmentResponse, saleId: number) {
     this.isVisible = true;
@@ -56,5 +57,6 @@ export class ChangePaymentFormComponent {
   close() {
     this.isVisible = false;
     this.ngForm.form.reset();
+    this.selectedDate = new Date();
   }
 }

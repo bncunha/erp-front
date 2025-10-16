@@ -60,7 +60,7 @@
           <p-datepicker
             placeholder="Data da primeira parcela"
             formControlName="first_installment_date"
-            [minDate]="service.today"
+            [minDate]="service.nextDay"
             [maxDate]="service.nextMonth"
           />
           }

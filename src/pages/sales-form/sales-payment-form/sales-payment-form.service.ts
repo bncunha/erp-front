@@ -19,7 +19,7 @@ export class SalesPaymentFormService {
 
   // Dialog control
   confirmationVisible$ = new BehaviorSubject<boolean>(false);
-  today: Date = new Date();
+  nextDay: Date = this.getNextDay();
   nextMonth: Date = this.getNextMonth();
   loading: boolean = false;
 
@@ -118,6 +118,12 @@ export class SalesPaymentFormService {
 
   getCustomerId(): number {
     return this.productsFormValue?.customer;
+  }
+
+  private getNextDay(): Date {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return date;
   }
 
   private getNextMonth(): Date {

@@ -41,7 +41,7 @@
             <span>Item</span>
             <span>Qtd</span>
             <span>Unitário</span>
-            <span>Total</span>
+            <span class="text-right">Total</span>
           </div>
           <div class="items-row" *ngFor="let it of service.displayItems">
             <span>
@@ -111,15 +111,17 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" class="p-button-text" (click)="onHide()">
-      Cancelar
-    </button>
-    <button
-      pButton
-      type="button"
-      (click)="onConfirm()"
-      label="Confirmar"
-      [loading]="isLoading"
-    ></button>
+    <div class="mt-4">
+      <button pButton type="button" class="p-button-text" (click)="onHide()">
+        Cancelar
+      </button>
+      <button
+        pButton
+        type="button"
+        (click)="onConfirm()"
+        label="Confirmar"
+        [loading]="isLoading"
+      ></button>
+    </div>
   </ng-template>
 </p-dialog>

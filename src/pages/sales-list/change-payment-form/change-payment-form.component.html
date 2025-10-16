@@ -1,7 +1,7 @@
 <p-dialog [(visible)]="isVisible" [modal]="true" header="Alterar pagamento">
   <div class="mb-5 grid grid-cols-2 gap-2">
     <div>
-      <strong> Data: </strong> {{ installment?.due_date | date : "short" }}
+      <strong> Data: </strong> {{ installment?.due_date | date : "shortDate" }}
     </div>
     <br />
     <div><strong> Tipo: </strong> {{ paymentType }}</div>
@@ -25,7 +25,12 @@
     @if(service.dateIsRequired(f)) {
     <div>
       <label> Data do pagamento </label>
-      <p-datepicker ngModel name="date" appendTo="body" required />
+      <p-datepicker
+        [(ngModel)]="selectedDate"
+        name="date"
+        appendTo="body"
+        required
+      />
     </div>
     }
     <button

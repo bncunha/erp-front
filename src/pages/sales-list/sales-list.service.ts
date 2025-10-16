@@ -16,6 +16,10 @@ export class SalesListService {
   private datePipe = inject(DatePipe);
   private currencyPipe = inject(CurrencyPipe);
 
+  initPage() {
+    sessionStorage.setItem('sales_products_form', '');
+  }
+
   getAll(params: any): Observable<GetAllSalesResponse> {
     const filters = new GetAllSalesRequest().parseToRequest(params);
     return this.reloadSubject.pipe(

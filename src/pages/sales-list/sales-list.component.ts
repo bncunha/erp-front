@@ -37,6 +37,7 @@ export class SalesListComponent implements OnInit, OnDestroy {
   sub!: Subscription;
   params: any;
   ngOnInit(): void {
+    this.service.initPage();
     this.sub = this.route.queryParams.subscribe((params) => {
       this.params = params;
       this.getItems(params);

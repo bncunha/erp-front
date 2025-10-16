@@ -54,14 +54,15 @@
     <ng-template #opposite let-event>
       <small>
         {{ event.installment_number }} ª Parcela <br />
-        {{ event.due_date | date : "short" }} <br />
+        {{ event.due_date | date : "shortDate" }} <br />
       </small>
     </ng-template>
     <ng-template #content let-event>
       <p class="mb-4">
         {{ event.installment_value | currency : "BRL" }} <br />
         @if(event.paid_date) {
-        <small> Pago em: {{ event.paid_date | date : "short" }} </small> <br />
+        <small> Pago em: {{ event.paid_date | date : "shortDate" }} </small>
+        <br />
         }
         <button
           pButton
