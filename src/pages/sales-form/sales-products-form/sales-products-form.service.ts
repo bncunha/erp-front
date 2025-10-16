@@ -57,9 +57,19 @@ export class SalesProductsFormService {
   }
 
   getSkus(): Observable<GetSkuResponse[]> {
-    return this.skusApiService
-      .getAll()
-      .pipe(map((skus) => skus.filter((sku) => sku.quantity > 0)));
+    return this.skusApiService.getAll().pipe(
+      map((skus) => {
+        skus.sort((a, b) => {
+          // 1️⃣ Prioriza os com quantidade > 0
+          if (a.quantity === 0 && b.quantity !== 0) return 1;
+          if (a.quantity !== 0 && b.quantity === 0) return -1;
+
+          // 2️⃣ Se ambos têm a mesma condição de quantidade, ordena por nome
+          return a.product_name.localeCompare(b.product_name);
+        });
+        return skus;
+      })
+    );
   }
 
   toNextStep(form: FormGroup) {
