@@ -22,6 +22,11 @@ export class SalesFilterService implements FilterComponent {
   private usersApiService = inject(UserApiService);
   private customersApiService = inject(CustomerApiService);
 
+  canFilterByReseller(): boolean {
+    const role = this.usersApiService.getUserRole();
+    return role === UserRoleEnum.ADMIN;
+  }
+
   getPaymentStatuses(): any[] {
     return GetPaymentEnumList();
   }

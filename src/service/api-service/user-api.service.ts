@@ -8,12 +8,19 @@ import {
   GetAllUsersRequest,
   UpdateUserRequest,
 } from '../requests/users-request';
+import { UserRoleEnum } from '../../enums/user-role.enum';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserApiService {
   private httpCliente = inject(HttpClient);
+
+  getUserRole(): UserRoleEnum {
+    const token = localStorage.getItem('token');
+    return (jwtDecode(token!) as any).role;
+  }
 
   getAll(
     filters: GetAllUsersRequest = new GetAllUsersRequest()

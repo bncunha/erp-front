@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { SidebarTemplateComponent } from '../templates/sidebar-template/sidebar-template.component';
 import { authGuard } from '../service/guards/auth.guard';
+import { UserRoleEnum } from '../enums/user-role.enum';
+import { roleGuard } from '../service/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -23,7 +25,8 @@ export const routes: Routes = [
               import('../pages/products-list/products-list.component').then(
                 (m) => m.ProductsListComponent
               ),
-            data: { breadcrumb: '' },
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
           },
           {
             path: 'form',
@@ -31,7 +34,8 @@ export const routes: Routes = [
               import('../pages/products-form/products-form.component').then(
                 (m) => m.ProductsFormComponent
               ),
-            data: { breadcrumb: 'Formulário' },
+            data: { breadcrumb: 'Formulário', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
           },
           {
             path: 'form/:id',
@@ -39,7 +43,8 @@ export const routes: Routes = [
               import('../pages/products-form/products-form.component').then(
                 (m) => m.ProductsFormComponent
               ),
-            data: { breadcrumb: 'Formulário' },
+            data: { breadcrumb: 'Formulário', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
           },
         ],
       },
@@ -49,7 +54,8 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            data: { breadcrumb: '' },
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import(
                 './../pages/categories-list/categories-list.component'
@@ -63,7 +69,8 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            data: { breadcrumb: '' },
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import('./../pages/inventory/inventory.component').then(
                 (m) => m.InventoryComponent
@@ -77,7 +84,8 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            data: { breadcrumb: '' },
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import('./../pages/users/users.component').then(
                 (m) => m.UsersComponent
@@ -91,7 +99,11 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            data: { breadcrumb: '' },
+            data: {
+              beadcrumb: '',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import('./../pages/sales-list/sales-list.component').then(
                 (m) => m.SalesListComponent
@@ -99,7 +111,11 @@ export const routes: Routes = [
           },
           {
             path: 'novo',
-            data: { breadcrumb: '' },
+            data: {
+              breadcrumb: '',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import(
                 './../pages/sales-form/sales-products-form/sales-products-form.component'
@@ -107,7 +123,11 @@ export const routes: Routes = [
           },
           {
             path: 'novo/pagamento',
-            data: { breadcrumb: '' },
+            data: {
+              breadcrumb: '',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
             loadComponent: () =>
               import(
                 './../pages/sales-form/sales-payment-form/sales-payment-form.component'
