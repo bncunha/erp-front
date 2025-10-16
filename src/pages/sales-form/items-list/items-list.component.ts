@@ -53,7 +53,7 @@ export class ItemsListComponent implements OnChanges {
   private applyFilters() {
     let result = this.service.filterByText(this._allItems, this.searchText);
     if (!this.showZero) {
-      result = result.filter((i) => i.quantity > 0);
+      result = result?.filter((i) => i.quantity > 0);
     }
     this.items = result;
   }
