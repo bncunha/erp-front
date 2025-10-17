@@ -48,6 +48,8 @@
               <div>{{ it.name }}</div>
               <div class="sub" *ngIf="it.color || it.size">
                 <small>
+                  <span *ngIf="it.code && it.color"> {{ it.code }} </span>
+                  <span *ngIf="it.code && it.color"> • </span>
                   <span *ngIf="it.color">Cor: {{ it.color }}</span>
                   <span *ngIf="it.color && it.size"> • </span>
                   <span *ngIf="it.size">Tamanho: {{ it.size }}</span>
