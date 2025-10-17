@@ -3,6 +3,8 @@ import { CustomerApiService } from '../../../service/api-service/customer-api.se
 import { GetCustomerResponse } from '../../../service/responses/customers-response';
 import { SkuApiService } from '../../../service/api-service/sku-api.service';
 import { GetSkuResponse } from '../../../service/responses/products-response';
+import { GetAllProductsRequest } from '../../../service/requests/products-request';
+import { UserApiService } from '../../../service/api-service/user-api.service';
 
 export interface ConfirmationProductItem {
   id: number;
@@ -14,6 +16,7 @@ export interface ConfirmationProductItem {
 export class SalesConfirmationService {
   private customerApi = inject(CustomerApiService);
   private skuApi = inject(SkuApiService);
+  private userApi = inject(UserApiService);
 
   customerName = '';
   displayItems: Array<{
@@ -43,7 +46,10 @@ export class SalesConfirmationService {
     });
 
     this.itemsLoading = true;
-    this.skuApi.getAll().subscribe({
+    const filters = new GetAllProductsRequest().parseToRequest({
+      seller_id: this.userApi.getUserId(),
+    });
+    this.skuApi.getAll(filters).subscribe({
       next: (skus: GetSkuResponse[]) => {
         const byId = new Map<number, GetSkuResponse>(
           skus.map((s) => [s.id, s])

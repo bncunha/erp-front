@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { SalesProductsFormFactory } from './form.factory';
 import { FormUtil } from '../../../shared/utils/form.utils';
+import { UserApiService } from '../../../service/api-service/user-api.service';
+import { GetAllProductsRequest } from '../../../service/requests/products-request';
 
 @Injectable()
 export class SalesProductsFormService {
@@ -16,6 +18,7 @@ export class SalesProductsFormService {
   private skusApiService = inject(SkuApiService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+  private userApiService = inject(UserApiService);
   formFactory = new SalesProductsFormFactory();
   private customersReloadSubject = new BehaviorSubject<void>(undefined);
 
@@ -57,7 +60,10 @@ export class SalesProductsFormService {
   }
 
   getSkus(): Observable<GetSkuResponse[]> {
-    return this.skusApiService.getAll().pipe(
+    const filters = new GetAllProductsRequest().parseToRequest({
+      seller_id: this.userApiService.getUserId(),
+    });
+    return this.skusApiService.getAll(filters).pipe(
       map((skus) => {
         skus.sort((a, b) => {
           // 1️⃣ Prioriza os com quantidade > 0

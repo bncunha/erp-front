@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { CreateSaleRequest } from '../../../service/requests/sales-request';
 import { SalesApiService } from '../../../service/api-service/sales-api.service';
 import { ToastService } from '../../../shared/components/toast/toast.service';
+import { UserApiService } from '../../../service/api-service/user-api.service';
 
 @Injectable()
 export class SalesPaymentFormService {
@@ -14,6 +15,7 @@ export class SalesPaymentFormService {
   private toastService = inject(ToastService);
   private router = inject(Router);
   private formFactory = new SalesPaymentFormFactory();
+  private userApiService = inject(UserApiService);
 
   private productsFormValue: any;
 

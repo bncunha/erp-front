@@ -22,6 +22,11 @@ export class UserApiService {
     return (jwtDecode(token!) as any).role;
   }
 
+  getUserId(): number {
+    const token = localStorage.getItem('token');
+    return Number((jwtDecode(token!) as any).user_id);
+  }
+
   getAll(
     filters: GetAllUsersRequest = new GetAllUsersRequest()
   ): Observable<GetUserResponse[]> {
