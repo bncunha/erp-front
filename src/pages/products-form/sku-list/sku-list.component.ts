@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { SkuListService } from './sku-list.service';
 import { Column } from '../../../shared/components/table/models/column';
@@ -14,6 +21,7 @@ import { GetSkuResponse } from '../../../service/responses/products-response';
   providers: [SkuListService, CurrencyPipe],
 })
 export class SkuListComponent {
+  @ViewChild('skuDialog') skuDialog?: SkuFormDialogComponent;
   @Output() onSubmitSuccess = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<GetSkuResponse>();
   @Input() disableCreate: boolean = false;

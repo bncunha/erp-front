@@ -17,4 +17,24 @@ export class ProductsListComponent {
 
   products: Observable<GetProductResponse[]> = this.service.getAll();
   columns = this.service.getColumns();
+  drawerVisible = false;
+  isLoadingSkus = false;
+  selectedProduct?: GetProductResponse;
+
+  openDrawer(product: GetProductResponse) {
+    this.selectedProduct = product;
+    this.drawerVisible = true;
+    this.isLoadingSkus = !this.service.hasSkus(product.id);
+
+    this.service.loadSkus(product.id).subscribe({
+      next: () => (this.isLoadingSkus = false),
+      error: () => (this.isLoadingSkus = false),
+    });
+  }
+
+  onDrawerHide() {
+    this.drawerVisible = false;
+    this.selectedProduct = undefined;
+    this.isLoadingSkus = false;
+  }
 }
