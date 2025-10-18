@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Column } from '../../shared/components/table/models/column';
 import { ProductsApiService } from '../../service/api-service/products-api.service';
-import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, map, switchMap, tap } from 'rxjs';
 import {
   GetProductResponse,
   GetSkuResponse,
@@ -69,6 +69,9 @@ export class ProductsListService {
   }
 
   loadSkus(productId: number): Observable<GetSkuResponse[]> {
+    if (this.hasSkus(productId)) {
+      return EMPTY;
+    }
     return this.productApiService.getProductByID(productId).pipe(
       tap((product) => this.skusByProductId.set(product.id, product.skus)),
       map((product) => product.skus)
