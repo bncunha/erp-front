@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CreateSkuRequest, UpdateSkuRequest } from '../requests/skus-request';
 import { environment } from '../../environments/environment';
 import { GetSkuResponse } from '../responses/products-response';
+import { GetAllProductsRequest } from '../requests/products-request';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,9 @@ export class SkuApiService {
     return this.http.put<void>(environment.API_URL + `/skus/${id}`, sku);
   }
 
-  getAll(): Observable<GetSkuResponse[]> {
-    return this.http.get<GetSkuResponse[]>(environment.API_URL + '/skus');
+  getAll(filters?: GetAllProductsRequest): Observable<GetSkuResponse[]> {
+    return this.http.get<GetSkuResponse[]>(environment.API_URL + '/skus', {
+      params: filters as any,
+    });
   }
 }

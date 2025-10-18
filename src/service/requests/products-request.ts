@@ -15,3 +15,12 @@ export class CreatProductRequest {
 }
 
 export class UpdateProductRequest extends CreatProductRequest {}
+
+export class GetAllProductsRequest {
+  seller_id?: number;
+
+  parseToRequest(formData: any): GetAllProductsRequest {
+    Object.assign(this, formData);
+    return cleanNulls(this);
+  }
+}

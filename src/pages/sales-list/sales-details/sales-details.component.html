@@ -1,0 +1,95 @@
+<app-change-payment-form
+  #paymentForm
+  (submitSuccess)="onChangePaymentSuccess()"
+/>
+
+<p-drawer
+  header="Detalhes da Venda"
+  [(visible)]="service.visible"
+  position="right"
+  styleClass="!w-full md:!w-80 lg:!w-[40rem]"
+>
+  @if(service.loading) { @for (i of [1,2,3,4,5]; track i) {
+  <p-skeleton class="my-4 block" height="300px" width="100%" />
+  } } @else {
+  <h3>Resumo</h3>
+  <div class="mb-5">
+    <app-payment-badge [paymentType]="sale?.payment_status" />
+  </div>
+  <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+    <div class="col-span-2">
+      <label> Código </label>
+      <p>{{ sale?.code }}</p>
+    </div>
+    <div>
+      <label> Data </label>
+      <p>{{ sale?.date | date : "short" }}</p>
+    </div>
+    <div>
+      <label> Valor da venda </label>
+      <p>{{ sale?.total_value | currency : "BRL" }}</p>
+    </div>
+    <div>
+      <label> Vendedor </label>
+      <p>{{ sale?.seller_name }}</p>
+    </div>
+    <div>
+      <label> Cliente </label>
+      <p>{{ sale?.customer_name }}</p>
+    </div>
+    <div>
+      <label> Valor recebido </label>
+      <p>{{ sale?.received_value | currency : "BRL" }}</p>
+    </div>
+    <div>
+      <label> Valor a receber </label>
+      <p>{{ sale?.future_revenue | currency : "BRL" }}</p>
+    </div>
+  </div>
+  <h3 class="my-5">Pagamento</h3>
+  <p-divider />
+  @for(payment of sale?.payments; track payment.payment_type) {
+  <h4 class="my-3">{{ service.getPaymentType(payment.payment_type) }}</h4>
+  <p-timeline [value]="payment.installments" class="!w-full timelineDetails">
+    <ng-template #opposite let-event>
+      <small>
+        {{ event.installment_number }} ª Parcela <br />
+        {{ event.due_date | date : "shortDate" }} <br />
+      </small>
+    </ng-template>
+    <ng-template #content let-event>
+      <p class="mb-4">
+        {{ event.installment_value | currency : "BRL" }} <br />
+        @if(event.paid_date) {
+        <small> Pago em: {{ event.paid_date | date : "shortDate" }} </small>
+        <br />
+        }
+        <button
+          pButton
+          size="small"
+          [text]="true"
+          (click)="
+            service.showEditButton()
+              ? paymentForm.open(event, sale?.id || 0)
+              : null
+          "
+          [disabled]="!event.canEditPaymentStatus()"
+        >
+          <app-payment-badge [paymentType]="event.payment_status" />
+          @if(event.canEditPaymentStatus() && service.showEditButton()) {
+          <em class="pi pi-pencil"></em>
+          }
+        </button>
+      </p>
+    </ng-template>
+  </p-timeline>
+  <p-divider />
+  }
+  <h3 class="my-5">Itens</h3>
+  <app-table
+    [columns]="itensColumns"
+    [value]="sale?.items || []"
+    [showToolbar]="false"
+  />
+  }
+</p-drawer>

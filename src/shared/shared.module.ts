@@ -16,6 +16,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastComponent } from './components/toast/toast.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormGroupRequiredAsteriscDirective } from './directives/required-asterisc/form-group-required-asterisc.directive.';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DrawerModule } from 'primeng/drawer';
+import { ChipModule } from 'primeng/chip';
+import { PanelModule } from 'primeng/panel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { SkeletonModule } from 'primeng/skeleton';
+import { MaskPipe } from './pipes/mask.pipe';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -26,6 +33,12 @@ const PRIME_NG_MODULES = [
   SelectModule,
   DropdownModule,
   InputNumberModule,
+  MultiSelectModule,
+  DrawerModule,
+  ChipModule,
+  PanelModule,
+  DatePickerModule,
+  SkeletonModule,
 ];
 
 @NgModule({
@@ -38,6 +51,7 @@ const PRIME_NG_MODULES = [
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
+    MaskPipe,
   ],
   exports: [
     ...PRIME_NG_MODULES,
@@ -51,6 +65,7 @@ const PRIME_NG_MODULES = [
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
     ToastComponent,
+    MaskPipe,
   ],
 })
 export class SharedModule {}

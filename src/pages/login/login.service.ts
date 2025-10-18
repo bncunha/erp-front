@@ -23,5 +23,6 @@ export class LoginService {
   cleanUserData() {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
+    sessionStorage.clear();
   }
 }

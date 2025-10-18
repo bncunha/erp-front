@@ -1,0 +1,14 @@
+:host ::ng-deep {
+  .PAID {
+    background-color: var(--p-green-300);
+  }
+  .PENDING {
+    background-color: var(--p-amber-500);
+  }
+  .DELAYED {
+    background-color: var(--p-red-300);
+  }
+  .CANCELLED {
+    background-color: var(--p-gray-500);
+  }
+}

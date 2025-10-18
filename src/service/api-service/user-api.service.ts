@@ -5,8 +5,11 @@ import { GetUserResponse } from '../responses/users-response';
 import { environment } from '../../environments/environment';
 import {
   CreateUserRequest,
+  GetAllUsersRequest,
   UpdateUserRequest,
 } from '../requests/users-request';
+import { UserRoleEnum } from '../../enums/user-role.enum';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +17,22 @@ import {
 export class UserApiService {
   private httpCliente = inject(HttpClient);
 
-  getAll(): Observable<GetUserResponse[]> {
+  getUserRole(): UserRoleEnum {
+    const token = localStorage.getItem('token');
+    return (jwtDecode(token!) as any).role;
+  }
+
+  getUserId(): number {
+    const token = localStorage.getItem('token');
+    return Number((jwtDecode(token!) as any).user_id);
+  }
+
+  getAll(
+    filters: GetAllUsersRequest = new GetAllUsersRequest()
+  ): Observable<GetUserResponse[]> {
     return this.httpCliente.get<GetUserResponse[]>(
-      environment.API_URL + '/users'
+      environment.API_URL + '/users',
+      { params: filters.parseToRequest(filters) as any }
     );
   }
 

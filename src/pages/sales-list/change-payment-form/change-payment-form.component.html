@@ -1,0 +1,56 @@
+<p-dialog [(visible)]="isVisible" [modal]="true" header="Alterar pagamento">
+  <div class="mb-5 grid grid-cols-2 gap-2">
+    <div>
+      <strong> Data: </strong> {{ installment?.due_date | date : "shortDate" }}
+    </div>
+    <br />
+    <div><strong> Tipo: </strong> {{ paymentType }}</div>
+    <br />
+    <div>
+      <strong> Valor: </strong>
+      {{ installment?.installment_value | currency : "BRL" }}
+    </div>
+  </div>
+  <form #f="ngForm" (submit)="submit(f, installment!, saleId!)">
+    <div>
+      <label> Nova situação de pagamento </label>
+      <p-dropdown
+        ngModel
+        name="status"
+        appendTo="body"
+        required
+        [options]="paymentList"
+      />
+    </div>
+    @if(service.dateIsRequired(f)) {
+    <div>
+      <label> Data do pagamento </label>
+      <p-datepicker
+        [(ngModel)]="selectedDate"
+        name="date"
+        appendTo="body"
+        required
+      />
+    </div>
+    }
+    <button
+      type="submit"
+      pButton
+      fluid
+      class="mt-4"
+      [loading]="service.isLoading"
+    >
+      Confirmar
+    </button>
+    <button
+      type="button"
+      pButton
+      fluid
+      class="mt-2"
+      severity="secondary"
+      (click)="close()"
+    >
+      Cancelar
+    </button>
+  </form>
+</p-dialog>

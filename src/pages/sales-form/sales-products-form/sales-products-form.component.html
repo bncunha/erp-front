@@ -1,0 +1,59 @@
+<app-customers-form-dialog
+  #customerDialog
+  (onSubmitSuccess)="service.onCreateCustomerSuccess()"
+/>
+
+<h1>Nova Venda</h1>
+
+<form [formGroup]="form" class="grid gap-4 grid-cols-1 sm:grid-cols-2 my-4">
+  <div class="sm:col-span-2">
+    <div class="flex flex-row items-end gap-2">
+      <div class="w-full">
+        <label form="customer"> Cliente </label>
+        <p-select
+          [options]="(customers | async)!"
+          formControlName="customer"
+          inputId="customer"
+          optionValue="id"
+          optionLabel="name"
+          [filter]="true"
+        >
+          <ng-template let-customer #item>
+            <div>
+              <div>{{ customer.name }}</div>
+              <small>
+                Telefone: {{ customer.phone_number | mask : "(##) #####-####" }}
+              </small>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+      <div>
+        <button
+          type="button"
+          pButton
+          severity="secondary"
+          icon="pi pi-plus"
+          (click)="customerDialog.open()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<h2 class="mt-15">Selecione os produtos</h2>
+<p>Clique em um produto para adicioná-lo ao carrinho</p>
+<app-items-list
+  [items]="(skus | async)!"
+  [productsForm]="getProductsForm()"
+  [isLoading]="isLoading"
+/>
+
+<app-sales-summary
+  [totalItems]="service.getTotalItems(form)"
+  [totalValue]="service.getTotalValue(form)"
+  [nextDisabled]="form.invalid"
+  [textButton]="'Ir para pagamento'"
+  [nextDisabled]="form.invalid"
+  (next)="service.toNextStep(form)"
+/>

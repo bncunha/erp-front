@@ -1,4 +1,4 @@
-<app-items-form-dialog #formDialog />
+<!-- <app-items-form-dialog #formDialog />
 <app-table
   [value]="[{
     product: 'Roupa - M - Rosa',
@@ -8,4 +8,83 @@ total_value: 'R$30,00',
 }]"
   [columns]="columns"
   (onAddClick)="formDialog.open()"
-/>
+/> -->
+<div class="my-4">
+  <input
+    type="text"
+    pInputText
+    placeholder="Pesquisar..."
+    (input)="onSearch($event)"
+  />
+</div>
+
+<div class="mb-4">
+  <button
+    type="button"
+    pButton
+    [outlined]="true"
+    severity="secondary"
+    [icon]="'pi ' + (showZero ? 'pi-eye' : 'pi-eye-slash')"
+    (click)="toggleShowZero()"
+  >
+    {{ showZero ? 'Ocultar produtos com estoque zero' : 'Exibir produtos com estoque zero' }}
+  </button>
+</div>
+
+<div class="grid gap-6 grid-cols-2 sm:grid-cols-3 items-list">
+  @if (isLoading) { @for(item of [1,2,3,4,5,6]; track item) {
+  <p-skeleton height="6rem" width="100%" />
+  } } @else { @for(item of items; track item.id) {
+  <div class="col-span-2 sm:col-span-1 relative">
+    @if (service.showQuantityForm(item, productsForm)) {
+    <div class="quantity-holder">
+      <button
+        pButton
+        type="button"
+        class="p-button-text"
+        severity="danger"
+        [icon]="
+          service.getQuantityForm(productsForm, item.id).value > 1
+            ? 'pi pi-minus'
+            : 'pi pi-trash'
+        "
+        (click)="service.subtractOne(item, productsForm)"
+      ></button>
+      <p-inputNumber
+        [formControl]="service.getQuantityForm(productsForm, item.id)"
+        [min]="1"
+        [max]="item.quantity"
+      />
+      <button
+        pButton
+        type="button"
+        class="p-button-text"
+        icon="pi pi-plus"
+        (click)="service.addOne(item, productsForm)"
+      ></button>
+    </div>
+    }
+    <button
+      type="button"
+      class="w-full text-left"
+      [disabled]="item.quantity <= 0"
+      (click)="service.addOne(item, productsForm)"
+    >
+      <app-card>
+        <h3>{{ item.product_name }}</h3>
+        <p>
+          {{ item.price | currency : "BRL" }}
+        </p>
+        <p class="mt-3 grid gap-1 grid-cols-2 text-sm">
+          <span> <strong> Código: </strong> {{ item.code }} <br /> </span>
+          <span> <strong> Cor: </strong> {{ item.color }} <br /> </span>
+          <span> <strong> Tamanho: </strong> {{ item.size }} <br /> </span>
+          <span>
+            <strong> Em estoque: </strong> {{ item.quantity }} itens <br />
+          </span>
+        </p>
+      </app-card>
+    </button>
+  </div>
+  } }
+</div>

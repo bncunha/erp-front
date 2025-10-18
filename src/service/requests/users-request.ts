@@ -15,3 +15,12 @@ export class CreateUserRequest {
 }
 
 export class UpdateUserRequest extends CreateUserRequest {}
+
+export class GetAllUsersRequest {
+  role?: string;
+
+  parseToRequest(formData: any): GetAllUsersRequest {
+    Object.assign(this, formData);
+    return cleanNulls(this);
+  }
+}

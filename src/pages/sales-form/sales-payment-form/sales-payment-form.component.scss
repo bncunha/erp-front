@@ -1,0 +1,52 @@
+input[type="checkbox"] {
+  display: none;
+
+  &:checked + .payment-card {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+    transform: scale(1.02);
+  }
+}
+
+.payment-wrapper {
+  position: relative;
+}
+
+.payment-card {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  height: 100%;
+
+  &:hover {
+    border-color: var(--primary-color);
+    transform: scale(1.02);
+  }
+}
+
+.botao-deletar {
+  @media (max-width: 768px) {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.img {
+  width: 50px;
+  display: block;
+  margin: auto;
+}
+
+.payment-wrapper {
+  .img-small {
+    width: 30px;
+    display: block;
+    flex: initial;
+  }
+}

@@ -1,0 +1,12 @@
+<h1>Clientes</h1>
+
+<app-table
+  addRoute="/clientes/form"
+  dataKey="id"
+  [columns]="columns"
+  [value]="(customers | async)!"
+  (onEditClick)="service.toEditPage($event)"
+  (onDeleteClick)="service.delete($event)"
+>
+</app-table>
+

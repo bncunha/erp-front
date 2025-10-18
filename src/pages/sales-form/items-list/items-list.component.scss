@@ -1,0 +1,26 @@
+.quantity-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 85px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  border: 1px solid var(--designer-divider-color);
+  border-top: 0;
+  border-radius: 0 0 0.4rem 0.4rem;
+  background-color: var(--overlay-background);
+
+  button {
+    border-radius: 0;
+    padding-inline: 0.5rem;
+  }
+}
+
+:host ::ng-deep .p-inputnumber-input {
+  border: none;
+  text-align: center;
+  box-shadow: none;
+  padding: 0.2rem;
+}

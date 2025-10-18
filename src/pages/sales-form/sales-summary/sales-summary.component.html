@@ -1,0 +1,64 @@
+<div class="total-summary">
+  <div class="content">
+    <p>
+      @if(totalItems) {
+      <strong> Quantidade de itens: </strong>
+      <span> {{ totalItems | number }} </span>
+      <br />
+      }
+      <strong> Valor total: </strong>
+      <span> {{ totalValue | currency : "BRL" }} </span>
+      <br />
+      @if (paymentValue) {
+      <span
+        [ngClass]="{
+          'text-danger': paymentValue > totalValue,
+          'text-success': paymentValue === totalValue
+        }"
+      >
+        <strong> Total informado: </strong>
+        <span> {{ paymentValue | currency : "BRL" }} </span>
+        <br />
+      </span>
+      } @if(showNeedToPay) {
+      <span
+        [ngClass]="{
+          'text-danger':
+            totalValue - paymentValue < 0 || totalValue - paymentValue > 0,
+          'text-success': totalValue - paymentValue === 0
+        }"
+      >
+        <strong>
+          {{
+            totalValue - paymentValue < 0 ? "Valor excedente" : "Falta pagar"
+          }}:
+        </strong>
+        <span> {{ totalValue - paymentValue | currency : "BRL" }} </span>
+      </span>
+      <br />
+      }
+    </p>
+    <button
+      type="submit"
+      pButton
+      fluid
+      class="mt-4"
+      [disabled]="nextDisabled"
+      (click)="next.emit()"
+    >
+      {{ textButton }}
+    </button>
+    @if(textButtonBack) {
+    <button
+      type="button"
+      pButton
+      class="mt-4"
+      severity="secondary"
+      fluid
+      (click)="back.emit()"
+    >
+      {{ textButtonBack }}
+    </button>
+    }
+  </div>
+</div>

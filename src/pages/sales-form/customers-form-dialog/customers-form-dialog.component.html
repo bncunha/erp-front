@@ -1,0 +1,29 @@
+<p-dialog
+  [(visible)]="isOpen"
+  header="Novo Cliente"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+>
+  <form #f="ngForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4" (submit)="handleSubmit(f)">
+    <div class="sm:col-span-2">
+      <label for="name"> Nome </label>
+      <input pInputText ngModel name="name" id="name" required maxlength="200" />
+    </div>
+    <div class="sm:col-span-2">
+      <label for="cellphone"> Telefone </label>
+      <p-inputmask
+        mask="(99) 99999-9999"
+        ngModel
+        name="cellphone"
+        inputId="cellphone"
+        placeholder="(99) 99999-9999"
+        [unmask]="false"
+        required
+      />
+    </div>
+    <div class="sm:col-span-2">
+      <button pButton type="submit" fluid [disabled]="isLoading">Salvar</button>
+    </div>
+  </form>
+</p-dialog>

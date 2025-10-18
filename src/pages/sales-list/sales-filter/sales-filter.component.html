@@ -1,0 +1,68 @@
+<p-panel
+  header="Filtros"
+  [toggleable]="true"
+  [collapsed]="true"
+  class="my-4 block"
+>
+  <form
+    #f="ngForm"
+    class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+    (submit)="service.setFilters(f.value)"
+  >
+    <div class="col-span-2 sm:col-span-1">
+      <label for="min_date"> Data Inicial </label>
+      <p-datepicker ngModel name="min_date" inputId="min_date" />
+    </div>
+    <div class="col-span-2 sm:col-span-1">
+      <label for="max_date"> Data Final </label>
+      <p-datepicker ngModel name="max_date" inputId="max_date" />
+    </div>
+    @if(service.canFilterByReseller()) {
+    <div class="col-span-2 sm:col-span-1">
+      <label for="user_id"> Vendedor </label>
+      <p-multiselect
+        [options]="(resellers | async)!"
+        ngModel
+        name="user_id"
+        inputId="user_id"
+        optionLabel="name"
+        optionValue="id"
+        [filter]="true"
+      />
+    </div>
+    }
+    <div class="col-span-2 sm:col-span-1">
+      <label for="customer_id"> Cliente </label>
+      <p-multiselect
+        [options]="(customers | async)!"
+        ngModel
+        name="customer_id"
+        inputId="customer_id"
+        optionLabel="name"
+        optionValue="id"
+        [filter]="true"
+      />
+    </div>
+    <div class="col-span-2 sm:col-span-1">
+      <label for="payment_status"> Situação de Pagamento </label>
+      <p-select
+        [options]="paymentStatuses"
+        ngModel
+        name="payment_status"
+        inputId="payment_status"
+        [filter]="false"
+      />
+    </div>
+    <div class="col-span-2 sm:col-span-1">
+      <button type="submit" pButton label="Filtrar"></button>
+      <button
+        class="mx-3"
+        type="button"
+        severity="secondary"
+        pButton
+        label="Limpar"
+        (click)="service.cleanFilters(f)"
+      ></button>
+    </div>
+  </form>
+</p-panel>

@@ -1,4 +1,5 @@
 .total-summary {
+  margin-top: 2rem;
   background-color: var(--overlay-background);
   width: 100%;
   padding: 1rem;
@@ -9,4 +10,16 @@
     max-width: 1200px;
     margin: auto;
   }
+}
+
+.text-danger {
+  color: var(--danger-color);
+}
+
+.text-alert {
+  color: var(--warning-color);
+}
+
+.text-success {
+  color: var(--success-color);
 }

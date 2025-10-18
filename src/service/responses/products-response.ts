@@ -14,5 +14,6 @@ export interface GetSkuResponse {
   cost: number;
   price: number;
   name: string;
+  product_name: string;
   quantity: number;
 }
