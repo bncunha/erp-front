@@ -97,6 +97,14 @@ label {
 p-datepicker .p-inputwrapper,
 p-select {
   width: 100%;
+  min-height: 53px;
+  border-radius: 12px !important;
+}
+
+:not(.p-iconfield) > .p-inputtext {
+  border-radius: 12px !important;
+  padding: 0.85rem 1rem !important;
+  min-height: 50px;
 }
 
 nav.p-breadcrumb {

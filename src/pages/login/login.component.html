@@ -1,32 +1,41 @@
-<div class="container">
-  <p-card>
-    <form #f="ngForm" (submit)="service.handleSubmit(f)">
-      <h1 class="text-center mb-4">Login</h1>
-      <div class="field">
-        <label for="login"> Usuário </label>
-        <input
-          id="username"
-          type="text"
-          pInputText
-          ngModel
-          name="username"
-          autocomplete="username"
-        />
-      </div>
-      <div class="field">
-        <label for="password"> Senha </label>
-        <input
-          id="password"
-          type="password"
-          pInputText
-          ngModel
-          name="password"
-          autocomplete="current-password"
-        />
-      </div>
-      <div class="field">
-        <button type="submit" pButton label="Entrar" class="w-full"></button>
-      </div>
-    </form>
-  </p-card>
+<div class="login-page">
+  <div class="card-wrapper">
+    <app-card>
+      <form #f="ngForm" (submit)="service.handleSubmit(f)">
+        <div class="logo-wrapper">
+          <img
+            src="/logo_no_background.png"
+            alt="Logo Trinus"
+            class="trinus-logo"
+          />
+        </div>
+        <h1 class="text-center mb-4">Acesse seu painel Trinus</h1>
+        <div class="field">
+          <label for="username"> Usuário </label>
+          <input
+            id="username"
+            type="text"
+            pInputText
+            ngModel
+            name="username"
+            autocomplete="username"
+          />
+        </div>
+        <div class="field">
+          <label for="password"> Senha </label>
+          <input
+            id="password"
+            type="password"
+            pInputText
+            ngModel
+            name="password"
+            autocomplete="current-password"
+          />
+        </div>
+        <div class="field">
+          <button type="submit" pButton label="Entrar" class="w-full"></button>
+        </div>
+      </form>
+    </app-card>
+  </div>
 </div>
