@@ -1,20 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { Column } from '../../shared/components/table/models/column';
 import { ProductsApiService } from '../../service/api-service/products-api.service';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap, tap } from 'rxjs';
 import {
   GetProductResponse,
   GetSkuResponse,
 } from '../../service/responses/products-response';
 import { Router } from '@angular/router';
 import { ToastService } from '../../shared/components/toast/toast.service';
-import { SkuApiService } from '../../service/api-service/sku-api.service';
 
 @Injectable()
 export class ProductsListService {
   private reloadSubject = new BehaviorSubject<void>(undefined);
   private productApiService = inject(ProductsApiService);
-  private skuApiService = inject(SkuApiService);
   private router = inject(Router);
   private toastService = inject(ToastService);
 
@@ -70,10 +68,15 @@ export class ProductsListService {
     });
   }
 
-  onRowExpand(item: GetProductResponse) {
-    this.productApiService.getProductByID(item.id).subscribe((product) => {
-      this.skusByProductId.set(product.id, product.skus);
-    });
+  loadSkus(productId: number): Observable<GetSkuResponse[]> {
+    return this.productApiService.getProductByID(productId).pipe(
+      tap((product) => this.skusByProductId.set(product.id, product.skus)),
+      map((product) => product.skus)
+    );
+  }
+
+  hasSkus(productId: number): boolean {
+    return this.skusByProductId.has(productId);
   }
 
   getSkus(productId: number): GetSkuResponse[] {
