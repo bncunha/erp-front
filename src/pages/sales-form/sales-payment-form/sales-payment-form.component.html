@@ -37,15 +37,17 @@
             {{ getPaymentLabel(group.value.payment_type) }}
           </span>
         </div>
-        <p-inputnumber
-          placeholder="Valor a pagar"
-          mode="currency"
-          currency="BRL"
-          locale="pt-BR"
-          formControlName="value"
-          [min]="0.1"
-          (onInput)="service.onValueChange(group)"
-        />
+        <div>
+          <p-inputnumber
+            placeholder="Valor a pagar"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR"
+            formControlName="value"
+            [min]="0.1"
+            (onInput)="service.onValueChange(group)"
+          />
+        </div>
         <div>
           @if(group.get('installments_quantity')?.enabled) {
           <p-dropdown
