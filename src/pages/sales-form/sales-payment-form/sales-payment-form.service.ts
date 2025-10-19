@@ -89,9 +89,13 @@ export class SalesPaymentFormService {
   }
 
   calculateTotalValue() {
-    return this.productsFormValue.products.reduce((acc: number, item: any) => {
-      return acc + item.quantity * item.price;
-    }, 0);
+    const total = this.productsFormValue.products.reduce(
+      (acc: number, item: any) => {
+        return acc + item.quantity * item.price;
+      },
+      0
+    );
+    return Math.round(total * 100) / 100;
   }
 
   getTotalItems() {

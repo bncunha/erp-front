@@ -106,7 +106,9 @@
         </td>
         } @if (actionsTemplate) {
         <td>
-          <ng-container *ngTemplateOutlet="actionsTemplate"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="actionsTemplate; context: { $implicit: rowData }"
+          ></ng-container>
         </td>
         }
       </tr>

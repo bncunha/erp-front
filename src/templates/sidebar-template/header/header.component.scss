@@ -2,9 +2,16 @@
   width: 100%;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--overlay-background);
+}
+
+.logo {
+  height: 2.5rem;
 }
 
 .name {
   display: inline-block;
-  margin-left: 1rem;
 }

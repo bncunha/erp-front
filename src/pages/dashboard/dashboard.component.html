@@ -1,6 +1,6 @@
 <div class="card-container">
   @for (item of menuItems; track $index) {
-  <a class="card shadow-md" routerLink="{{ item.routerLink }}">
+  <a class="card" routerLink="{{ item.routerLink }}">
     <app-card>
       <div class="card-header">
         <i [class]="item.icon"></i>
