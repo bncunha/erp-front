@@ -51,13 +51,6 @@ export class GetSaleInstallmentResponse {
   paid_date?: string;
   payment_status!: string;
   payment_type!: PaymentTypeEnum;
-
-  canEditPaymentStatus(): boolean {
-    return (
-      this.payment_status === PaymentEnum.PENDING ||
-      this.payment_status === PaymentEnum.DELAYED
-    );
-  }
 }
 
 export interface GetSaleItemResponse {
