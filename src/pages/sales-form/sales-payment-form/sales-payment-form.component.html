@@ -38,7 +38,11 @@
           </span>
         </div>
         <div>
+          <label class="field-label" for="payment-value-{{ group.value.payment_type }}">
+            Valor a pagar
+          </label>
           <p-inputnumber
+            inputId="payment-value-{{ group.value.payment_type }}"
             placeholder="Valor a pagar"
             mode="currency"
             currency="BRL"
@@ -50,7 +54,14 @@
         </div>
        @if(group.get('first_installment_date')?.enabled) {
         <div>
+          <label
+            class="field-label"
+            for="payment-first-installment-{{ group.value.payment_type }}"
+          >
+            Data da primeira parcela
+          </label>
           <p-datepicker
+            inputId="payment-first-installment-{{ group.value.payment_type }}"
             placeholder="Data da primeira parcela"
             formControlName="first_installment_date"
             [minDate]="service.today"
@@ -60,7 +71,14 @@
         }
         @if(group.get('installments_quantity')?.enabled) {
         <div>
+          <label
+            class="field-label"
+            for="payment-installments-{{ group.value.payment_type }}"
+          >
+            Quantidade de Parcelas
+          </label>
           <p-dropdown
+            inputId="payment-installments-{{ group.value.payment_type }}"
             placeholder="Quantidade de Parcelas"
             formControlName="installments_quantity"
             [options]="service.getInstallmentsQuantity(group.value.value)"
