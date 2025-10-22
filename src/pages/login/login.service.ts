@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { LoginRequest } from '../../service/requests/login-request';
 import { AuthApiService } from '../../service/api-service/auth-api.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,18 @@ import { Router } from '@angular/router';
 export class LoginService {
   private authApiService = inject(AuthApiService);
   private router = inject(Router);
+  isLoading = false;
 
   handleSubmit(f: NgForm) {
     if (f.valid) {
       const request = new LoginRequest().parseToRequest(f.value);
-      this.authApiService.login(request).subscribe(() => {
-        this.router.navigate(['/']);
-      });
+      this.isLoading = true;
+      this.authApiService
+        .login(request)
+        .pipe(finalize(() => (this.isLoading = false)))
+        .subscribe(() => {
+          this.router.navigate(['/']);
+        });
     }
   }
 
