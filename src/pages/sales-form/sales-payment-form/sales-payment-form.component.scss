@@ -29,6 +29,12 @@ input[type="checkbox"] {
   }
 }
 
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
 .botao-deletar {
   @media (max-width: 768px) {
     position: absolute;

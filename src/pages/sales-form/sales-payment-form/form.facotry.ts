@@ -41,13 +41,11 @@ export class SalesPaymentFormFactory {
       payment_type: [payment, [Validators.required]],
       value: [null, [Validators.required, Validators.min(0.01)]],
       installments_quantity: [null, Validators.required],
-      first_installment_date: [null, Validators.required],
+      first_installment_date: [new Date(), Validators.required],
     });
-    if (
-      payment === PaymentTypeEnum.CASH ||
-      payment == PaymentTypeEnum.DEBIT_CARD ||
-      payment == PaymentTypeEnum.PIX
-    ) {
+    if (payment === PaymentTypeEnum.CASH || payment === PaymentTypeEnum.PIX) {
+      form.get('installments_quantity')?.disable();
+    } else if (payment === PaymentTypeEnum.DEBIT_CARD) {
       form.get('installments_quantity')?.disable();
       form.get('first_installment_date')?.disable();
     } else if (payment === PaymentTypeEnum.CREDIT_CARD) {
