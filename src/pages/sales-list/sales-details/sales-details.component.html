@@ -68,16 +68,10 @@
           pButton
           size="small"
           [text]="true"
-          (click)="
-            service.showEditButton()
-              ? paymentForm.open(event, sale?.id || 0)
-              : null
-          "
+          (click)="paymentForm.open(event, sale?.id || 0)"
         >
           <app-payment-badge [paymentType]="event.payment_status" />
-          @if(service.showEditButton()) {
           <em class="pi pi-pencil"></em>
-          }
         </button>
       </p>
     </ng-template>
