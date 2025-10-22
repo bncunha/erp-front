@@ -26,7 +26,7 @@
       <p-divider />
       <div
         [formGroup]="group"
-        class="payment-wrapper grid gap-4 grid-cols-1 sm:grid-cols-[0.7fr_1fr_1fr_1fr_auto]"
+        class="payment-wrapper grid gap-4 grid-cols-1 sm:grid-cols-[0.7fr_1fr_1fr_1fr_0.3fr]"
       >
         <div class="flex gap-4 items-center">
           <img
@@ -48,31 +48,31 @@
             (onInput)="service.onValueChange(group)"
           />
         </div>
+       @if(group.get('first_installment_date')?.enabled) {
         <div>
-          @if(group.get('installments_quantity')?.enabled) {
+          <p-datepicker
+            placeholder="Data da primeira parcela"
+            formControlName="first_installment_date"
+            [minDate]="service.today"
+            [maxDate]="service.nextMonth"
+          />
+        </div>
+        }
+        @if(group.get('installments_quantity')?.enabled) {
+        <div>
           <p-dropdown
             placeholder="Quantidade de Parcelas"
             formControlName="installments_quantity"
             [options]="service.getInstallmentsQuantity(group.value.value)"
           />
-          }
         </div>
-        <div>
-          @if(group.get('first_installment_date')?.enabled) {
-          <p-datepicker
-            placeholder="Data da primeira parcela"
-            formControlName="first_installment_date"
-            [minDate]="service.nextDay"
-            [maxDate]="service.nextMonth"
-          />
-          }
-        </div>
+        }
         <button
           pButton
           type="button"
           severity="danger"
           icon="pi pi-trash"
-          class="ml-auto botao-deletar"
+          class="ml-auto botao-deletar col-start-5"
           size="small"
           (click)="
             service.togglePayment(form, group.value.payment_type, {

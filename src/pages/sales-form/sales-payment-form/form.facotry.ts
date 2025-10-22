@@ -41,7 +41,7 @@ export class SalesPaymentFormFactory {
       payment_type: [payment, [Validators.required]],
       value: [null, [Validators.required, Validators.min(0.01)]],
       installments_quantity: [null, Validators.required],
-      first_installment_date: [null, Validators.required],
+      first_installment_date: [new Date(), Validators.required],
     });
     if (payment === PaymentTypeEnum.CASH || payment === PaymentTypeEnum.PIX) {
       form.get('installments_quantity')?.disable();
