@@ -21,6 +21,14 @@ export interface GetInventoryItemsResponse {
   quantity: number;
 }
 
+export interface GetInventoryItemSummaryResponse {
+  inventory_id: number;
+  inventory_name: string;
+  total_quantity: number;
+  zero_quantity_items: number;
+  last_transaction_days?: number;
+}
+
 export interface GetTransactionHistoryResponse {
   id: number;
   date: string;

@@ -1,0 +1,131 @@
+<app-inventory-form-dialog
+  #formDialog
+  (onSubmitSuccess)="handleTransactionSuccess()"
+/>
+
+@if (inventoryId === null) {
+<div class="inventory-items__empty">
+  Selecione um estoque para visualizar os produtos.
+</div>
+} @else {
+<section class="smart-filter">
+  <div class="smart-filter__controls">
+    <div class="smart-filter__search">
+      <i class="pi pi-search smart-filter__search-icon"></i>
+      <input
+        pInputText
+        type="text"
+        [value]="filters.term"
+        placeholder="Buscar por produto ou código"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+      @if (filters.term) {
+      <button
+        type="button"
+        pButton
+        icon="pi pi-times"
+        severity="secondary"
+        (click)="clearSearch()"
+        size="small"
+        [rounded]="true"
+        class="smart-filter__clear"
+      ></button>
+      }
+    </div>
+    <p-select
+      class="smart-filter__select"
+      [options]="availabilityOptions"
+      optionLabel="label"
+      optionValue="value"
+      [ngModel]="filters.availability"
+      (onChange)="onAvailabilityChange($event.value)"
+      placeholder="Disponibilidade"
+      appendTo="body"
+    ></p-select>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-filter-slash"
+      label="Limpar filtros"
+      severity="secondary"
+      (click)="clearFilters()"
+      [disabled]="!hasFilters"
+    ></button>
+  </div>
+  <div class="smart-filter__chips">
+    @if (filters.availability === 'in_stock') {
+    <p-chip label="Com estoque" removable (onRemove)="clearAvailability()" />
+    } @else if (filters.availability === 'out_of_stock') {
+    <p-chip label="Sem estoque" removable (onRemove)="clearAvailability()" />
+    }
+    @if (filters.term) {
+    <p-chip [label]="filters.term" removable (onRemove)="clearSearch()" />
+    }
+  </div>
+</section>
+
+<section class="inventory-products">
+  @if (isLoading$ | async) {
+  <div class="inventory-products__loading">
+    @for (item of [0, 1, 2, 3]; track item) {
+    <p-skeleton height="190px" styleClass="product-card product-card--skeleton"></p-skeleton>
+    }
+  </div>
+  } @else {
+  @if (filteredItems$ | async; as products) {
+  @if (products.length > 0) {
+  <div class="inventory-products__grid">
+    @for (product of products; track trackByInventoryItem) {
+    <article class="product-card">
+      <div class="product-card__info">
+        <h3>{{ product.product_name }}</h3>
+        <span class="product-card__code">Código: {{ product.sku_code }}</span>
+      </div>
+      <div class="product-card__quantity">
+        <span>Quantidade atual</span>
+        <strong>{{ product.quantity | number: '1.0-0' }} unidades</strong>
+      </div>
+      <div class="product-card__actions">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-down-left"
+          label="+ Entrada"
+          severity="success"
+          (click)="openTransaction('IN')"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-up-right"
+          label="- Saída"
+          severity="danger"
+          (click)="openTransaction('OUT')"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-exchange"
+          label="Transferência"
+          severity="contrast"
+          (click)="openTransaction('TRANSFER')"
+        ></button>
+      </div>
+    </article>
+    }
+  </div>
+  } @else {
+  <div class="inventory-products__empty">
+    Nenhum produto encontrado com os filtros selecionados.
+  </div>
+  }
+  } @else {
+  <div class="inventory-products__loading">
+    @for (item of [0, 1, 2, 3]; track item) {
+    <p-skeleton height="190px" styleClass="product-card product-card--skeleton"></p-skeleton>
+    }
+  </div>
+  }
+  }
+</section>
+}

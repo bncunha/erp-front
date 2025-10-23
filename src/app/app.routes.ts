@@ -110,13 +110,13 @@ export const routes: Routes = [
               ),
           },
           {
-            path: ':id',
-            data: { breadcrumb: 'Detalhes', roles: [UserRoleEnum.ADMIN] },
+            path: ':inventoryId',
+            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
             canActivate: [roleGuard],
             loadComponent: () =>
-              import('./../pages/inventory/inventory.component').then(
-                (m) => m.InventoryComponent
-              ),
+              import(
+                './../pages/inventory/inventory-detail/inventory-detail.component'
+              ).then((m) => m.InventoryDetailComponent),
           },
         ],
       },

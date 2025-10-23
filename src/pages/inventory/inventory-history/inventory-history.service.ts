@@ -1,21 +1,35 @@
 import { inject, Injectable } from '@angular/core';
 import { Column } from '../../../shared/components/table/models/column';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { InventoryApiService } from '../../../service/api-service/inventory-api.service';
 import { GetTransactionHistoryResponse } from '../../../service/responses/inventory-response';
 import { ThemeService } from '../../../service/theme.service';
 
 @Injectable()
 export class InventoryHistoryService {
-  private reloadSubject = new BehaviorSubject<void>(undefined);
-
   private inventoryApiService = inject(InventoryApiService);
   private themeService = inject(ThemeService);
 
-  getHistory(): Observable<GetTransactionHistoryResponse[]> {
-    return this.reloadSubject.pipe(
-      switchMap(() => this.inventoryApiService.getTransactionsHistory())
-    );
+  private inventoryId: number | null = null;
+
+  getHistory(
+    inventoryId: number | null
+  ): Observable<GetTransactionHistoryResponse[]> {
+    this.inventoryId = inventoryId;
+
+    if (inventoryId === null) {
+      return of([]);
+    }
+
+    return this.inventoryApiService.getTransactionsHistory(inventoryId);
+  }
+
+  reload(): Observable<GetTransactionHistoryResponse[]> {
+    if (this.inventoryId === null) {
+      return of([]);
+    }
+
+    return this.inventoryApiService.getTransactionsHistory(this.inventoryId);
   }
 
   getColumns(): Column[] {

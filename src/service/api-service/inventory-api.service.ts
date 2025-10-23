@@ -42,6 +42,14 @@ export class InventoryApiService {
     );
   }
 
+  getInventorySummary(
+    inventoryId: number
+  ): Observable<GetInventorySummaryResponse> {
+    return this.httpCliente.get<GetInventorySummaryResponse>(
+      environment.API_URL + `/inventory/${inventoryId}/summary`
+    );
+  }
+
   doTransaction(request: DoIventoryTransationRequest): Observable<void> {
     return this.httpCliente.post<void>(
       environment.API_URL + `/inventory/transaction`,
@@ -49,9 +57,11 @@ export class InventoryApiService {
     );
   }
 
-  getTransactionsHistory(): Observable<GetTransactionHistoryResponse[]> {
+  getTransactionsHistory(
+    inventoryId: number
+  ): Observable<GetTransactionHistoryResponse[]> {
     return this.httpCliente.get<GetTransactionHistoryResponse[]>(
-      environment.API_URL + `/inventory/transaction`
+      environment.API_URL + `/inventory/${inventoryId}/transaction`
     );
   }
 }

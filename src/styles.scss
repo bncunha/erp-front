@@ -101,6 +101,11 @@ p-select {
   border-radius: 12px !important;
 }
 
+p-select .p-select-label {
+  display: flex;
+  align-items: center;
+}
+
 :not(.p-iconfield) > .p-inputtext {
   border-radius: 12px !important;
   padding: 0.85rem 1rem !important;

@@ -7,9 +7,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
-import { InventoryFormDialogService } from './inventory-form-dialog.service';
+import {
+  InventoryFormDialogService,
+  InventoryTransactionType,
+} from './inventory-form-dialog.service';
 import { TextareaModule } from 'primeng/textarea';
 import { FormGroup, NgForm } from '@angular/forms';
+
+export interface InventoryFormDialogOptions {
+  type?: InventoryTransactionType;
+  inventoryId?: number;
+}
 
 @Component({
   selector: 'app-inventory-form-dialog',
@@ -29,11 +37,26 @@ export class InventoryFormDialogComponent {
   allProducts = this.service.getProductsSubject();
   form: FormGroup = this.service.createForm();
 
-  open() {
+  open(options?: InventoryFormDialogOptions) {
     this.isOpen = true;
     setTimeout(() => {
       this.service.fetchInventories();
       this.service.resetForm(this.form);
+      if (options?.type) {
+        this.service.setTransactionType(options.type, this.form);
+      }
+      if (options?.inventoryId && options?.type) {
+        if (options.type === 'IN') {
+          this.form
+            .get('inventory_destination_id')
+            ?.setValue(options.inventoryId);
+        } else {
+          this.form
+            .get('inventory_origin_id')
+            ?.setValue(options.inventoryId);
+          this.service.fetchOriginProducts(options.inventoryId);
+        }
+      }
     });
   }
 

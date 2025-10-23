@@ -19,6 +19,8 @@ import { DoIventoryTransationRequest } from '../../../service/requests/inventory
 import { ToastService } from '../../../shared/components/toast/toast.service';
 import { FormUtil } from '../../../shared/utils/form.utils';
 
+export type InventoryTransactionType = 'IN' | 'OUT' | 'TRANSFER';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -101,15 +103,20 @@ export class InventoryFormDialogService {
   }
 
   onTypeChange(event: RadioButtonClickEvent, f: FormGroup) {
+    this.setTransactionType(event.value as InventoryTransactionType, f);
+  }
+
+  setTransactionType(type: InventoryTransactionType, f: FormGroup) {
+    f.get('type')?.setValue(type);
     f.get('inventory_origin_id')?.setValue(null);
     f.get('inventory_destination_id')?.setValue(null);
-    f.get('sku_id')?.setValue(null);
     this.productsSubject.next([]);
-    if (event.value === 'IN') {
+
+    if (type === 'IN') {
       this.enableOrigin(f, false);
       this.enableDestination(f, true);
       this.fetchAllProducts();
-    } else if (event.value === 'OUT') {
+    } else if (type === 'OUT') {
       this.enableOrigin(f, true);
       this.enableDestination(f, false);
     } else {

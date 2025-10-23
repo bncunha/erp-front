@@ -1,0 +1,102 @@
+<h1 class="mb-4">Estoque</h1>
+
+@if (inventoryId === null) {
+<div class="inventory-empty">Selecione um estoque para visualizar os produtos.</div>
+} @else {
+@if (summary$ | async; as summary) {
+<div class="inventory-header">
+  <div class="inventory-header__title">
+    <h2>{{ summary.inventory_name }}</h2>
+  </div>
+  <div class="inventory-summary">
+    <div class="summary-card">
+      <div class="summary-card__icon summary-card__icon--total">
+        <i class="pi pi-box"></i>
+      </div>
+      <div class="summary-card__content">
+        <span class="summary-card__label">Unidades totais</span>
+        <span class="summary-card__value">
+          {{ summary.total_quantity | number: '1.0-0' }} unidades
+        </span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-card__icon summary-card__icon--zero">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <div class="summary-card__content">
+        <span class="summary-card__label">Produtos sem estoque</span>
+        <span class="summary-card__value">
+          {{ summary.zero_quantity_items | number: '1.0-0' }} produtos
+        </span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-card__icon summary-card__icon--movement">
+        <i class="pi pi-clock"></i>
+      </div>
+      <div class="summary-card__content">
+        <span class="summary-card__label">Última movimentação</span>
+        <span class="summary-card__value">
+          @if (
+            summary.last_transaction_days !== undefined &&
+            summary.last_transaction_days !== null
+          ) {
+          @if (summary.last_transaction_days === 0) {
+          Hoje
+          } @else {
+          Há
+          {{ summary.last_transaction_days }}
+          dia{{ summary.last_transaction_days === 1 ? '' : 's' }}
+          }
+          } @else {
+          Sem movimentação
+          }
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="inventory-header">
+  <div class="inventory-header__title">
+    @if (isSummaryLoading$ | async) {
+    <p-skeleton width="15rem" height="1.5rem"></p-skeleton>
+    } @else {
+    <h2>-</h2>
+    }
+  </div>
+  <div class="inventory-summary">
+    @if (isSummaryLoading$ | async) {
+    @for (item of [0, 1, 2]; track item) {
+    <p-skeleton height="110px" styleClass="summary-card__skeleton"></p-skeleton>
+    }
+    } @else {
+    <div class="inventory-empty">Resumo não disponível.</div>
+    }
+  </div>
+</div>
+}
+
+<p-tabs #tabs [(value)]="tabValue">
+  <p-tablist>
+    <p-tab value="0"> Estoque </p-tab>
+    <p-tab value="1"> Histórico </p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      @if(tabValue === '0') {
+      <app-inventory-items
+        [inventoryId]="inventoryId"
+        (transactionCompleted)="handleTransactionCompleted()"
+      />
+      }
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      @if(tabValue === '1') {
+      <app-inventory-history [inventoryId]="inventoryId" />
+      }
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
+}
