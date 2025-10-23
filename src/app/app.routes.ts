@@ -111,7 +111,7 @@ export const routes: Routes = [
           },
           {
             path: ':inventoryId',
-            data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
+            data: { breadcrumb: 'Detalhes', roles: [UserRoleEnum.ADMIN] },
             canActivate: [roleGuard],
             loadComponent: () =>
               import(
