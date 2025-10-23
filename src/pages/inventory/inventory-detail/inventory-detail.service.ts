@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, take } from 'rxjs';
 import { InventoryApiService } from '../../../service/api-service/inventory-api.service';
-import { GetInventoryItemSummaryResponse, GetInventorySummaryResponse } from '../../../service/responses/inventory-response';
+import { GetInventorySummaryResponse } from '../../../service/responses/inventory-response';
 
 @Injectable()
 export class InventoryDetailService {
@@ -10,7 +10,7 @@ export class InventoryDetailService {
   private router = inject(Router);
   private inventoryApiService = inject(InventoryApiService);
 
-  private summarySubject = new BehaviorSubject<GetInventoryItemSummaryResponse | null>(
+  private summarySubject = new BehaviorSubject<GetInventorySummaryResponse | null>(
     null
   );
   summary$ = this.summarySubject.asObservable();

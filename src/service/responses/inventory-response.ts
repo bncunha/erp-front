@@ -9,6 +9,7 @@ export interface GetInventorySummaryResponse {
   total_skus: number;
   total_quantity: number;
   zero_quantity_items: number;
+  last_transaction_days?: number;
 }
 
 export interface GetInventoryItemsResponse {
@@ -19,14 +20,6 @@ export interface GetInventoryItemsResponse {
   inventory_type: string;
   user_name: string;
   quantity: number;
-}
-
-export interface GetInventoryItemSummaryResponse {
-  inventory_id: number;
-  inventory_name: string;
-  total_quantity: number;
-  zero_quantity_items: number;
-  last_transaction_days?: number;
 }
 
 export interface GetTransactionHistoryResponse {

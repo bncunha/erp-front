@@ -75,7 +75,7 @@
   @if (filteredItems$ | async; as products) {
   @if (products.length > 0) {
   <div class="inventory-products__grid">
-    @for (product of products; track trackByInventoryItem) {
+    @for (product of products; track product.sku_code) {
     <article class="product-card">
       <div class="product-card__info">
         <h3>{{ product.product_name }}</h3>
@@ -88,26 +88,29 @@
       <div class="product-card__actions">
         <button
           pButton
+          size="small"
           type="button"
           icon="pi pi-arrow-down-left"
-          label="+ Entrada"
+          label="Entrada"
           severity="success"
           (click)="openTransaction('IN')"
         ></button>
         <button
           pButton
+          size="small"
           type="button"
           icon="pi pi-arrow-up-right"
-          label="- Saída"
+          label="Saída"
           severity="danger"
           (click)="openTransaction('OUT')"
         ></button>
         <button
           pButton
+          size="small"
           type="button"
           icon="pi pi-exchange"
           label="Transferência"
-          severity="contrast"
+          severity="secondary"
           (click)="openTransaction('TRANSFER')"
         ></button>
       </div>

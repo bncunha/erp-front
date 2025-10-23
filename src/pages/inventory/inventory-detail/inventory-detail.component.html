@@ -10,6 +10,17 @@
   </div>
   <div class="inventory-summary">
     <div class="summary-card">
+      <div class="summary-card__icon summary-card__icon--skus">
+        <i class="pi pi-tags"></i>
+      </div>
+      <div class="summary-card__content">
+        <span class="summary-card__label">Produtos cadastrados</span>
+        <span class="summary-card__value">
+          {{ summary.total_skus | number: '1.0-0' }} produtos
+        </span>
+      </div>
+    </div>
+    <div class="summary-card">
       <div class="summary-card__icon summary-card__icon--total">
         <i class="pi pi-box"></i>
       </div>
@@ -68,7 +79,7 @@
   </div>
   <div class="inventory-summary">
     @if (isSummaryLoading$ | async) {
-    @for (item of [0, 1, 2]; track item) {
+    @for (item of [0, 1, 2, 3]; track item) {
     <p-skeleton height="110px" styleClass="summary-card__skeleton"></p-skeleton>
     }
     } @else {
