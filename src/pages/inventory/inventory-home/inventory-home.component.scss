@@ -83,11 +83,19 @@
 }
 
 .inventory-card__metric-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--gray-600, #4b5563);
+}
+
+.inventory-card__metric-icon {
+  font-size: 0.875rem;
+  color: var(--primary-color, #3b82f6);
 }
 
 .inventory-card__metric-value {

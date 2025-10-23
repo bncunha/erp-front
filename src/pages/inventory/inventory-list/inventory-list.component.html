@@ -1,9 +1,0 @@
-<app-inventory-form-dialog #formDialog (onSubmitSuccess)="service.reload()" />
-
-<app-table
-  [showEdit]="false"
-  [showDelete]="false"
-  [columns]="columns"
-  [value]="(items | async)!"
-  (onAddClick)="formDialog.open()"
-/>

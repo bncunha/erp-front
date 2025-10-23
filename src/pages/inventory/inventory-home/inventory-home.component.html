@@ -11,7 +11,7 @@
           id="inventory-search"
           type="search"
           name="inventory-search"
-          placeholder="Filtrar por nome ou resumo"
+          placeholder="Filtrar por nome"
           [formControl]="searchControl"
         />
         <button
@@ -42,6 +42,10 @@
                 <div class="inventory-card__metrics">
                   <div class="inventory-card__metric">
                     <span class="inventory-card__metric-label">
+                      <i
+                        class="pi pi-box inventory-card__metric-icon"
+                        aria-hidden="true"
+                      ></i>
                       Produtos cadastrados
                     </span>
                     <span class="inventory-card__metric-value">
@@ -50,6 +54,10 @@
                   </div>
                   <div class="inventory-card__metric">
                     <span class="inventory-card__metric-label">
+                      <i
+                        class="pi pi-database inventory-card__metric-icon"
+                        aria-hidden="true"
+                      ></i>
                       Quantidade total
                     </span>
                     <span class="inventory-card__metric-value">
@@ -58,6 +66,10 @@
                   </div>
                   <div class="inventory-card__metric">
                     <span class="inventory-card__metric-label">
+                      <i
+                        class="pi pi-exclamation-circle inventory-card__metric-icon"
+                        aria-hidden="true"
+                      ></i>
                       Itens zerados
                     </span>
                     <span class="inventory-card__metric-value">
