@@ -19,10 +19,11 @@ import { FormGroupRequiredAsteriscDirective } from './directives/required-asteri
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DrawerModule } from 'primeng/drawer';
 import { ChipModule } from 'primeng/chip';
-import { PanelModule } from 'primeng/panel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MaskPipe } from './pipes/mask.pipe';
+import { PanelModule } from 'primeng/panel';
+import { PaginatorModule } from 'primeng/paginator';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -39,6 +40,7 @@ const PRIME_NG_MODULES = [
   PanelModule,
   DatePickerModule,
   SkeletonModule,
+  PaginatorModule,
 ];
 
 @NgModule({

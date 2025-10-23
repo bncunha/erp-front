@@ -72,10 +72,10 @@
     }
   </div>
   } @else {
-  @if (filteredItems$ | async; as products) {
-  @if (products.length > 0) {
+  @if (paginatedItems$ | async; as paginated) {
+  @if (paginated.totalItems > 0) {
   <div class="inventory-products__grid">
-    @for (product of products; track product.sku_code) {
+    @for (product of paginated.items; track product.sku_code) {
     <article class="product-card">
       <div class="product-card__info">
         <h3>{{ product.product_name }}</h3>
@@ -115,6 +115,16 @@
         ></button>
       </div>
     </article>
+    }
+  </div>
+  <div class="inventory-products__footer">
+    @if (paginated.totalItems > paginated.pageSize) {
+    <p-paginator
+      [rows]="paginated.pageSize"
+      [totalRecords]="paginated.totalItems"
+      [first]="(paginated.page - 1) * paginated.pageSize"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
     }
   </div>
   } @else {

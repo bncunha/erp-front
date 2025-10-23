@@ -77,7 +77,7 @@
     gap: 1.5rem;
 
     @media (min-width: 768px) {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
   }
 
@@ -88,6 +88,31 @@
     background: var(--p-surface-0);
     border-radius: 1rem;
     box-shadow: 0 2px 12px 0 #0000000a;
+  }
+
+  &__footer {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    justify-content: center;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .p-paginator {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  &__results {
+    font-size: 0.875rem;
+    color: var(--p-surface-500);
   }
 }
 
@@ -114,7 +139,7 @@
   &__info {
     h3 {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--p-surface-900);
     }
 
@@ -138,7 +163,7 @@
 
     strong {
       display: block;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       color: var(--p-surface-900);
     }
   }

@@ -14,6 +14,7 @@ import { InventoryFormDialogComponent } from '../inventory-form-dialog/inventory
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { GetInventoryItemsResponse } from '../../../service/responses/inventory-response';
 import { InventoryTransactionType } from '../inventory-form-dialog/inventory-form-dialog.service';
+import { PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-inventory-items',
@@ -33,6 +34,10 @@ export class InventoryItemsComponent implements OnChanges {
     term: '',
     availability: 'all',
   });
+  private paginationSubject = new BehaviorSubject<InventoryPaginationState>({
+    page: 1,
+    pageSize: 12,
+  });
 
   service: InventoryItemsService = inject(InventoryItemsService);
 
@@ -49,6 +54,31 @@ export class InventoryItemsComponent implements OnChanges {
     this.service.items$,
     this.filtersSubject.asObservable(),
   ]).pipe(map(([items, filters]) => this.filterItems(items, filters)));
+  readonly paginatedItems$ = combineLatest([
+    this.filteredItems$,
+    this.paginationSubject.asObservable(),
+  ]).pipe(
+    map(([items, pagination]) => {
+      const totalItems = items.length;
+      const pageSize = pagination.pageSize;
+      const totalPages =
+        totalItems > 0 ? Math.ceil(totalItems / pageSize) : 1;
+      const currentPage = Math.min(pagination.page, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const pagedItems = items.slice(start, end);
+
+      return {
+        items: pagedItems,
+        totalItems,
+        totalPages,
+        pageSize,
+        page: totalItems === 0 ? 1 : currentPage,
+        first: pagedItems.length > 0 ? start + 1 : 0,
+        last: pagedItems.length > 0 ? start + pagedItems.length : 0,
+      };
+    })
+  );
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('inventoryId' in changes) {
@@ -77,6 +107,7 @@ export class InventoryItemsComponent implements OnChanges {
   clearFilters() {
     this.filters = { term: '', availability: 'all' };
     this.filtersSubject.next(this.filters);
+    this.resetPagination();
   }
 
   clearSearch() {
@@ -109,6 +140,15 @@ export class InventoryItemsComponent implements OnChanges {
     this.transactionCompleted.emit();
   }
 
+  onPageChange(state: PaginatorState) {
+    const pageSize = state.rows ?? this.paginationSubject.value.pageSize;
+    const pageIndex = (state.page ?? 0) + 1;
+    this.paginationSubject.next({
+      page: pageIndex,
+      pageSize,
+    });
+  }
+
   private updateFilters(filters: Partial<InventoryItemsFilters>) {
     this.filters = {
       ...this.filters,
@@ -116,6 +156,7 @@ export class InventoryItemsComponent implements OnChanges {
       term: filters.term !== undefined ? filters.term.trim() : this.filters.term,
     };
     this.filtersSubject.next(this.filters);
+    this.resetPagination();
   }
 
   private filterItems(
@@ -139,6 +180,13 @@ export class InventoryItemsComponent implements OnChanges {
 
     return filtered;
   }
+
+  private resetPagination() {
+    this.paginationSubject.next({
+      ...this.paginationSubject.value,
+      page: 1,
+    });
+  }
 }
 
 type InventoryAvailability = 'all' | 'in_stock' | 'out_of_stock';
@@ -151,4 +199,9 @@ interface InventoryAvailabilityOption {
 interface InventoryItemsFilters {
   term: string;
   availability: InventoryAvailability;
+}
+
+interface InventoryPaginationState {
+  page: number;
+  pageSize: number;
 }
