@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
+  GetInventorySummaryResponse,
   GetInventoryItemsResponse,
   GetInventoryResponse,
   GetTransactionHistoryResponse,
@@ -18,6 +19,12 @@ export class InventoryApiService {
   getAll(): Observable<GetInventoryResponse[]> {
     return this.httpCliente.get<GetInventoryResponse[]>(
       environment.API_URL + `/inventory`
+    );
+  }
+
+  getSummary(): Observable<GetInventorySummaryResponse[]> {
+    return this.httpCliente.get<GetInventorySummaryResponse[]>(
+      environment.API_URL + `/inventory/summary`
     );
   }
 

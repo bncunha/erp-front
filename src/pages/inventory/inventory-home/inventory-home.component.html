@@ -1,0 +1,94 @@
+<section class="inventory-home">
+  <header class="inventory-home__header">
+    <h1 class="inventory-home__title">Estoque</h1>
+    <form
+      class="inventory-home__filter"
+      (submit)="$event.preventDefault()"
+    >
+      <div class="inventory-home__filter-fields">
+        <input
+          pInputText
+          id="inventory-search"
+          type="search"
+          name="inventory-search"
+          placeholder="Filtrar por nome ou resumo"
+          [formControl]="searchControl"
+        />
+        <button
+          type="button"
+          pButton
+          severity="secondary"
+          label="Limpar"
+          (click)="clearSearch()"
+          *ngIf="searchControl.value"
+        ></button>
+      </div>
+    </form>
+  </header>
+
+  @if (inventorySummary$ | async; as inventories) {
+    @if (inventories.length > 0) {
+      <div class="inventory-home__grid">
+        @for (summary of inventories; track summary.inventory_id) {
+          <a
+            class="inventory-card"
+            [routerLink]="['/estoque', summary.inventory_id]"
+          >
+            <app-card>
+              <div class="inventory-card__content">
+                <h2 class="inventory-card__title">
+                  {{ summary.inventory_name }}
+                </h2>
+                <div class="inventory-card__metrics">
+                  <div class="inventory-card__metric">
+                    <span class="inventory-card__metric-label">
+                      Produtos cadastrados
+                    </span>
+                    <span class="inventory-card__metric-value">
+                      {{ summary.total_skus | number: '1.0-0' }}
+                    </span>
+                  </div>
+                  <div class="inventory-card__metric">
+                    <span class="inventory-card__metric-label">
+                      Quantidade total
+                    </span>
+                    <span class="inventory-card__metric-value">
+                      {{ summary.total_quantity | number: '1.0-0' }}
+                    </span>
+                  </div>
+                  <div class="inventory-card__metric">
+                    <span class="inventory-card__metric-label">
+                      Itens zerados
+                    </span>
+                    <span class="inventory-card__metric-value">
+                      {{ summary.zero_quantity_items | number: '1.0-0' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </app-card>
+          </a>
+        }
+      </div>
+    } @else {
+      <p class="inventory-home__empty">
+        Nenhum estoque encontrado.
+      </p>
+    }
+  } @else {
+    <div class="inventory-home__grid">
+      @for (skeleton of skeletonLoaders; track skeleton) {
+        <app-card>
+          <div class="inventory-card__skeleton">
+            <p-skeleton width="60%" height="1.5rem"></p-skeleton>
+            <div class="inventory-card__skeleton-metrics">
+              <p-skeleton width="40%" height="1rem"></p-skeleton>
+              <p-skeleton width="35%" height="1rem"></p-skeleton>
+              <p-skeleton width="45%" height="1rem"></p-skeleton>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</section>
