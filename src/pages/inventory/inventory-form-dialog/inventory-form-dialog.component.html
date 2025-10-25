@@ -3,7 +3,7 @@
   [modal]="true"
   [dismissableMask]="true"
   header="Movimentar Estoque"
-  [style]="{ width: '900px' }"
+  [style]="{ width: '900px', maxWidth: '90%' }"
   [draggable]="false"
 >
   @if (isOpen) {
@@ -78,33 +78,15 @@
         </p>
       </div>
       <div>
-        <label>Origem - estoque atual</label>
+        <label>Estoque de origem</label>
         <p class="inventory-info">
-          {{ (selectedProduct?.quantity ?? 0) | number: '1.0-0' }}
+          {{ (selectedProduct?.quantity ?? 0) | number: '1.0-0' }} -> {{ currentInventoryProjectedQuantity | number: '1.0-0' }}
         </p>
       </div>
       <div>
-        <label>Origem - estoque após movimentação</label>
+        <label>Estoque de destino</label>
         <p class="inventory-info">
-          @if (currentInventoryProjectedQuantity !== null) {
-          {{ currentInventoryProjectedQuantity | number: '1.0-0' }}
-          } @else { - }
-        </p>
-      </div>
-      <div>
-        <label>Destino - estoque atual</label>
-        <p class="inventory-info">
-          @if (destinationCurrentQuantity !== null) {
-          {{ destinationCurrentQuantity | number: '1.0-0' }}
-          } @else { '-' }
-        </p>
-      </div>
-      <div>
-        <label>Destino - estoque após movimentação</label>
-        <p class="inventory-info">
-          @if (destinationProjectedQuantity !== null) {
-          {{ destinationProjectedQuantity | number: '1.0-0' }}
-          } @else { '-' }
+          {{ destinationCurrentQuantity | number: '1.0-0' }} -> {{ destinationProjectedQuantity | number: '1.0-0' }}
         </p>
       </div>
     </div>
