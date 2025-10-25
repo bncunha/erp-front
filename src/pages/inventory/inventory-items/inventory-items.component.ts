@@ -13,7 +13,7 @@ import { InventoryItemsService } from './inventory-items.service';
 import { InventoryFormDialogComponent } from '../inventory-form-dialog/inventory-form-dialog.component';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { GetInventoryItemsResponse } from '../../../service/responses/inventory-response';
-import { InventoryTransactionType } from '../inventory-form-dialog/inventory-form-dialog.service';
+import { InventoryTypeEnum } from '../../../enums/inventory-type.enum';
 import { PaginatorState } from 'primeng/paginator';
 
 @Component({
@@ -95,6 +95,7 @@ export class InventoryItemsComponent implements OnChanges {
 
   trackByInventoryItem = (_: number, item: GetInventoryItemsResponse) =>
     item.inventory_item_id;
+  protected readonly InventoryTypeEnum = InventoryTypeEnum;
 
   onSearchChange(term: string) {
     this.updateFilters({ term });
@@ -124,7 +125,10 @@ export class InventoryItemsComponent implements OnChanges {
     this.updateFilters({ availability: 'all' });
   }
 
-  openTransaction(type: InventoryTransactionType) {
+  openTransaction(
+    type: InventoryTypeEnum,
+    product: GetInventoryItemsResponse
+  ) {
     if (!this.formDialog || this.inventoryId === null) {
       return;
     }
@@ -132,6 +136,7 @@ export class InventoryItemsComponent implements OnChanges {
     this.formDialog.open({
       type,
       inventoryId: this.inventoryId,
+      product,
     });
   }
 

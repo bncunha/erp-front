@@ -12,143 +12,149 @@
     [formGroup]="form"
     (submit)="handleSubmit(form)"
   >
-    <div class="sm:col-span-2">
-      <label> Tipo </label>
-      <input type="hidden" formControlName="type" />
-      <div class="flex flex-wrap gap-4 mt-3">
-        <div class="flex items-center">
-          <p-radiobutton
-            formControlName="type"
-            value="IN"
-            inputId="strock_in"
-            (onClick)="service.onTypeChange($event, form)"
-          />
-          <label for="strock_in" class="ml-2 mb-0">Entrada</label>
-        </div>
+    <input type="hidden" formControlName="type" />
+    <input type="hidden" formControlName="inventory_origin_id" />
+    <input type="hidden" formControlName="sku_id" />
 
-        <div class="flex items-center">
-          <p-radiobutton
-            formControlName="type"
-            value="OUT"
-            inputId="stock_out"
-            (onClick)="service.onTypeChange($event, form)"
-          />
-          <label for="stock_out" class="ml-2 mb-0"> Saída </label>
-        </div>
-
-        <div class="flex items-center">
-          <p-radiobutton
-            formControlName="type"
-            value="TRANSFER"
-            inputId="transfer"
-            (onClick)="service.onTypeChange($event, form)"
-          />
-          <label for="transfer" class="ml-2 mb-0"> Transferência </label>
-        </div>
+    <div class="col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label>Tipo</label>
+        <p
+          class="inventory-info"
+          [style.color]="getInventoryTypeColor(transactionType)"
+        >
+          {{ getInventoryTypeLabel(transactionType) }}
+        </p>
+      </div>
+      <div>
+        <label>Estoque</label>
+        <p class="inventory-info">
+          {{ selectedProduct?.user_name + ' - ' + (selectedProduct?.inventory_type ?? '-') }}
+        </p>
+      </div>
+      <div>
+        <label>Produto</label>
+        <p class="inventory-info">
+          {{ selectedProduct?.product_name ?? '-' }}
+        </p>
+      </div>
+      <div>
+        <label>Código</label>
+        <p class="inventory-info">
+          {{ selectedProduct?.sku_code ?? '-' }}
+        </p>
       </div>
     </div>
-    <div class="col-span-1">
-      <label for="origin"> Origem </label>
-      <p-select
-        appendTo="body"
-        [options]="(inventories | async)!"
-        formControlName="inventory_origin_id"
-        inputId="origin"
-        optionLabel="type"
-        optionValue="id"
-        [filter]="true"
-        (onChange)="service.onOriginChange($event)"
-      />
+
+    @if (transactionType !== 'TRANSFER') {
+    <div class="col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label>Estoque atual</label>
+        <p class="inventory-info">
+          {{ (selectedProduct?.quantity ?? 0) | number: '1.0-0' }}
+        </p>
+      </div>
+      <div>
+        <label>Quantidade após movimentação</label>
+        <p class="inventory-info">
+          @if (currentInventoryProjectedQuantity !== null) {
+          {{ currentInventoryProjectedQuantity | number: '1.0-0' }}
+          } @else { - }
+        </p>
+      </div>
     </div>
-    <div class="col-span-1">
-      <label for="destination"> Destino </label>
+    } @else {
+    <div class="col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label>Estoque origem</label>
+        <p class="inventory-info">
+          {{ selectedProduct?.inventory_type ?? '-' }}
+        </p>
+      </div>
+      <div>
+        <label>Estoque destino</label>
+        <p class="inventory-info">
+          {{ getDestinationInventoryName() ?? '-' }}
+        </p>
+      </div>
+      <div>
+        <label>Origem - estoque atual</label>
+        <p class="inventory-info">
+          {{ (selectedProduct?.quantity ?? 0) | number: '1.0-0' }}
+        </p>
+      </div>
+      <div>
+        <label>Origem - estoque após movimentação</label>
+        <p class="inventory-info">
+          @if (currentInventoryProjectedQuantity !== null) {
+          {{ currentInventoryProjectedQuantity | number: '1.0-0' }}
+          } @else { - }
+        </p>
+      </div>
+      <div>
+        <label>Destino - estoque atual</label>
+        <p class="inventory-info">
+          @if (destinationCurrentQuantity !== null) {
+          {{ destinationCurrentQuantity | number: '1.0-0' }}
+          } @else { '-' }
+        </p>
+      </div>
+      <div>
+        <label>Destino - estoque após movimentação</label>
+        <p class="inventory-info">
+          @if (destinationProjectedQuantity !== null) {
+          {{ destinationProjectedQuantity | number: '1.0-0' }}
+          } @else { '-' }
+        </p>
+      </div>
+    </div>
+    }
+
+    @if (transactionType === 'TRANSFER') {
+    <div class="col-span-2">
+      <label for="destination">Destino</label>
       <p-select
         appendTo="body"
-        [options]="(inventories | async)!"
+        [options]="(destinationInventories$ | async) ?? []"
         formControlName="inventory_destination_id"
         inputId="destination"
         optionLabel="type"
         optionValue="id"
         [filter]="true"
+        placeholder="Selecione o destino"
       />
     </div>
-    <div class="sm:col-span-1">
-      <button
-        type="button"
-        pButton
-        icon="pi pi-plus"
-        size="small"
-        severity="contrast"
-        (click)="service.addSku(form)"
-      >
-        Adicionar Produto
-      </button>
+    }
+
+    <div class="col-span-2 sm:col-span-2">
+      <label for="quantity">Quantidade</label>
+      <p-inputNumber
+        inputId="quantity"
+        formControlName="quantity"
+        min="1"
+        [useGrouping]="false"
+        required
+      />
     </div>
-    <div class="col-span-2 grid grid-cols-subgrid gap-4 skus-container">
-      <div
-        *ngFor="let sku of service.getSkus(form).controls; let i = index"
-        class="col-span-2"
-        formArrayName="skus"
-      >
-        <div class="grid grid-flow-col grid-cols-4 gap-4" [formGroupName]="i">
-          <div class="sm:col-span-full">
-            <p-select
-              placeholder="Produto"
-              [options]="(allProducts | async)!"
-              [filter]="true"
-              formControlName="sku_id"
-              inputId="product"
-              appendTo="body"
-              optionLabel="product_name"
-              optionValue="sku_id"
-              required
-            >
-              <ng-template let-product #item>
-                <div>
-                  <div>{{ product.product_name }}</div>
-                  <small> Código: {{ product.sku_code }} </small> <br />
-                  <small> Estoque: {{ product.inventory_type }} </small> <br />
-                  <small> Usuário: {{ product.user_name }} </small> <br />
-                  <small> Quantidade: {{ product.quantity }} </small>
-                </div>
-              </ng-template>
-            </p-select>
-          </div>
-          <div class="sm:col-span-1">
-            <p-inputNumber
-              placeholder="Quantidade"
-              formControlName="quantity"
-              inputId="sku-quantity"
-              required
-              min="0"
-            />
-          </div>
-          <div class="sm:col-span-1 flex items-start">
-            <button
-              type="button"
-              pButton
-              icon="pi pi-trash"
-              size="small"
-              severity="danger"
-              [disabled]="i == 0"
-              (click)="service.removeSku(form, i)"
-            ></button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="sm:col-span-2">
-      <label for="reason"> Motivo </label>
+
+    <div class="col-span-2">
+      <label for="reason">Motivo</label>
       <textarea
         pTextarea
         formControlName="justification"
         inputId="reason"
+        maxlength="200"
       ></textarea>
     </div>
 
-    <div class="sm:col-span-2">
-      <button type="submit" pButton fluid [disabled]="isLoading">
-        Adicionar
+    <div class="col-span-2">
+      <button
+        type="submit"
+        pButton
+        fluid
+        [disabled]="isLoading || form.invalid"
+      >
+        Confirmar
       </button>
     </div>
   </form>

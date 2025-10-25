@@ -6,6 +6,13 @@
   border-radius: 1rem;
 }
 
+.inventory-title__name {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--p-surface-500);
+}
+
 .inventory-header {
   display: flex;
   flex-direction: column;

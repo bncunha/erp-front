@@ -93,7 +93,7 @@
           icon="pi pi-arrow-down-left"
           label="Entrada"
           severity="primary"
-          (click)="openTransaction('IN')"
+          (click)="openTransaction(InventoryTypeEnum.IN, product)"
         ></button>
         <button
           pButton
@@ -102,7 +102,7 @@
           icon="pi pi-arrow-up-right"
           label="Saída"
           severity="help"
-          (click)="openTransaction('OUT')"
+          (click)="openTransaction(InventoryTypeEnum.OUT, product)"
         ></button>
         <button
           pButton
@@ -111,7 +111,7 @@
           icon="pi pi-arrow-right-arrow-left"
           label="Transferir"
           severity="secondary"
-          (click)="openTransaction('TRANSFER')"
+          (click)="openTransaction(InventoryTypeEnum.TRANSFER, product)"
         ></button>
       </div>
     </article>

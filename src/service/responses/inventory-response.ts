@@ -5,7 +5,8 @@ export interface GetInventoryResponse {
 
 export interface GetInventorySummaryResponse {
   inventory_id: number;
-  inventory_name: string;
+  user_name: string;
+  inventory_type: string;
   total_skus: number;
   total_quantity: number;
   zero_quantity_items: number;

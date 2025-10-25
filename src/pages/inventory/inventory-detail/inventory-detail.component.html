@@ -6,7 +6,10 @@
 @if (summary$ | async; as summary) {
 <div class="inventory-header">
   <div class="inventory-header__title">
-    <h2>{{ summary.inventory_name }}</h2>
+    <h2>{{ summary.user_name }}</h2>
+    <small class="inventory-header__subtitle">
+      {{ summary.inventory_type }}
+    </small>
   </div>
   <div class="inventory-summary">
     <div class="summary-card">
