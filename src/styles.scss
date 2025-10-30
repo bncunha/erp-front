@@ -132,3 +132,7 @@ button:not(.p-button) {
     opacity: 0.5;
   }
 }
+
+.pi::before {
+  backface-visibility: visible;
+}
