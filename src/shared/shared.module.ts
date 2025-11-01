@@ -24,6 +24,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { MaskPipe } from './pipes/mask.pipe';
 import { PanelModule } from 'primeng/panel';
 import { PaginatorModule } from 'primeng/paginator';
+import { CheckboxModule } from 'primeng/checkbox';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -41,6 +43,8 @@ const PRIME_NG_MODULES = [
   DatePickerModule,
   SkeletonModule,
   PaginatorModule,
+  CheckboxModule,
+  SplitButtonModule,
 ];
 
 @NgModule({

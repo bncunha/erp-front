@@ -6,6 +6,9 @@
   #multipleFormDialog
   (onSubmitSuccess)="handleTransactionSuccess()"
 />
+<app-inventory-form-dialog-lote
+  (onSubmitSuccess)="handleTransactionSuccess()"
+/>
 
 @if (inventoryId === null) {
 <div class="inventory-items__empty">
@@ -69,14 +72,35 @@
 </section>
 
   <div class="inventory-items__actions">
-    <button
-      type="button"
-      pButton
-      icon="pi pi-plus"
-      label="Adicionar produtos"
-      (click)="openMultipleTransaction()"
-      [disabled]="inventoryId === null"
-    ></button>
+    <div class="inventory-items__buttons">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        label="Adicionar produtos"
+        (click)="openMultipleTransaction()"
+        [disabled]="inventoryId === null"
+      ></button>
+      <p-splitButton
+        label="Movimentar em lote"
+        icon="pi pi-arrow-right-arrow-left"
+        severity="secondary"
+        [model]="batchMenuItems"
+        [disabled]="selectedProductsCount === 0"
+        appendTo="body"
+      ></p-splitButton>
+    </div>
+    <div class="inventory-items__selection">
+      <p-checkbox
+        inputId="select-all-products"
+        [binary]="true"
+        [ngModel]="selectAllChecked"
+        (onChange)="onSelectAllChange($event)"
+        [disabled]="!hasVisibleProducts"
+      >
+      </p-checkbox>
+      <label for="select-all-products">Selecionar todos</label>
+    </div>
   </div>
 
 <section class="inventory-products">
@@ -91,7 +115,27 @@
   @if (paginated.totalItems > 0) {
   <div class="inventory-products__grid">
     @for (product of paginated.items; track product.sku_code) {
-    <article class="product-card">
+    <article
+      class="product-card"
+      [class.product-card--selected]="isProductSelected(product.inventory_item_id)"
+      (click)="toggleProductSelection(product)"
+    >
+      <div class="product-card__header" (click)="$event.stopPropagation()">
+        <p-checkbox
+          [binary]="true"
+          [ngModel]="isProductSelected(product.inventory_item_id)"
+          (onChange)="onProductSelectionChange(product, $event)"
+          inputId="product-{{ product.inventory_item_id }}"
+          (click)="$event.stopPropagation()"
+        ></p-checkbox>
+        <label
+          class="product-card__header-label"
+          for="product-{{ product.inventory_item_id }}"
+          (click)="toggleProductSelection(product); $event.preventDefault(); $event.stopPropagation()"
+        >
+          Selecionar
+        </label>
+      </div>
       <div class="product-card__info">
         <h3>{{ product.product_name }}</h3>
         <span class="product-card__code">Código: {{ product.sku_code }}</span>

@@ -68,7 +68,35 @@
 
 .inventory-items__actions {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.inventory-items__selection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  label {
+    margin: 0;
+  }
+}
+
+.inventory-items__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  button {
+    flex: none;
+  }
+
+  .p-splitbutton {
+    flex: none;
+  }
 }
 
 .inventory-products {
@@ -132,14 +160,33 @@
   box-shadow: 0 2px 12px 0 #0000000a;
   border: 1px solid var(--border-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px 0 #00000014;
   }
 
+  &--selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+  }
+
   &--skeleton {
     padding: 0;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: auto;
+  }
+
+  &__header-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary-color);
+    margin: 0;
   }
 
   &__info {

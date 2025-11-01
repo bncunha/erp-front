@@ -17,7 +17,6 @@
 .inventory-home__title {
   font-size: 2rem;
   font-weight: 600;
-  color: var(--gray-900, #1f2937);
   margin: 0;
 }
 
@@ -65,7 +64,6 @@
 .inventory-card__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--gray-900, #111827);
   margin: 0;
 }
 
@@ -90,7 +88,6 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--gray-600, #4b5563);
 }
 
 .inventory-card__metric-icon {
@@ -101,12 +98,10 @@
 .inventory-card__metric-value {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--gray-900, #111827);
 }
 
 .inventory-home__empty {
   font-size: 0.875rem;
-  color: var(--gray-500, #6b7280);
 }
 
 .inventory-card__skeleton {

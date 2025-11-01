@@ -7,6 +7,7 @@ import {
   inject,
   OnChanges,
   SimpleChanges,
+  DestroyRef,
 } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { InventoryItemsService } from './inventory-items.service';
@@ -19,6 +20,11 @@ import {
 import { InventoryTypeEnum } from '../../../enums/inventory-type.enum';
 import { PaginatorState } from 'primeng/paginator';
 import { InventoryFormDialogMultipleComponent } from '../inventory-form-dialog-multiple/inventory-form-dialog-multiple.component';
+import { InventoryFormDialogLoteComponent } from '../inventory-form-dialog-lote/inventory-form-dialog-lote.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { MenuItem } from 'primeng/api';
+import { ToastService } from '../../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-inventory-items',
@@ -26,6 +32,7 @@ import { InventoryFormDialogMultipleComponent } from '../inventory-form-dialog-m
     SharedModule,
     InventoryFormDialogComponent,
     InventoryFormDialogMultipleComponent,
+    InventoryFormDialogLoteComponent,
   ],
   templateUrl: './inventory-items.component.html',
   styleUrl: './inventory-items.component.scss',
@@ -36,6 +43,10 @@ export class InventoryItemsComponent implements OnChanges {
   formDialog?: InventoryFormDialogComponent;
   @ViewChild(InventoryFormDialogMultipleComponent)
   multipleFormDialog?: InventoryFormDialogMultipleComponent;
+  @ViewChild(InventoryFormDialogLoteComponent)
+  batchFormDialog?: InventoryFormDialogLoteComponent;
+  private destroyRef = inject(DestroyRef);
+  private toastService = inject(ToastService);
 
   @Input() inventoryId: number | null = null;
   @Input() inventorySummary: GetInventorySummaryResponse | null = null;
@@ -53,6 +64,12 @@ export class InventoryItemsComponent implements OnChanges {
   service: InventoryItemsService = inject(InventoryItemsService);
 
   filters: InventoryItemsFilters = this.filtersSubject.value;
+  private allItemsMap = new Map<number, GetInventoryItemsResponse>();
+  private filteredItemsSnapshot: GetInventoryItemsResponse[] = [];
+  selectedProductIds = new Set<number>();
+  selectAllChecked = false;
+  hasVisibleProducts = false;
+  batchMenuItems: MenuItem[] = [];
 
   readonly availabilityOptions: InventoryAvailabilityOption[] = [
     { label: 'Todos', value: 'all' },
@@ -91,10 +108,48 @@ export class InventoryItemsComponent implements OnChanges {
     })
   );
 
+  constructor() {
+    this.batchMenuItems = [
+      {
+        label: 'Entrada',
+        icon: 'pi pi-arrow-down-left',
+        command: () => this.openBatchTransaction(InventoryTypeEnum.IN),
+      },
+      {
+        label: 'Saída',
+        icon: 'pi pi-arrow-up-right',
+        command: () => this.openBatchTransaction(InventoryTypeEnum.OUT),
+      },
+      {
+        label: 'Transferência',
+        icon: 'pi pi-arrow-right-arrow-left',
+        command: () => this.openBatchTransaction(InventoryTypeEnum.TRANSFER),
+      },
+    ];
+
+    this.service.items$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((items) => {
+        this.allItemsMap = new Map(
+          items.map((item) => [item.inventory_item_id, item])
+        );
+        this.removeUnavailableSelections();
+      });
+
+    this.filteredItems$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((items) => {
+        this.filteredItemsSnapshot = items;
+        this.hasVisibleProducts = items.length > 0;
+        this.updateSelectAllState();
+      });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('inventoryId' in changes) {
       this.service.setInventoryId(this.inventoryId);
       this.clearFilters();
+      this.clearSelection();
     }
   }
 
@@ -170,9 +225,51 @@ export class InventoryItemsComponent implements OnChanges {
     });
   }
 
+  openBatchTransaction(type: InventoryTypeEnum) {
+    if (!this.batchFormDialog || this.inventoryId === null) {
+      return;
+    }
+
+    const selectedProducts = this.getSelectedProducts();
+    if (selectedProducts.length === 0) {
+      this.toastService.showError(
+        'Selecione ao menos um produto para movimentar em lote.',
+        'Nenhum produto selecionado'
+      );
+      return;
+    }
+
+    let productsForDialog = selectedProducts;
+
+    if (
+      type === InventoryTypeEnum.OUT ||
+      type === InventoryTypeEnum.TRANSFER
+    ) {
+      productsForDialog = selectedProducts.filter(
+        (product) => product.quantity > 0
+      );
+
+      if (productsForDialog.length === 0) {
+        this.toastService.showError(
+          'Nenhum dos produtos selecionados possui estoque disponível para esta movimentação.',
+          'Estoque indisponível'
+        );
+        return;
+      }
+    }
+
+    this.batchFormDialog.open({
+      type,
+      inventoryId: this.inventoryId,
+      inventoryName: this.inventoryDisplayName ?? '-',
+      products: productsForDialog,
+    });
+  }
+
   handleTransactionSuccess() {
     this.service.reload();
     this.transactionCompleted.emit();
+    this.clearSelection();
   }
 
   onPageChange(state: PaginatorState) {
@@ -221,6 +318,101 @@ export class InventoryItemsComponent implements OnChanges {
       ...this.paginationSubject.value,
       page: 1,
     });
+  }
+
+  onSelectAllChange(event: CheckboxChangeEvent) {
+    const checked = !!event.checked;
+    this.toggleSelectAll(checked);
+  }
+
+  onProductSelectionChange(
+    product: GetInventoryItemsResponse,
+    event: CheckboxChangeEvent
+  ) {
+    const checked = !!event.checked;
+    if (checked) {
+      this.selectedProductIds.add(product.inventory_item_id);
+    } else {
+      this.selectedProductIds.delete(product.inventory_item_id);
+    }
+
+    this.updateSelectAllState();
+  }
+
+  toggleProductSelection(product: GetInventoryItemsResponse) {
+    if (this.selectedProductIds.has(product.inventory_item_id)) {
+      this.selectedProductIds.delete(product.inventory_item_id);
+    } else {
+      this.selectedProductIds.add(product.inventory_item_id);
+    }
+
+    this.updateSelectAllState();
+  }
+
+  isProductSelected(productId: number): boolean {
+    return this.selectedProductIds.has(productId);
+  }
+
+  get selectedProductsCount(): number {
+    return this.selectedProductIds.size;
+  }
+
+  getSelectedProducts(): GetInventoryItemsResponse[] {
+    return Array.from(this.selectedProductIds)
+      .map((id) => this.allItemsMap.get(id))
+      .filter((item): item is GetInventoryItemsResponse => !!item);
+  }
+
+  clearSelection() {
+    this.selectedProductIds.clear();
+    this.selectAllChecked = false;
+  }
+
+  private toggleSelectAll(checked: boolean) {
+    const targetItems = this.filteredItemsSnapshot;
+
+    if (targetItems.length === 0) {
+      this.clearSelection();
+      return;
+    }
+
+    if (checked) {
+      targetItems.forEach((item) =>
+        this.selectedProductIds.add(item.inventory_item_id)
+      );
+    } else {
+      targetItems.forEach((item) =>
+        this.selectedProductIds.delete(item.inventory_item_id)
+      );
+    }
+    this.updateSelectAllState();
+  }
+
+  private updateSelectAllState() {
+    if (this.filteredItemsSnapshot.length === 0) {
+      this.selectAllChecked = false;
+      return;
+    }
+
+    this.selectAllChecked = this.filteredItemsSnapshot.every((item) =>
+      this.selectedProductIds.has(item.inventory_item_id)
+    );
+  }
+
+  private removeUnavailableSelections() {
+    const availableIds = new Set(this.allItemsMap.keys());
+    const toRemove: number[] = [];
+
+    this.selectedProductIds.forEach((id) => {
+      if (!availableIds.has(id)) {
+        toRemove.push(id);
+      }
+    });
+
+    if (toRemove.length > 0) {
+      toRemove.forEach((id) => this.selectedProductIds.delete(id));
+      this.updateSelectAllState();
+    }
   }
 }
 
