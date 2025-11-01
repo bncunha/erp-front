@@ -3,6 +3,16 @@ export interface GetInventoryResponse {
   type: string;
 }
 
+export interface GetInventorySummaryResponse {
+  inventory_id: number;
+  user_name: string;
+  inventory_type: string;
+  total_skus: number;
+  total_quantity: number;
+  zero_quantity_items: number;
+  last_transaction_days?: number;
+}
+
 export interface GetInventoryItemsResponse {
   inventory_item_id: number;
   sku_id: number;

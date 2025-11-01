@@ -1,0 +1,194 @@
+<p-dialog
+  [(visible)]="isOpen"
+  [modal]="true"
+  [dismissableMask]="true"
+  header="Movimentação em lote"
+  [style]="{ width: '960px', maxWidth: '95%' }"
+  [draggable]="false"
+>
+  @if (isOpen) {
+  <form
+    class="batch-form"
+    [formGroup]="form"
+    (ngSubmit)="handleSubmit(form)"
+  >
+    <input type="hidden" formControlName="type" />
+    <input type="hidden" formControlName="inventory_origin_id" />
+
+    <div class="batch-form__grid">
+      <div>
+        <label>Tipo</label>
+        <p
+          class="batch-form__tag"
+          [style.color]="getInventoryTypeColor(transactionType)"
+        >
+          {{ getInventoryTypeLabel(transactionType) }}
+        </p>
+      </div>
+      <div>
+        <label>Estoque de origem</label>
+        <p class="batch-form__info">{{ inventoryName }}</p>
+      </div>
+      @if (isTransfer) {
+      <div class="batch-form__destination">
+        <label for="destination">Estoque de destino</label>
+        <p-select
+          appendTo="body"
+          inputId="destination"
+          placeholder="Selecione o destino"
+          formControlName="inventory_destination_id"
+          [options]="(destinationInventories$ | async) ?? []"
+          optionLabel="type"
+          optionValue="id"
+          [filter]="true"
+          (onChange)="onDestinationChange($event.value)"
+        ></p-select>
+        @if (
+          form.get('inventory_destination_id')?.invalid &&
+          form.get('inventory_destination_id')?.touched
+        ) {
+        <small class="batch-form__error">Selecione um destino.</small>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="batch-form__quick-actions">
+      <button
+        type="button"
+        pButton
+        size="small"
+        icon="pi pi-sort-numeric-down"
+        label="Definir 1 unidade para todos"
+        (click)="setAllQuantitiesToOne()"
+        [disabled]="skuControls.length === 0 || isLoading"
+      ></button>
+      <button
+        type="button"
+        pButton
+        size="small"
+        icon="pi pi-angle-double-down"
+        label="Definir qtd. máxima para todos"
+        severity="danger"
+        (click)="setAllQuantitiesToMax()"
+        [disabled]="skuControls.length === 0 || isLoading"
+      ></button>
+    </div>
+
+    <div
+      class="batch-form__table"
+      [class.batch-form__table--transfer]="isTransfer"
+      formArrayName="skus"
+    >
+      <div
+        class="batch-form__table-header"
+        [class.batch-form__table-header--transfer]="isTransfer"
+      >
+        <span>Produtos</span>
+        <span>Quantidade</span>
+        <span>Estoque origem</span>
+        @if (isTransfer) {
+        <span>Estoque destino</span>
+        }
+        <span>Ações</span>
+      </div>
+
+      @for (control of skuControls; track control.get('sku_id')?.value ?? $index; let i = $index) {
+      @let originProjected = getOriginProjectedQuantity(control);
+      @let destinationProjected = getDestinationProjectedQuantity(control);
+      @let destinationCurrent = getDestinationCurrentQuantity(
+        control.get('sku_id')?.value
+      );
+      <div
+        class="batch-form__row"
+        [class.batch-form__row--transfer]="isTransfer"
+        [formGroupName]="i"
+      >
+        <div
+          class="batch-form__cell batch-form__cell--info"
+          data-label="Produtos"
+        >
+          <div class="batch-form__cell-header">
+            <h4>{{ control.get('product_name')?.value }}</h4>
+          </div>
+          <p>Código: {{ control.get('sku_code')?.value }}</p>
+        </div>
+        <div
+          class="batch-form__cell batch-form__cell--quantity"
+          data-label="Quantidade"
+        >
+          <p-inputNumber
+            [inputId]="'quantity-' + i"
+            formControlName="quantity"
+            min="1"
+            [useGrouping]="false"
+          ></p-inputNumber>
+        </div>
+        <div
+          class="batch-form__cell batch-form__cell--origin"
+          data-label="Estoque origem"
+        >
+          <strong>
+            {{ control.get('available_quantity')?.value | number: '1.0-0' }}
+            ->
+            {{ originProjected | number: '1.0-0' }}
+          </strong>
+        </div>
+        @if (isTransfer) {
+        <div
+          class="batch-form__cell batch-form__cell--destination"
+          data-label="Estoque destino"
+        >
+          <strong>
+            {{ destinationCurrent | number: '1.0-0' }}
+            ->
+            {{ (destinationProjected ?? destinationCurrent) | number: '1.0-0' }}
+          </strong>
+        </div>
+        }
+        <div
+          class="batch-form__cell batch-form__cell--actions"
+          data-label="Ações"
+        >
+          <button
+            type="button"
+            pButton
+            icon="pi pi-trash"
+            severity="danger"
+            [text]="true"
+            (click)="removeProduct(i)"
+          ></button>
+        </div>
+      </div>
+      }
+    </div>
+
+    @if (skuControls.length < 1) {
+    <p class="batch-form__warning">
+      É necessário manter ao menos um produto para movimentação em lote.
+    </p>
+    }
+
+    <div class="batch-form__justification">
+      <label for="reason">Motivo</label>
+      <textarea
+        pTextarea
+        inputId="reason"
+        formControlName="justification"
+        maxlength="200"
+      ></textarea>
+    </div>
+
+    <div class="batch-form__actions">
+      <button
+        type="submit"
+        pButton
+        fluid
+        [disabled]="isLoading || form.invalid || skuControls.length < 1"
+      >
+        Confirmar
+      </button>
+    </div>
+  </form>
+  }
+</p-dialog>

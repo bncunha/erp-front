@@ -1,0 +1,131 @@
+<p-dialog
+  [(visible)]="isOpen"
+  [modal]="true"
+  [dismissableMask]="true"
+  header="Adicionar produtos"
+  [style]="{ width: '900px', maxWidth: '90%' }"
+  [draggable]="false"
+>
+  @if (isOpen) {
+  <form
+    class="grid grid-cols-1 gap-4"
+    [formGroup]="form"
+    (submit)="handleSubmit(form)"
+  >
+    <input type="hidden" formControlName="type" />
+    <input type="hidden" formControlName="inventory_destination_id" />
+
+    <div class="inventory-multiple__header">
+      <div>
+        <label>Tipo</label>
+        <p class="inventory-info inventory-info--type">Entrada</p>
+      </div>
+      <div>
+        <label>Estoque</label>
+        <p class="inventory-info">{{ inventoryName }}</p>
+      </div>
+    </div>
+
+    <div class="inventory-multiple__list" formArrayName="skus">
+      @for (control of skuControls; track $index; let i = $index) {
+      @let currentQuantity = service.getCurrentQuantityByIndex(form, i);
+      @let projectedQuantity = service.getProjectedQuantityByIndex(form, i);
+      @let formGroup = service.getFormGroupByIndex(form, i);
+      <div class="inventory-multiple__item" [formGroup]="formGroup">
+        <div class="inventory-multiple__item-header">
+          <h4>Produto {{ i + 1 }}</h4>
+          @if (i > 0) {
+          <button
+            type="button"
+            pButton
+            icon="pi pi-trash"
+            severity="danger"
+            size="small"
+            (click)="removeProduct(i)"
+          >
+            Excluir
+          </button>
+          }
+        </div>
+        <div class="inventory-multiple__fields">
+          <div class="inventory-multiple__field">
+            <label [for]="'sku-' + i">Produto</label>
+            <p-select
+              [options]="service.getAvailableSkus(form, i)"
+              formControlName="sku_id"
+              [filter]="true"
+              optionLabel="filterName"
+              optionValue="id"
+              appendTo="body"
+              [inputId]="'sku-' + i"
+              placeholder="Selecione um produto"
+            >
+              <ng-template let-product #item>
+                <div>
+                  <div>{{ product.name }}</div>
+                  <small> Código: {{ product.code }} </small> <br />
+                  <small> Quantidade Total: {{ product.quantity }} </small>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+          <div class="inventory-multiple__field">
+            <label [for]="'quantity-' + i">Quantidade</label>
+            <p-inputNumber
+              [inputId]="'quantity-' + i"
+              formControlName="quantity"
+              min="1"
+              [useGrouping]="false"
+              required
+            />
+          </div>
+        </div>
+        <div class="inventory-multiple__projection">
+          <span>
+            Estoque atual: @if (currentQuantity !== null) {
+            {{ currentQuantity | number : "1.0-0" }}
+            } @else { - }
+          </span>
+          <span>
+            Após movimentação: @if (projectedQuantity !== null) {
+            {{ projectedQuantity | number : "1.0-0" }}
+            } @else { - }
+          </span>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="inventory-multiple__actions">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        label="Adicionar produto"
+        (click)="addProduct()"
+      ></button>
+    </div>
+
+    <div class="inventory-multiple__reason">
+      <label for="reason-multiple">Motivo</label>
+      <textarea
+        pTextarea
+        formControlName="justification"
+        inputId="reason-multiple"
+        maxlength="200"
+      ></textarea>
+    </div>
+
+    <div>
+      <button
+        type="submit"
+        pButton
+        fluid
+        [disabled]="isLoading || form.invalid"
+      >
+        Confirmar
+      </button>
+    </div>
+  </form>
+  }
+</p-dialog>

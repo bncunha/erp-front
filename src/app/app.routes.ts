@@ -105,9 +105,18 @@ export const routes: Routes = [
             data: { breadcrumb: '', roles: [UserRoleEnum.ADMIN] },
             canActivate: [roleGuard],
             loadComponent: () =>
-              import('./../pages/inventory/inventory.component').then(
-                (m) => m.InventoryComponent
+              import('../pages/inventory/inventory-home/inventory-home.component').then(
+                (m) => m.InventoryHomeComponent
               ),
+          },
+          {
+            path: ':inventoryId',
+            data: { breadcrumb: 'Detalhes', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import(
+                './../pages/inventory/inventory-detail/inventory-detail.component'
+              ).then((m) => m.InventoryDetailComponent),
           },
         ],
       },

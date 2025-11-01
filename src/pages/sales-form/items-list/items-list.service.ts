@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { GetSkuResponse } from '../../../service/responses/products-response';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
 import { SalesProductsFormFactory } from '../sales-products-form/form.factory';
+import { ConfirmationService } from 'primeng/api';
+import { applySearchFilter } from '../../../shared/utils/search.utils';
 
 @Injectable()
 export class ItemsListService {
@@ -10,18 +11,7 @@ export class ItemsListService {
   private formFactory = new SalesProductsFormFactory();
 
   filterByText(items: GetSkuResponse[], text: string): GetSkuResponse[] {
-    if (!text) {
-      return items;
-    }
-    return items.filter((item) => {
-      const words = text.split(' ');
-      return words.every((word) => {
-        const values = Object.values(item).map((v) => String(v));
-        return values.some((value) =>
-          value.toLowerCase().includes(word.toLowerCase())
-        );
-      });
-    });
+    return applySearchFilter(items, text);
   }
 
   showQuantityForm(item: GetSkuResponse, productsForm: FormArray) {
