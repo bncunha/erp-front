@@ -48,6 +48,10 @@
     padding: 1rem 1.5rem;
     background: var(--hover-background);
     font-weight: 600;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   &__table-header--transfer {
@@ -83,6 +87,21 @@
     flex-direction: column;
     gap: 0.5rem;
 
+    @media (max-width: 768px) {
+      position: relative;
+      padding: 0.5rem 0;
+      gap: 0.35rem;
+      font-size: 0.95rem;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--text-secondary-color);
+      }
+    }
+
     &--info {
       gap: 0.35rem;
 
@@ -103,6 +122,10 @@
     &--destination,
     &--actions {
       justify-content: center;
+
+      @media (max-width: 768px) {
+        justify-content: flex-start;
+      }
     }
 
     &--quantity {
@@ -123,6 +146,10 @@
 
     &--actions {
       align-items: center;
+
+      @media (max-width: 768px) {
+        align-items: flex-start;
+      }
     }
   }
 
