@@ -30,6 +30,8 @@ export class SkuApiService {
   getAll(filters?: GetAllProductsRequest): Observable<GetSkuResponse[]> {
     return this.http.get<GetSkuResponse[]>(environment.API_URL + '/skus', {
       params: filters as any,
-    });
+    }).pipe(
+      map((skus) => skus.map((sku) => new GetSkuResponse(sku)))
+    );
   }
 }

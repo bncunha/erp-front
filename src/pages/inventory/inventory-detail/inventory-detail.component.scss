@@ -23,7 +23,6 @@
     h2 {
       margin: 0;
       font-size: 1.5rem;
-      color: var(--p-surface-900);
     }
   }
 }
@@ -47,9 +46,9 @@
   gap: 1rem;
   padding: 1.25rem;
   border-radius: 1rem;
-  background: var(--p-surface-0);
+  background: var(--overlay-background);
   box-shadow: 0 2px 12px 0 #0000000a;
-  border: 1px solid var(--p-surface-200);
+  border: 1px solid var(--border-color);
 
   &__icon {
     width: 3rem;
@@ -86,13 +85,11 @@
 
   &__label {
     font-size: 0.875rem;
-    color: var(--p-surface-500);
   }
 
   &__value {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--p-surface-900);
   }
 
   &__skeleton {

@@ -7,11 +7,12 @@
 }
 
 .smart-filter {
-  background: var(--p-surface-0);
+  background: var(--overlay-background);
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 12px 0 #0000000a;
+  border: 1px solid var(--border-color);
 
   &__controls {
     display: flex;
@@ -65,6 +66,11 @@
   }
 }
 
+.inventory-items__actions {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
 .inventory-products {
   &__loading {
     display: grid;
@@ -85,7 +91,7 @@
     padding: 3rem 1.5rem;
     text-align: center;
     color: var(--p-surface-500);
-    background: var(--p-surface-0);
+    background: var(--overlay-background);
     border-radius: 1rem;
     box-shadow: 0 2px 12px 0 #0000000a;
   }
@@ -117,14 +123,14 @@
 }
 
 .product-card {
-  background: var(--p-surface-0);
+  background: var(--overlay-background);
   border-radius: 1rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   box-shadow: 0 2px 12px 0 #0000000a;
-  border: 1px solid var(--p-surface-200);
+  border: 1px solid var(--border-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
@@ -140,13 +146,11 @@
     h3 {
       margin: 0;
       font-size: 1.2rem;
-      color: var(--p-surface-900);
     }
 
     span {
       display: block;
       margin-top: 0.25rem;
-      color: var(--p-surface-500);
     }
   }
 
@@ -158,13 +162,11 @@
     span {
       display: block;
       font-size: 0.875rem;
-      color: var(--p-surface-500);
     }
 
     strong {
       display: block;
       font-size: 1.2rem;
-      color: var(--p-surface-900);
     }
   }
 

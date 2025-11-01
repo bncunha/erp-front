@@ -6,14 +6,20 @@ export interface GetProductResponse {
   skus: GetSkuResponse[];
 }
 
-export interface GetSkuResponse {
-  id: number;
-  code: string;
-  color: string;
-  size: string;
-  cost: number;
-  price: number;
-  name: string;
-  product_name: string;
-  quantity: number;
+export class GetSkuResponse {
+  id!: number;
+  code!: string;
+  color!: string;
+  size!: string;
+  cost!: number;
+  price!: number;
+  name!: string;
+  product_name!: string;
+  quantity!: number;
+  filterName!: string;
+
+  constructor(data: GetSkuResponse) {
+    Object.assign(this, data);
+    this.filterName = `${this.product_name} - ${this.name} - ${this.code}`;
+  }
 }

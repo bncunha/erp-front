@@ -92,6 +92,8 @@
 </div>
 }
 
+@let summaryData = (summary$ | async);
+
 <p-tabs #tabs [(value)]="tabValue">
   <p-tablist>
     <p-tab value="0"> Estoque </p-tab>
@@ -102,6 +104,7 @@
       @if(tabValue === '0') {
       <app-inventory-items
         [inventoryId]="inventoryId"
+        [inventorySummary]="summaryData"
         (transactionCompleted)="handleTransactionCompleted()"
       />
       }

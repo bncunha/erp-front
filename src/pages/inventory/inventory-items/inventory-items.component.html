@@ -2,6 +2,10 @@
   #formDialog
   (onSubmitSuccess)="handleTransactionSuccess()"
 />
+<app-inventory-form-dialog-multiple
+  #multipleFormDialog
+  (onSubmitSuccess)="handleTransactionSuccess()"
+/>
 
 @if (inventoryId === null) {
 <div class="inventory-items__empty">
@@ -63,6 +67,17 @@
     }
   </div>
 </section>
+
+  <div class="inventory-items__actions">
+    <button
+      type="button"
+      pButton
+      icon="pi pi-plus"
+      label="Adicionar produtos"
+      (click)="openMultipleTransaction()"
+      [disabled]="inventoryId === null"
+    ></button>
+  </div>
 
 <section class="inventory-products">
   @if (isLoading$ | async) {

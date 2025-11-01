@@ -12,13 +12,21 @@ import { SharedModule } from '../../../shared/shared.module';
 import { InventoryItemsService } from './inventory-items.service';
 import { InventoryFormDialogComponent } from '../inventory-form-dialog/inventory-form-dialog.component';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
-import { GetInventoryItemsResponse } from '../../../service/responses/inventory-response';
+import {
+  GetInventoryItemsResponse,
+  GetInventorySummaryResponse,
+} from '../../../service/responses/inventory-response';
 import { InventoryTypeEnum } from '../../../enums/inventory-type.enum';
 import { PaginatorState } from 'primeng/paginator';
+import { InventoryFormDialogMultipleComponent } from '../inventory-form-dialog-multiple/inventory-form-dialog-multiple.component';
 
 @Component({
   selector: 'app-inventory-items',
-  imports: [SharedModule, InventoryFormDialogComponent],
+  imports: [
+    SharedModule,
+    InventoryFormDialogComponent,
+    InventoryFormDialogMultipleComponent,
+  ],
   templateUrl: './inventory-items.component.html',
   styleUrl: './inventory-items.component.scss',
   providers: [InventoryItemsService],
@@ -26,8 +34,11 @@ import { PaginatorState } from 'primeng/paginator';
 export class InventoryItemsComponent implements OnChanges {
   @ViewChild(InventoryFormDialogComponent)
   formDialog?: InventoryFormDialogComponent;
+  @ViewChild(InventoryFormDialogMultipleComponent)
+  multipleFormDialog?: InventoryFormDialogMultipleComponent;
 
   @Input() inventoryId: number | null = null;
+  @Input() inventorySummary: GetInventorySummaryResponse | null = null;
   @Output() transactionCompleted = new EventEmitter<void>();
 
   private filtersSubject = new BehaviorSubject<InventoryItemsFilters>({
@@ -97,6 +108,14 @@ export class InventoryItemsComponent implements OnChanges {
     item.inventory_item_id;
   protected readonly InventoryTypeEnum = InventoryTypeEnum;
 
+  get inventoryDisplayName(): string | null {
+    if (!this.inventorySummary) {
+      return null;
+    }
+
+    return `${this.inventorySummary.user_name} - ${this.inventorySummary.inventory_type}`;
+  }
+
   onSearchChange(term: string) {
     this.updateFilters({ term });
   }
@@ -137,6 +156,17 @@ export class InventoryItemsComponent implements OnChanges {
       type,
       inventoryId: this.inventoryId,
       product,
+    });
+  }
+
+  openMultipleTransaction() {
+    if (!this.multipleFormDialog || this.inventoryId === null) {
+      return;
+    }
+
+    this.multipleFormDialog.open({
+      inventoryId: this.inventoryId,
+      inventoryName: this.inventoryDisplayName ?? '-',
     });
   }
 

@@ -9,10 +9,31 @@ export class DoIventoryTransationRequest {
 
   parseToRequest(formData: any): DoIventoryTransationRequest {
     Object.assign(this, formData);
-    this.skus = [{
-      sku_id: formData.sku_id,
-      quantity: formData.quantity
-    }];
+    if (Array.isArray(formData.skus) && formData.skus.length > 0) {
+      this.skus = formData.skus
+        .map((item: any) => ({
+          sku_id: Number(item?.sku_id),
+          quantity: Number(item?.quantity),
+        }))
+        .filter(
+          (item: DoInventoryTransactionSkusRequest) =>
+            !!item.sku_id &&
+            !Number.isNaN(item.sku_id) &&
+            !!item.quantity &&
+            !Number.isNaN(item.quantity)
+        );
+    } else if (formData.sku_id !== undefined) {
+      this.skus = [
+        {
+          sku_id: Number(formData.sku_id),
+          quantity: Number(formData.quantity),
+        },
+      ];
+    } else {
+      this.skus = [];
+    }
+    delete (this as any).sku_id;
+    delete (this as any).quantity;
     return this;
   }
 }
