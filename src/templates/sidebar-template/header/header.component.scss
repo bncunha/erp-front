@@ -2,10 +2,15 @@
   width: 100%;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
+  background-color: var(--overlay-background);
+}
+
+.header-content {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: var(--overlay-background);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -14,4 +19,10 @@
 
 .name {
   display: inline-block;
+}
+
+@media (min-width: 992px) {
+  .menu-button {
+    display: none;
+  }
 }

@@ -1,4 +1,22 @@
+.template {
+  min-height: 100vh;
+}
+
 .content {
   max-width: 1200px;
   margin: auto;
+}
+
+@media (min-width: 992px) {
+  .template {
+    padding-left: 80px;
+  }
+
+  .template .p-4 {
+    padding: 2rem;
+  }
+
+  .content {
+    margin: 0 auto;
+  }
 }

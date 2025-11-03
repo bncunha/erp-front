@@ -1,12 +1,15 @@
 <div class="header">
-  <button
-    pButton
-    severity="secondary"
-    icon="pi pi-bars"
-    (click)="menuClicked.emit()"
-  ></button>
-  <img class="logo" src="/logo_icon.png" alt="Logomarca" />
-  @if(name) {
-  <span class="name">Olá {{ name }}!</span>
-  }
+  <div class="header-content">
+    <button
+      class="menu-button"
+      pButton
+      severity="secondary"
+      icon="pi pi-bars"
+      (click)="menuClicked.emit()"
+    ></button>
+    <img class="logo" src="/logo_icon.png" alt="Logomarca" />
+    @if(name) {
+    <span class="name">Olá {{ name }}!</span>
+    }
+  </div>
 </div>
