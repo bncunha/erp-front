@@ -10,26 +10,17 @@
   (onEditClick)="formDialog.open($event)"
   (onDeleteClick)="service.delete($event)"
 >
-  <!-- <ng-template #actions>
-    <div class="flex gap-4 align-center">
-      <button
-        type="button"
-        pButton
-        size="small"
-        severity="secondary"
-        icon="pi pi-box"
-      >
-        Produtos
-      </button>
-      <button
-        type="button"
-        pButton
-        size="small"
-        severity="secondary"
-        icon="pi pi-dollar"
-      >
-        Vendas
-      </button>
-    </div>
-  </ng-template> -->
+  <ng-template #actions let-user>
+    <a
+      pButton
+      size="small"
+      severity="secondary"
+      icon="pi pi-dollar"
+      label="Vendas"
+      [routerLink]="['/vendas']"
+      [queryParams]="{ user_id: user.id }"
+      target="_blank"
+      rel="noopener"
+    ></a>
+  </ng-template>
 </app-table>

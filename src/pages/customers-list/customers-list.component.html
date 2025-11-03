@@ -8,5 +8,17 @@
   (onEditClick)="service.toEditPage($event)"
   (onDeleteClick)="service.delete($event)"
 >
+  <ng-template #actions let-customer>
+    <a
+      pButton
+      size="small"
+      severity="secondary"
+      icon="pi pi-dollar"
+      label="Vendas"
+      [routerLink]="['/vendas']"
+      [queryParams]="{ customer_id: customer.id }"
+      target="_blank"
+      rel="noopener"
+    ></a>
+  </ng-template>
 </app-table>
-

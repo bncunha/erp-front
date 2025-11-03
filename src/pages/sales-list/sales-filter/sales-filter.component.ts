@@ -1,6 +1,11 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  ViewChild,
+} from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { SalesFilterService } from './sales-filter.service';
-import { FilterUtils } from '../../../shared/utils/filter.utils';
 import { SharedModule } from '../../../shared/shared.module';
 import { DatePickerModule } from 'primeng/datepicker';
 import { Observable } from 'rxjs';
@@ -14,10 +19,26 @@ import { GetCustomerResponse } from '../../../service/responses/customers-respon
   styleUrl: './sales-filter.component.scss',
   providers: [SalesFilterService],
 })
-export class SalesFilterComponent {
+export class SalesFilterComponent implements AfterViewInit {
   service = inject(SalesFilterService);
 
   resellers: Observable<GetUserResponse[]> = this.service.getResellers();
   customers: Observable<GetCustomerResponse[]> = this.service.getCustomers();
   paymentStatuses: any[] = this.service.getPaymentStatuses();
+
+  @ViewChild('f') form?: NgForm;
+
+  ngAfterViewInit(): void {
+    if (this.form) {
+      this.service.initializeForm(this.form);
+    }
+  }
+
+  onSubmit(form: NgForm): void {
+    this.service.submitFilters(form);
+  }
+
+  onClean(form: NgForm): void {
+    this.service.cleanFilters(form);
+  }
 }
