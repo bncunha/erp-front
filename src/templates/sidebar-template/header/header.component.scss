@@ -6,19 +6,44 @@
 }
 
 .header-content {
-  display: flex;
   align-items: center;
   gap: 1rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.logo {
-  height: 2.5rem;
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  @media(min-width: 992px) {
+    justify-content: flex-start;
+  }
+    
+  .logo {
+    height: 2rem;
+  }
+  
+  .logo-name {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+  }
 }
+
 
 .name {
   display: inline-block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: right;
+
+  @media(min-width: 992px) {
+    margin-left: auto;
+    font-size: 1rem;
+  }
 }
 
 @media (min-width: 992px) {
