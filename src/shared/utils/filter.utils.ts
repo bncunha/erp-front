@@ -1,5 +1,6 @@
 import { cleanNulls } from './clean-nulls';
 import { deepClone } from './deep-clone.utis';
+import { ParamMap } from '@angular/router';
 
 export class FilterUtils {
   private pageName = window.location.pathname;
@@ -19,5 +20,23 @@ export class FilterUtils {
 
   clearFilters(): void {
     sessionStorage.removeItem(this.savedKey);
+  }
+
+  getFiltersFromQueryParams(paramMap: ParamMap): any {
+    const params: any = {};
+
+    for (const key of paramMap.keys) {
+      const values = paramMap.getAll(key);
+      if (values.length > 1) {
+        params[key] = values;
+      } else {
+        const value = paramMap.get(key);
+        if (value !== null) {
+          params[key] = value;
+        }
+      }
+    }
+
+    return params;
   }
 }

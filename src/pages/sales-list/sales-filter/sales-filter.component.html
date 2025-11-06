@@ -7,7 +7,7 @@
   <form
     #f="ngForm"
     class="grid grid-cols-1 sm:grid-cols-2 gap-4"
-    (submit)="service.setFilters(f.value)"
+    (ngSubmit)="onSubmit(f)"
   >
     <div class="col-span-2 sm:col-span-1">
       <label for="min_date"> Data Inicial </label>
@@ -28,7 +28,7 @@
         optionLabel="name"
         optionValue="id"
         [filter]="true"
-      />
+      ></p-multiselect>
     </div>
     }
     <div class="col-span-2 sm:col-span-1">
@@ -41,7 +41,7 @@
         optionLabel="name"
         optionValue="id"
         [filter]="true"
-      />
+      ></p-multiselect>
     </div>
     <div class="col-span-2 sm:col-span-1">
       <label for="payment_status"> Situação de Pagamento </label>
@@ -51,7 +51,7 @@
         name="payment_status"
         inputId="payment_status"
         [filter]="false"
-      />
+      ></p-select>
     </div>
     <div class="col-span-2 sm:col-span-1">
       <button type="submit" pButton label="Filtrar"></button>
@@ -61,7 +61,7 @@
         severity="secondary"
         pButton
         label="Limpar"
-        (click)="service.cleanFilters(f)"
+        (click)="onClean(f)"
       ></button>
     </div>
   </form>

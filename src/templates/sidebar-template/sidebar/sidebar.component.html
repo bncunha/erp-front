@@ -1,24 +1,39 @@
 <div class="sidebar-container" [ngClass]="{ open: isOpen }">
   <button
+    class="close-button"
     pButton
     severity="secondary"
     icon="pi pi-times"
     (click)="onClose.emit()"
   ></button>
-  <ul>
+  <nav class="menu">
     @for (item of itemsList; track $index) {
-    <li class="menu-item">
-      <a [routerLink]="item.routerLink" (click)="onClose.emit()">
-        <i [class]="item.icon"></i>
-        {{ item.name }}
-      </a>
-    </li>
+    <a
+      class="menu-item"
+      [routerLink]="item.routerLink"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.routerLink === '/'  }"
+      (click)="onClose.emit()"
+      [attr.aria-label]="item.name"
+      pTooltip="{{ item.name }}"
+      tooltipPosition="right"
+      tooltipAppendTo="body"
+    >
+      <i [class]="item.icon"></i>
+      <span class="menu-label">{{ item.name }}</span>
+    </a>
     }
-    <li class="menu-item">
-      <a routerLink="/login" (click)="onClose.emit()">
-        <i class="pi pi-sign-out"></i>
-        Sair
-      </a>
-    </li>
-  </ul>
+    <a
+      class="menu-item"
+      routerLink="/login"
+      (click)="onClose.emit()"
+      aria-label="Sair"
+      pTooltip="Sair"
+      tooltipPosition="right"
+      tooltipAppendTo="body"
+    >
+      <i class="pi pi-sign-out"></i>
+      <span class="menu-label">Sair</span>
+    </a>
+  </nav>
 </div>

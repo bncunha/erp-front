@@ -1,12 +1,13 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { MenuItem } from '../models/menu-item';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule, ButtonModule, CommonModule],
+  imports: [RouterModule, ButtonModule, CommonModule, TooltipModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

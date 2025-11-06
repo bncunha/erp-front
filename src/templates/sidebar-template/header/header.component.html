@@ -1,12 +1,20 @@
 <div class="header">
-  <button
-    pButton
-    severity="secondary"
-    icon="pi pi-bars"
-    (click)="menuClicked.emit()"
-  ></button>
-  <img class="logo" src="/logo_icon.png" alt="Logomarca" />
-  @if(name) {
-  <span class="name">Olá {{ name }}!</span>
-  }
+  <div class="header-content grid grid-cols-[1fr_2fr_1fr] lg:grid-cols-2 gap-2">
+      <button
+        class="menu-button"
+        pButton
+        severity="secondary"
+        icon="pi pi-bars"
+        (click)="menuClicked.emit()"
+      ></button>
+      <div class="logo-container">
+        <img class="logo" src="/logo_icon.png" alt="Logomarca" />
+        <span class="logo-name">
+          Trinus
+        </span>
+      </div>
+      @if(name) {
+      <span class="name">Olá, {{ name }}!</span>
+      }
+    </div>
 </div>
