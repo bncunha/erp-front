@@ -4,6 +4,7 @@ export interface GetUserResponse {
   id: number;
   username: string;
   name: string;
+  email: string;
   phone_number: string;
   role: UserRoleEnum;
 }

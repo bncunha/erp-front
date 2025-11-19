@@ -17,10 +17,6 @@ export class UsersFormDialogService {
 
   private editingUser?: GetUserResponse;
 
-  isPasswordRequired() {
-    return !this.editingUser;
-  }
-
   getRoles() {
     return GetUserRoleEnumList();
   }
@@ -49,7 +45,9 @@ export class UsersFormDialogService {
     const request = new CreateUserRequest().parseToRequest(form.value);
     return this.userApiService.createUser(request).pipe(
       tap((_) => {
-        this.toastService.showSuccess('Usuário criado com sucesso!');
+        this.toastService.showSuccess(
+          `Usuário criado com sucesso! Foi enviado um convite para ${request.email}.`
+        );
       })
     );
   }
