@@ -4,6 +4,8 @@ import { LoginRequest } from '../requests/login-request';
 import { environment } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { LoginResponse } from '../responses/login-response';
+import { ChangePasswordRequest, ForgotPasswordRequest } from '../requests/password-request';
+
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +22,19 @@ export class AuthApiService {
           localStorage.setItem('name', response.name);
         })
       );
+  }
+
+  forgotPassword(request: ForgotPasswordRequest): Observable<void> {
+    return this.http.post<void>(
+      environment.API_URL + '/forgot-password',
+      request
+    );
+  }
+
+  changePassword(request: ChangePasswordRequest): Observable<void> {
+    return this.http.post<void>(
+      environment.API_URL + '/change-password',
+      request
+    );
   }
 }

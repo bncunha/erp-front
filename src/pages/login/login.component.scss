@@ -1,94 +1,17 @@
-:host {
-  display: block;
-  min-height: 100vh;
-}
+@use '../../styles/auth-page' as authPage;
 
-.login-page {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-image: linear-gradient(
-      135deg,
-      rgba(97, 72, 195, 0.55),
-      rgba(209, 191, 255, 0.45)
-    ),
-    url("/login-background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  overflow: hidden;
-  isolation: isolate;
-}
+@include authPage.auth-page-layout;
 
-.login-page::before,
-.login-page::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+.forgot-password-link {
+  text-align: center;
 
-.login-page::before {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  z-index: 0;
-}
-
-.login-page::after {
-  background: linear-gradient(
-    140deg,
-    rgba(255, 255, 255, 0.16),
-    rgba(118, 84, 220, 0.25) 40%,
-    rgba(34, 25, 70, 0.35)
-  );
-  mix-blend-mode: screen;
-  opacity: 0.9;
-  z-index: 0;
-}
-
-.card-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 540px;
-  z-index: 1;
-}
-
-.logo-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.trinus-logo {
-  height: 100px;
-  width: auto;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.field label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-}
-
-@media (max-width: 600px) {
-  .login-page {
-    padding: 1.5rem;
+  a {
+    color: #6242c7;
+    font-weight: 600;
+    text-decoration: none;
   }
 
-  :host ::ng-deep .login-card .p-card-body {
-    padding: 2rem;
-  }
-
-  .trinus-logo {
-    height: 48px;
+  a:hover {
+    text-decoration: underline;
   }
 }

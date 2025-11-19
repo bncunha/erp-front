@@ -1,4 +1,4 @@
-<div class="login-page">
+<div class="auth-page">
   <div class="card-wrapper">
     <app-card>
       <form #f="ngForm" (submit)="service.handleSubmit(f)">
@@ -41,6 +41,9 @@
             [loading]="service.isLoading"
             [disabled]="service.isLoading"
           ></button>
+        </div>
+        <div class="field forgot-password-link">
+          <a routerLink="/recuperar-senha">Esqueceu a senha?</a>
         </div>
       </form>
     </app-card>
