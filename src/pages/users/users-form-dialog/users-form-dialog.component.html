@@ -33,6 +33,19 @@
       />
     </div>
     <div class="sm:col-span-1">
+      <label for="email"> E-mail </label>
+      <input
+        pInputText
+        ngModel
+        name="email"
+        id="email"
+        type="email"
+        required="true"
+        email
+        maxlength="200"
+      />
+    </div>
+    <div class="sm:col-span-1">
       <label for="role"> Função </label>
       <p-select
         [options]="service.getRoles()"
@@ -51,18 +64,6 @@
         name="phone_number"
         inputId="phone_number"
         placeholder="(99) 99999-9999"
-      />
-    </div>
-    <div class="sm:col-span-1">
-      <label for="password"> Senha </label>
-      <input
-        pInputText
-        ngModel
-        name="password"
-        id="password"
-        type="password"
-        [required]="service.isPasswordRequired()"
-        maxlength="50"
       />
     </div>
     <div class="sm:col-span-2">
