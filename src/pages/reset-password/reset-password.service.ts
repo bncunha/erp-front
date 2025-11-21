@@ -17,6 +17,7 @@ export class ResetPasswordService {
 
   isLoading = false;
   passwordMismatch = false;
+  isNewUser = false;
   private code = '';
   private uuid = '';
 
@@ -24,6 +25,7 @@ export class ResetPasswordService {
     const params = this.route.snapshot.queryParamMap;
     this.code = params.get('code') || '';
     this.uuid = params.get('uuid') || '';
+    this.isNewUser = params.get('new_user') === 'true';
 
     if (!this.code || !this.uuid) {
       this.toastService.showError('Link de redefinição inválido ou expirado.');
