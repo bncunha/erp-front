@@ -41,7 +41,7 @@ export class ResetPasswordService {
       return;
     }
 
-    const request: ChangePasswordRequest = new ChangePasswordRequest().parseToRequest(form.value);
+    const request: ChangePasswordRequest = new ChangePasswordRequest().parseToRequest(form.value, this.code, this.uuid);
 
     if (!request.passwordsMatch(form.value.confirmPassword)) {
       this.passwordMismatch = true;

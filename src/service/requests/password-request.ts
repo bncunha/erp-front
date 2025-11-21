@@ -3,8 +3,10 @@ export class ChangePasswordRequest {
   uuid!: string;
   password!: string;
 
-  parseToRequest(formData: any): ChangePasswordRequest {
+  parseToRequest(formData: any, code: string, uuid: string): ChangePasswordRequest {
     Object.assign(this, formData);
+    this.code = code;
+    this.uuid = uuid;
     return this;
   }
 
