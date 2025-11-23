@@ -11,6 +11,20 @@ export const routes: Routes = [
       import('../pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'recuperar-senha',
+    loadComponent: () =>
+      import('../pages/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'redefinir-senha',
+    loadComponent: () =>
+      import('../pages/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
+      ),
+  },
+  {
     path: '',
     component: SidebarTemplateComponent,
     canActivateChild: [authGuard],

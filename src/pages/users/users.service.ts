@@ -34,6 +34,10 @@ export class UsersService {
         field: 'username',
       },
       {
+        header: 'E-mail',
+        field: 'email',
+      },
+      {
         header: 'Telefone',
         field: 'phone_number',
       },

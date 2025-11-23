@@ -4,8 +4,8 @@ import { cleanNulls } from '../../shared/utils/clean-nulls';
 export class CreateUserRequest {
   name!: string;
   username!: string;
+  email!: string;
   phone_number?: string;
-  password!: string;
   role!: UserRoleEnum;
 
   parseToRequest(formData: any): CreateUserRequest {
