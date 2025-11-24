@@ -11,4 +11,18 @@
   (onAddClick)="skuDialog?.open(productId)"
   (onDeleteClick)="onDelete.emit($event)"
   (onEditClick)="skuDialog?.open(productId, $event)"
-/>
+>
+  <ng-template #actions let-sku>
+    <button
+      pButton
+      type="button"
+      label="Estoque"
+      icon="pi pi-box"
+      size="small"
+      severity="secondary"
+      (click)="inventoryService.openInventoryDialog(sku); $event.stopPropagation()"
+    ></button>
+  </ng-template>
+</app-table>
+
+<app-sku-inventory-details />
