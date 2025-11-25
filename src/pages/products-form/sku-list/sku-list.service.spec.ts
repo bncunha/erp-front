@@ -1,12 +1,14 @@
+import { CurrencyPipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-
 import { SkuListService } from './sku-list.service';
 
 describe('SkuListService', () => {
   let service: SkuListService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [SkuListService, CurrencyPipe],
+    });
     service = TestBed.inject(SkuListService);
   });
 
