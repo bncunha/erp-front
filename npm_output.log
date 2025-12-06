@@ -1,0 +1,115 @@
+
+> erp-front@0.0.0 start
+> ng serve
+
+Component HMR has been enabled, see https://angular.dev/hmr for more info.
+❯ Building...
+✔ Building...
+Initial chunk files | Names                         |  Raw size
+polyfills.js        | polyfills                     |  89.77 kB |
+chunk-6CC5DLDS.js   | -                             |  48.49 kB |
+main.js             | main                          |  45.48 kB |
+styles.css          | styles                        |  33.13 kB |
+chunk-R2QWB4LL.js   | -                             |   2.34 kB |
+chunk-WJZK6G6G.js   | -                             |   2.27 kB |
+chunk-MWIO2I7T.js   | -                             |   1.59 kB |
+chunk-NE656XGR.js   | -                             | 491 bytes |
+chunk-KYW4IBAQ.js   | -                             | 454 bytes |
+
+                    | Initial total                 | 224.02 kB
+
+Lazy chunk files    | Names                         |  Raw size
+chunk-OQ4G3SYX.js   | inventory-detail-component    | 203.04 kB |
+chunk-P7RUJKJV.js   | sales-list-component          |  78.89 kB |
+chunk-XWZLDCJS.js   | sales-payment-form-component  |  60.95 kB |
+chunk-TFTZRR3L.js   | sales-products-form-component |  49.36 kB |
+chunk-RQJVNSWW.js   | -                             |  42.46 kB |
+chunk-4Y4Q3DB3.js   | inventory-home-component      |  25.97 kB |
+chunk-JMX55ZM7.js   | users-component               |  23.76 kB |
+chunk-OEXILLWR.js   | reset-password-component      |  18.00 kB |
+chunk-CLIOCNDV.js   | products-form-component       |  17.14 kB |
+chunk-A4L34S6K.js   | forgot-password-component     |  16.41 kB |
+chunk-D6UJVXPS.js   | products-list-component       |  15.37 kB |
+chunk-XW3ZZMF3.js   | login-component               |  14.76 kB |
+chunk-ITMWN3QH.js   | -                             |  14.10 kB |
+chunk-ZL7WNIBX.js   | -                             |  12.82 kB |
+chunk-OQEAP5ZV.js   | customers-form-component      |  11.92 kB |
+...and 15 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [7.013 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+
+No output file changes.
+
+Application bundle generation complete. [0.396 seconds]
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names                         |  Raw size
+chunk-RSVP5PYA.js   | -                             |  47.55 kB |
+main.js             | main                          |  45.63 kB |
+chunk-PXKHYAZE.js   | -                             |   2.34 kB |
+chunk-WPYDAMPQ.js   | -                             |   2.27 kB |
+chunk-CZJLB7T5.js   | -                             |   1.08 kB |
+
+Lazy chunk files    | Names                         |  Raw size
+chunk-JFMGLIWB.js   | inventory-detail-component    | 203.08 kB |
+chunk-J43JYEPG.js   | sales-list-component          |  78.92 kB |
+chunk-47EBAWPD.js   | sales-payment-form-component  |  60.98 kB |
+chunk-5M3KY25B.js   | sales-products-form-component |  49.40 kB |
+chunk-PGTRI7ZQ.js   | -                             |  42.46 kB |
+chunk-4CR2S2AV.js   | register-component            |  27.77 kB |
+chunk-CK3PJ6X4.js   | inventory-home-component      |  26.00 kB |
+chunk-NVDUWKDG.js   | users-component               |  23.79 kB |
+chunk-O4FKUALO.js   | reset-password-component      |  18.03 kB |
+chunk-D4UKJPQV.js   | products-form-component       |  17.17 kB |
+chunk-XMQXNYYH.js   | forgot-password-component     |  16.44 kB |
+chunk-Y7MYJJH5.js   | products-list-component       |  15.40 kB |
+chunk-QKGI2OT6.js   | login-component               |  14.79 kB |
+chunk-PADC6U37.js   | -                             |  14.10 kB |
+chunk-R7MHIOZG.js   | -                             |  12.82 kB |
+...and 9 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [4.089 seconds]
+
+Page reload sent to client(s).
+7:39:36 PM [vite] (client) ✨ new dependencies optimized: primeng/steps
+7:39:36 PM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names                         |  Raw size
+chunk-6CC5DLDS.js   | -                             |  48.49 kB |
+main.js             | main                          |  45.48 kB |
+chunk-R2QWB4LL.js   | -                             |   2.34 kB |
+chunk-WJZK6G6G.js   | -                             |   2.27 kB |
+
+Lazy chunk files    | Names                         |  Raw size
+chunk-OQ4G3SYX.js   | inventory-detail-component    | 203.04 kB |
+chunk-P7RUJKJV.js   | sales-list-component          |  78.89 kB |
+chunk-XWZLDCJS.js   | sales-payment-form-component  |  60.95 kB |
+chunk-TFTZRR3L.js   | sales-products-form-component |  49.36 kB |
+chunk-RQJVNSWW.js   | -                             |  42.46 kB |
+chunk-4Y4Q3DB3.js   | inventory-home-component      |  25.97 kB |
+chunk-JMX55ZM7.js   | users-component               |  23.76 kB |
+chunk-OEXILLWR.js   | reset-password-component      |  18.00 kB |
+chunk-CLIOCNDV.js   | products-form-component       |  17.14 kB |
+chunk-A4L34S6K.js   | forgot-password-component     |  16.41 kB |
+chunk-D6UJVXPS.js   | products-list-component       |  15.37 kB |
+chunk-XW3ZZMF3.js   | login-component               |  14.76 kB |
+chunk-ITMWN3QH.js   | -                             |  14.10 kB |
+chunk-ZL7WNIBX.js   | -                             |  12.82 kB |
+chunk-OQEAP5ZV.js   | customers-form-component      |  11.92 kB |
+...and 8 more lazy chunks files. Use "--verbose" to show all the files.
+
+Application bundle generation complete. [0.788 seconds]
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✖ Changes detected. Rebuilding... [FAILED: Cannot find package 'parse5-html-rewriting-stream' imported from /app/node_modules/@angular/build/src/utils/load-esm.js]
+An unhandled exception occurred: Cannot find package 'parse5-html-rewriting-stream' imported from /app/node_modules/@angular/build/src/utils/load-esm.js
+See "/tmp/ng-8xUVQA/angular-errors.log" for further details.

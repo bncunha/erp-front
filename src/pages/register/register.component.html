@@ -1,31 +1,31 @@
 <div class="flex items-center justify-center h-full">
   <p-card header="Cadastro de Empresa">
-    <p-steps [model]="steps" [(activeIndex)]="activeIndex"></p-steps>
+    <p-steps [model]="service.steps" [(activeIndex)]="service.activeIndex"></p-steps>
 
     <form #f="ngForm" class="mt-4" (ngSubmit)="handleSubmit(f)">
-      <div *ngIf="activeIndex === 0">
+      <div *ngIf="service.activeIndex === 0">
         <div ngModelGroup="companyData">
           <div class="flex items-center mb-4">
-            <p-checkbox [(ngModel)]="isPessoaFisica" name="pessoaFisica" [binary]="true" (onChange)="updateSteps()"></p-checkbox>
+            <p-checkbox [(ngModel)]="service.isPessoaFisica" name="pessoaFisica" [binary]="true" (onChange)="service.updateSteps()"></p-checkbox>
             <label class="ml-2">Não possuo empresa</label>
           </div>
-          <h2 class="text-xl font-semibold mb-4">{{ isPessoaFisica ? 'Dados Pessoais' : 'Dados da Empresa' }}</h2>
+          <h2 class="text-xl font-semibold mb-4">{{ service.isPessoaFisica ? 'Dados Pessoais' : 'Dados da Empresa' }}</h2>
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
             <div>
-              <label for="name">{{ isPessoaFisica ? 'Nome Completo' : 'Nome da Empresa' }}</label>
+              <label for="name">{{ service.isPessoaFisica ? 'Nome Completo' : 'Nome da Empresa' }}</label>
               <input id="name" name="name" type="text" pInputText ngModel required />
             </div>
-            <div *ngIf="!isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica">
               <label for="legalName">Razão Social</label>
-              <input id="legalName" name="legalName" type="text" pInputText ngModel [required]="!isPessoaFisica" />
+              <input id="legalName" name="legalName" type="text" pInputText ngModel [required]="!service.isPessoaFisica" />
             </div>
-            <div *ngIf="!isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica">
               <label for="cnpj">CNPJ</label>
-              <p-inputMask mask="99.999.999/9999-99" id="cnpj" name="cnpj" ngModel [required]="!isPessoaFisica"></p-inputMask>
+              <p-inputMask mask="99.999.999/9999-99" id="cnpj" name="cnpj" ngModel [required]="!service.isPessoaFisica"></p-inputMask>
             </div>
-            <div *ngIf="isPessoaFisica">
+            <div *ngIf="service.isPessoaFisica">
               <label for="cpf">CPF</label>
-              <p-inputMask mask="999.999.999-99" id="cpf" name="cpf" ngModel [required]="isPessoaFisica"></p-inputMask>
+              <p-inputMask mask="999.999.999-99" id="cpf" name="cpf" ngModel [required]="service.isPessoaFisica"></p-inputMask>
             </div>
             <div>
               <label for="cellphone">Celular</label>
@@ -35,9 +35,9 @@
         </div>
       </div>
 
-      <div *ngIf="activeIndex === 1">
+      <div *ngIf="service.activeIndex === 1">
         <div ngModelGroup="address">
-          <h2 class="text-xl font-semibold mb-4">{{ isPessoaFisica ? 'Endereço' : 'Endereço da Empresa' }}</h2>
+          <h2 class="text-xl font-semibold mb-4">{{ service.isPessoaFisica ? 'Endereço' : 'Endereço da Empresa' }}</h2>
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
             <div>
               <label for="cep">CEP</label>
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div *ngIf="activeIndex === 2">
+      <div *ngIf="service.activeIndex === 2">
         <div ngModelGroup="userData">
           <h2 class="text-xl font-semibold mb-4">Usuário Administrador</h2>
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
@@ -96,9 +96,9 @@
       </div>
 
       <div class="flex justify-between mt-4">
-        <button pButton type="button" label="Voltar" (click)="prevStep()" [disabled]="activeIndex === 0"></button>
-        <button pButton *ngIf="activeIndex < 2" type="button" label="Próximo" (click)="nextStep()" [disabled]="!isCurrentStepValid()"></button>
-        <button pButton *ngIf="activeIndex === 2" type="submit" label="Salvar" [disabled]="!f.valid || isLoading"></button>
+        <button pButton type="button" label="Voltar" (click)="service.prevStep()" [disabled]="service.activeIndex === 0"></button>
+        <button pButton *ngIf="service.activeIndex < 2" type="button" label="Próximo" (click)="service.nextStep()" [disabled]="!service.isCurrentStepValid(f)"></button>
+        <button pButton *ngIf="service.activeIndex === 2" type="submit" label="Salvar" [disabled]="!f.valid || isLoading"></button>
       </div>
     </form>
   </p-card>
