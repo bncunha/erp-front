@@ -1,0 +1,105 @@
+<div class="flex items-center justify-center h-full">
+  <p-card header="Cadastro de Empresa">
+    <p-steps [model]="steps" [(activeIndex)]="activeIndex"></p-steps>
+
+    <form #f="ngForm" class="mt-4" (ngSubmit)="handleSubmit(f)">
+      <div *ngIf="activeIndex === 0">
+        <div ngModelGroup="companyData">
+          <div class="flex items-center mb-4">
+            <p-checkbox [(ngModel)]="isPessoaFisica" name="pessoaFisica" [binary]="true" (onChange)="updateSteps()"></p-checkbox>
+            <label class="ml-2">Não possuo empresa</label>
+          </div>
+          <h2 class="text-xl font-semibold mb-4">{{ isPessoaFisica ? 'Dados Pessoais' : 'Dados da Empresa' }}</h2>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div>
+              <label for="name">{{ isPessoaFisica ? 'Nome Completo' : 'Nome da Empresa' }}</label>
+              <input id="name" name="name" type="text" pInputText ngModel required />
+            </div>
+            <div *ngIf="!isPessoaFisica">
+              <label for="legalName">Razão Social</label>
+              <input id="legalName" name="legalName" type="text" pInputText ngModel [required]="!isPessoaFisica" />
+            </div>
+            <div *ngIf="!isPessoaFisica">
+              <label for="cnpj">CNPJ</label>
+              <p-inputMask mask="99.999.999/9999-99" id="cnpj" name="cnpj" ngModel [required]="!isPessoaFisica"></p-inputMask>
+            </div>
+            <div *ngIf="isPessoaFisica">
+              <label for="cpf">CPF</label>
+              <p-inputMask mask="999.999.999-99" id="cpf" name="cpf" ngModel [required]="isPessoaFisica"></p-inputMask>
+            </div>
+            <div>
+              <label for="cellphone">Celular</label>
+              <p-inputMask mask="(99) 99999-9999" id="cellphone" name="cellphone" ngModel required></p-inputMask>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeIndex === 1">
+        <div ngModelGroup="address">
+          <h2 class="text-xl font-semibold mb-4">{{ isPessoaFisica ? 'Endereço' : 'Endereço da Empresa' }}</h2>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div>
+              <label for="cep">CEP</label>
+              <p-inputMask mask="99999-999" id="cep" name="cep" ngModel required></p-inputMask>
+            </div>
+            <div>
+              <label for="street">Rua</label>
+              <input id="street" name="street" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="number">Número</label>
+              <input id="number" name="number" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="neighborhood">Bairro</label>
+              <input id="neighborhood" name="neighborhood" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="city">Cidade</label>
+              <input id="city" name="city" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="uf">UF</label>
+              <input id="uf" name="uf" type="text" pInputText ngModel required />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeIndex === 2">
+        <div ngModelGroup="userData">
+          <h2 class="text-xl font-semibold mb-4">Usuário Administrador</h2>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div>
+              <label for="user_name">Nome do Usuário</label>
+              <input id="user_name" name="user_name" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="username">Username</label>
+              <input id="username" name="username" type="text" pInputText ngModel required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" pInputText ngModel required email />
+            </div>
+            <div>
+              <label for="user_phone_number">Telefone</label>
+              <p-inputMask mask="(99) 99999-9999" id="user_phone_number" name="user_phone_number" ngModel></p-inputMask>
+            </div>
+            <div>
+              <label for="password">Senha</label>
+              <input id="password" name="password" type="password" pInputText ngModel required />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between mt-4">
+        <button pButton type="button" label="Voltar" (click)="prevStep()" [disabled]="activeIndex === 0"></button>
+        <button pButton *ngIf="activeIndex < 2" type="button" label="Próximo" (click)="nextStep()" [disabled]="!isCurrentStepValid()"></button>
+        <button pButton *ngIf="activeIndex === 2" type="submit" label="Salvar" [disabled]="!f.valid || isLoading"></button>
+      </div>
+    </form>
+  </p-card>
+</div>
