@@ -25,7 +25,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'register',
+    path: 'cadastro',
     loadComponent: () =>
       import('../pages/register/register.component').then(
         (m) => m.RegisterComponent
