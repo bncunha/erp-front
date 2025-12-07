@@ -2,8 +2,9 @@
 
 @include authPage.auth-page-layout;
 
-.forgot-password-link {
+.link-text {
   text-align: center;
+  margin-bottom: 0;
 
   a {
     color: #6242c7;

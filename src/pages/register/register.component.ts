@@ -8,6 +8,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RegisterService } from './register.service';
+import { SharedModule } from '../../shared/shared.module';
+import { CardComponent } from '../../shared/components/card/card.component';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +25,8 @@ import { RegisterService } from './register.service';
     InputMaskModule,
     ButtonModule,
     CheckboxModule,
+    SharedModule,
+    CardComponent
   ],
   providers: [RegisterService],
 })
