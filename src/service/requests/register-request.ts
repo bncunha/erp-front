@@ -8,7 +8,7 @@ export class CreateCompanyUserRequest {
   parseToRequest(data: any): CreateCompanyUserRequest {
     this.name = data.user_name;
     this.username = data.username;
-    this.phone_number = data.user_phone_number;
+    this.phone_number = data.phone_number;
     this.email = data.email;
     this.password = data.password;
     return this;
@@ -36,7 +36,7 @@ export class CreateCompanyAddress {
 
 export class CreateCompanyRequest {
   name!: string;
-  legalName!: string;
+  legal_name!: string;
   cnpj?: string;
   cpf?: string;
   cellphone!: string;
@@ -44,9 +44,18 @@ export class CreateCompanyRequest {
   user!: CreateCompanyUserRequest;
 
   parseToRequest(form: any, isPessoaFisica: boolean): CreateCompanyRequest {
+    if (isPessoaFisica && form?.companyData) {
+      const companyData = form.companyData;
+      form.userData = {
+        ...form.userData,
+        user_name: companyData.name,
+        phone_number: companyData.cellphone,
+        name: companyData.name,
+      };
+    }
     const { companyData, address, userData } = form;
     this.name = companyData.name;
-    this.legalName = isPessoaFisica ? companyData.name : companyData.legalName;
+    this.legal_name = isPessoaFisica ? companyData.name : companyData.legalName;
     this.cnpj = isPessoaFisica ? undefined : companyData.cnpj;
     this.cpf = isPessoaFisica ? companyData.cpf : undefined;
     this.cellphone = companyData.cellphone;
@@ -54,4 +63,5 @@ export class CreateCompanyRequest {
     this.user = new CreateCompanyUserRequest().parseToRequest(userData);
     return this;
   }
+
 }

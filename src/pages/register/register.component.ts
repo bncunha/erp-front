@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { StepsModule } from 'primeng/steps';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -19,7 +18,6 @@ import { CardComponent } from '../../shared/components/card/card.component';
   imports: [
     CommonModule,
     FormsModule,
-    StepsModule,
     CardModule,
     InputTextModule,
     InputMaskModule,
@@ -30,26 +28,19 @@ import { CardComponent } from '../../shared/components/card/card.component';
   ],
   providers: [RegisterService],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   @ViewChild('f') form!: NgForm;
-  isLoading = false;
 
   service = inject(RegisterService);
-
-  ngOnInit(): void {
-    this.service.updateSteps();
-  }
+  isLoading = false;
 
   handleSubmit(form: NgForm) {
     this.isLoading = true;
-    this.service.submit(form).subscribe({
-      next: () => {
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        throw err;
-      },
+    this.service.submit(form).subscribe(() => {
+      this.isLoading = false;
+    }, err => {
+      this.isLoading = false;
+      throw err;
     });
   }
 }
