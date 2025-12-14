@@ -36,11 +36,14 @@ export class RegisterComponent {
 
   handleSubmit(form: NgForm) {
     this.isLoading = true;
-    this.service.submit(form).subscribe(() => {
-      this.isLoading = false;
-    }, err => {
-      this.isLoading = false;
-      throw err;
+    this.service.submit(form).subscribe({
+      next: () => {
+        this.isLoading = false;
+      },
+      error: err => {
+        this.isLoading = false;
+        throw err;
+      }
     });
   }
 }

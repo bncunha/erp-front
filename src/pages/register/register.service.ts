@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { EMPTY, finalize, Observable, tap } from 'rxjs';
+import { EMPTY, finalize, Observable, of, tap } from 'rxjs';
 import { ToastService } from '../../shared/components/toast/toast.service';
 import { Router } from '@angular/router';
 import { RegisterApiService } from '../../service/api-service/register-api.service';
@@ -16,10 +16,10 @@ export class RegisterService {
   confirmPassword = '';
 
   submit(form: NgForm): Observable<void> {
-    if (!form.valid) return EMPTY;
+    if (!form.valid) return of(null) as any;
 
     if (form.value?.userData?.password !== this.confirmPassword) {
-      return EMPTY;
+      return of(null) as any;
     }
 
     const req = new CreateCompanyRequest().parseToRequest(
