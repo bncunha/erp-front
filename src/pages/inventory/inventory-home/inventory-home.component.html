@@ -44,6 +44,18 @@
                   <div class="inventory-card__metric">
                     <span class="inventory-card__metric-label">
                       <i
+                        class="pi pi-wallet inventory-card__metric-icon"
+                        aria-hidden="true"
+                      ></i>
+                      Valor em estoque
+                    </span>
+                    <span class="inventory-card__metric-value">
+                      {{ summary.stock_value | currency : 'BRL' }}
+                    </span>
+                  </div>
+                  <div class="inventory-card__metric">
+                    <span class="inventory-card__metric-label">
+                      <i
                         class="pi pi-box inventory-card__metric-icon"
                         aria-hidden="true"
                       ></i>

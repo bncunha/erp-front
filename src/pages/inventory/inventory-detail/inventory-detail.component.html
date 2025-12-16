@@ -13,6 +13,17 @@
   </div>
   <div class="inventory-summary">
     <div class="summary-card">
+      <div class="summary-card__icon summary-card__icon--value">
+        <i class="pi pi-wallet"></i>
+      </div>
+      <div class="summary-card__content">
+        <span class="summary-card__label">Valor em estoque</span>
+        <span class="summary-card__value">
+          {{ summary.stock_value | currency : 'BRL' }}
+        </span>
+      </div>
+    </div>
+    <div class="summary-card">
       <div class="summary-card__icon summary-card__icon--skus">
         <i class="pi pi-tags"></i>
       </div>
@@ -82,7 +93,7 @@
   </div>
   <div class="inventory-summary">
     @if (isSummaryLoading$ | async) {
-    @for (item of [0, 1, 2, 3]; track item) {
+    @for (item of [0, 1, 2, 3, 4]; track item) {
     <p-skeleton height="110px" styleClass="summary-card__skeleton"></p-skeleton>
     }
     } @else {
