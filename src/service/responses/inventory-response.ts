@@ -9,6 +9,7 @@ export interface GetInventorySummaryResponse {
   inventory_type: string;
   total_skus: number;
   total_quantity: number;
+  stock_value: number;
   zero_quantity_items: number;
   last_transaction_days?: number;
 }

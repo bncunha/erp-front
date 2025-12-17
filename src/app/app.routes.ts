@@ -25,6 +25,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'cadastro',
+    loadComponent: () =>
+      import('../pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
+  {
     path: '',
     component: SidebarTemplateComponent,
     canActivateChild: [authGuard],

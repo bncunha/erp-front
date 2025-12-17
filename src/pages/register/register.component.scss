@@ -1,0 +1,7 @@
+@use '../../styles/auth-page' as authPage;
+
+@include authPage.auth-page-layout;
+
+.card-wrapper {
+  max-width: 900px;
+}

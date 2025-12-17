@@ -1,0 +1,245 @@
+<div class="auth-page">
+  <div class="card-wrapper">
+    <app-card header="Cadastro de Empresa">
+      <form #f="ngForm" class="mt-4 space-y-8" (ngSubmit)="handleSubmit(f)">
+        <section ngModelGroup="companyData" class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">
+              {{ service.isPessoaFisica ? "Dados Pessoais" : "Dados da Empresa" }}
+            </h2>
+            <div class="flex items-center">
+              <p-checkbox
+                [(ngModel)]="service.isPessoaFisica"
+                name="pessoaFisica"
+                [binary]="true"
+              ></p-checkbox>
+              <label class="ml-2">Não possuo empresa</label>
+            </div>
+          </div>
+
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div>
+              <label
+                for="name"
+                [requiredUpdateText]="
+                  service.isPessoaFisica ? 'Nome Completo' : 'Nome da Empresa'
+                "
+              >
+                Nome da Empresa
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div *ngIf="!service.isPessoaFisica">
+              <label for="legalName">Razão Social</label>
+              <input
+                id="legalName"
+                name="legalName"
+                type="text"
+                pInputText
+                ngModel
+                [required]="!service.isPessoaFisica"
+              />
+            </div>
+            <div *ngIf="!service.isPessoaFisica">
+              <label for="cnpj">CNPJ</label>
+              <p-inputMask
+                mask="99.999.999/9999-99"
+                id="cnpj"
+                name="cnpj"
+                ngModel
+                [required]="!service.isPessoaFisica"
+              ></p-inputMask>
+            </div>
+            <div *ngIf="service.isPessoaFisica">
+              <label for="cpf">CPF</label>
+              <p-inputMask
+                mask="999.999.999-99"
+                id="cpf"
+                name="cpf"
+                ngModel
+                [required]="service.isPessoaFisica"
+              ></p-inputMask>
+            </div>
+            <div>
+              <label for="cellphone">Telefone</label>
+              <p-inputMask
+                mask="(99) 99999-9999"
+                id="cellphone"
+                name="cellphone"
+                ngModel
+                required
+              ></p-inputMask>
+            </div>
+          </div>
+        </section>
+
+        <section ngModelGroup="address" class="space-y-4">
+          <h2 class="text-xl font-semibold">
+            {{ service.isPessoaFisica ? "Endereço" : "Endereço da Empresa" }}
+          </h2>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div>
+              <label for="cep">CEP</label>
+              <p-inputMask
+                mask="99999-999"
+                id="cep"
+                name="cep"
+                ngModel
+                required
+              ></p-inputMask>
+            </div>
+            <div>
+              <label for="street">Rua</label>
+              <input
+                id="street"
+                name="street"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <label for="number">Número</label>
+              <input
+                id="number"
+                name="number"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <label for="neighborhood">Bairro</label>
+              <input
+                id="neighborhood"
+                name="neighborhood"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <label for="city">Cidade</label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <label for="uf">UF</label>
+              <input
+                id="uf"
+                name="uf"
+                type="text"
+                pInputText
+                ngModel
+                required
+                maxlength="2"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section ngModelGroup="userData" class="space-y-4">
+          <h2 class="text-xl font-semibold">Usuário</h2>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <div *ngIf="!service.isPessoaFisica">
+              <label for="user_name">Nome</label>
+              <input
+                id="user_name"
+                name="user_name"
+                type="text"
+                pInputText
+                ngModel
+                [required]="!service.isPessoaFisica"
+              />
+            </div>
+            <div>
+              <label for="username">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                pInputText
+                ngModel
+                required
+              />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                pInputText
+                ngModel
+                required
+                email
+              />
+            </div>
+            <div *ngIf="!service.isPessoaFisica">
+              <label for="user_phone_number">Telefone</label>
+              <p-inputMask
+                mask="(99) 99999-9999"
+                id="user_phone_number"
+                name="user_phone_number"
+                ngModel
+              ></p-inputMask>
+            </div>
+            <div>
+              <label for="password">Senha</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                pInputText
+                ngModel
+                required
+                #passwordModel="ngModel"
+              />
+            </div>
+            <div>
+              <label for="confirm_password">Confirmar Senha</label>
+              <input
+                id="confirm_password"
+                name="confirm_password"
+                type="password"
+                pInputText
+                [(ngModel)]="service.confirmPassword"
+                #confirmPasswordModel="ngModel"
+                required
+              />
+              <small class="danger-text" *ngIf="confirmPasswordModel.dirty && service.confirmPassword && passwordModel.value !== service.confirmPassword">
+                As senhas não conferem
+              </small>
+            </div>
+          </div>
+        </section>
+
+        <div class="flex justify-end mt-6">
+          <button
+            pButton
+            type="submit"
+            label="Salvar"
+            [loading]="isLoading"
+            [disabled]="passwordModel.value !== service.confirmPassword"
+          ></button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

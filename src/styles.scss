@@ -136,3 +136,7 @@ button:not(.p-button) {
 .pi::before {
   backface-visibility: visible;
 }
+
+.danger-text {
+  color: var(--danger-color);
+}
