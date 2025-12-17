@@ -16,15 +16,15 @@
       </app-card>
       <app-card class="card">
         <label> Quantidade Total </label>
-        {{ inventoryService.sku?.quantity }}
+        {{ inventoryService.sku?.quantity || 0 }}
       </app-card>
       <app-card class="card">
         <label> Custo </label>
-        {{ inventoryService.sku?.cost | currency: 'BRL' }}
+        {{ (inventoryService.sku?.cost || 0) | currency: 'BRL' }}
       </app-card>
       <app-card class="card">
         <label> Preço </label>
-        {{ inventoryService.sku?.price | currency: 'BRL' }}
+        {{ (inventoryService.sku?.price || 0) | currency: 'BRL' }}
       </app-card>
     </div>
     <div class="flex flex-col gap-2">
