@@ -1,0 +1,103 @@
+.privacy-page {
+  min-height: 100vh;
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(98, 66, 199, 0.08),
+      transparent 30%
+    ),
+    radial-gradient(circle at 80% 0%, rgba(0, 172, 193, 0.08), transparent 30%),
+    var(--ground-background);
+  padding: 3rem 1.5rem 4rem;
+  display: flex;
+  justify-content: center;
+  color: var(--text-color);
+}
+
+.privacy-wrapper {
+  width: min(1100px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.privacy-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--text-secondary-color);
+  font-weight: 600;
+}
+
+.intro {
+  margin: 0.5rem 0 0;
+  color: var(--text-secondary-color);
+  line-height: 1.6;
+}
+
+.privacy-card {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.status-text {
+  color: var(--text-secondary-color);
+  font-weight: 600;
+}
+
+.status-text.error {
+  color: var(--danger-color);
+}
+
+.markdown-body {
+  h1 {
+    margin-top: 0;
+  }
+
+  h2,
+  h3 {
+    margin: 1.25rem 0 0.5rem;
+  }
+
+  p {
+    line-height: 1.7;
+    margin: 0.25rem 0 0.8rem;
+  }
+
+  ul {
+    padding-left: 1.25rem;
+    margin: 0.25rem 0 0.8rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 640px) {
+  .privacy-page {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .privacy-card {
+    padding: 1.25rem;
+  }
+}

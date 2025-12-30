@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LegalTermStatusResponse } from '../responses/legal-terms-response';
 import { GetUserResponse } from '../responses/users-response';
 import { environment } from '../../environments/environment';
 import {
@@ -55,5 +56,18 @@ export class UserApiService {
 
   deleteUser(id: number): Observable<void> {
     return this.httpCliente.delete<void>(environment.API_URL + `/users/${id}`);
+  }
+
+  getLegalTermsStatus(): Observable<LegalTermStatusResponse[]> {
+    return this.httpCliente.get<LegalTermStatusResponse[]>(
+      environment.API_URL + '/users/legal-terms'
+    );
+  }
+
+  acceptLegalTerms(terms: LegalTermStatusResponse[]): Observable<void> {
+    return this.httpCliente.post<void>(
+      environment.API_URL + '/users/legal-terms',
+      terms
+    );
   }
 }

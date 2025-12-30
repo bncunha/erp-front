@@ -230,6 +230,35 @@
           </div>
         </section>
 
+        <div class="space-y-3">
+          <div class="flex items-start gap-2">
+            <p-checkbox
+              name="accepted_terms"
+              inputId="acceptTerms"
+              ngModel
+              [binary]="true"
+              required
+            ></p-checkbox>
+            <label for="acceptTerms" class="terms-label leading-relaxed">
+              Li e aceito os
+              <a target="/blank"routerLink="/termos" class="font-semibold legal-link">Termos de Uso</a>.
+            </label>
+          </div>
+          <div class="flex items-start gap-2">
+            <p-checkbox
+              name="accepted_privacy"
+              inputId="acceptPrivacy"
+              ngModel
+              [binary]="true"
+              required
+            ></p-checkbox>
+            <label for="acceptPrivacy" class="terms-label leading-relaxed">
+              Li e aceito a
+              <a target="/blank" routerLink="/privacidade" class="font-semibold legal-link">Política de Privacidade</a>.
+            </label>
+          </div>
+        </div>
+
         <div class="flex justify-end mt-6">
           <button
             pButton

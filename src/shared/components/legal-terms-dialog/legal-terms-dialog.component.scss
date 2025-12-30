@@ -1,0 +1,17 @@
+.legal-terms-dialog__intro {
+  margin: 0 0 1rem;
+}
+
+.legal-terms-dialog__list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.legal-terms-dialog__list li + li {
+  margin-top: 0.5rem;
+}
+
+.legal-terms-dialog__list a {
+  font-weight: 600;
+  text-decoration: underline;
+}
