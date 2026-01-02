@@ -1,0 +1,26 @@
+<div class="privacy-page">
+  <div class="privacy-wrapper">
+    <header class="privacy-header">
+      <p class="eyebrow">Documento público</p>
+      <h1>Política de Privacidade – Trinus</h1>
+      <p class="meta">
+        <span>Versão: {{ version || '...' }}</span>
+      </p>
+      <p class="intro">
+        Conheça como o Trinus trata e protege seus dados pessoais conforme a legislação vigente.
+      </p>
+    </header>
+
+    <app-card class="privacy-card">
+      <div *ngIf="isLoading" class="status-text">Carregando política...</div>
+      <div *ngIf="!isLoading && errorMessage" class="status-text error">
+        {{ errorMessage }}
+      </div>
+      <div
+        *ngIf="!isLoading && !errorMessage && content"
+        class="markdown-body"
+        [innerHTML]="content"
+      ></div>
+    </app-card>
+  </div>
+</div>

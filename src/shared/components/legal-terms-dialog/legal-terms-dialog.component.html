@@ -1,0 +1,45 @@
+<p-dialog
+  [(visible)]="service.isDialogVisible"
+  [modal]="true"
+  [closable]="false"
+  [dismissableMask]="false"
+  [draggable]="false"
+  header="Atualização de documentos legais"
+  (onShow)="onShow()"
+  (onHide)="onHide()"
+>
+  <p class="legal-terms-dialog__intro">
+    Identificamos novos documentos que precisam ser aceitos para continuar.
+  </p>
+
+  <ul class="legal-terms-dialog__list">
+    <li *ngFor="let term of service.pendingTerms">
+      <a
+        [routerLink]="[getDocumentRoute(term.doc_type)]"
+        [queryParams]="{ v: term.doc_version }"
+        target="_blank"
+        rel="noopener"
+      >
+        {{ getDocumentLabel(term) }} (v{{ term.doc_version }})
+      </a>
+    </li>
+  </ul>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      class="p-button-secondary"
+      label="Sair"
+      [disabled]="service.isLoading"
+      (click)="onReject()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Aceitar"
+      [disabled]="service.isLoading"
+      (click)="onAccept()"
+    ></button>
+  </ng-template>
+</p-dialog>

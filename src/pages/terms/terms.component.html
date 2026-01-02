@@ -1,0 +1,26 @@
+<div class="terms-page">
+  <div class="terms-wrapper">
+    <header class="terms-header">
+      <p class="eyebrow">Documento público</p>
+      <h1>Termos de Uso – Trinus</h1>
+      <p class="meta">
+        <span>Versão: {{ version || '...' }}</span>
+      </p>
+      <p class="intro">
+        Leia atentamente para entender as condições de uso da plataforma de gestão empresarial Trinus.
+      </p>
+    </header>
+
+    <app-card class="terms-card">
+      <div *ngIf="isLoading" class="status-text">Carregando termos...</div>
+      <div *ngIf="!isLoading && errorMessage" class="status-text error">
+        {{ errorMessage }}
+      </div>
+      <div
+        *ngIf="!isLoading && !errorMessage && content"
+        class="markdown-body"
+        [innerHTML]="content"
+      ></div>
+    </app-card>
+  </div>
+</div>

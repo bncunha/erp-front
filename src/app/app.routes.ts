@@ -32,6 +32,18 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'termos',
+    loadComponent: () =>
+      import('../pages/terms/terms.component').then((m) => m.TermsComponent),
+  },
+  {
+    path: 'privacidade',
+    loadComponent: () =>
+      import('../pages/privacy/privacy.component').then(
+        (m) => m.PrivacyComponent
+      ),
+  },
+  {
     path: '',
     component: SidebarTemplateComponent,
     canActivateChild: [authGuard],

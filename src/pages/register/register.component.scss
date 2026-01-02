@@ -5,3 +5,16 @@
 .card-wrapper {
   max-width: 900px;
 }
+
+.legal-link {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.terms-label {
+  margin-bottom: 0;
+}
+
+.legal-link:hover {
+  text-decoration: underline;
+}

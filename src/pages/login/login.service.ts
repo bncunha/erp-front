@@ -4,6 +4,7 @@ import { LoginRequest } from '../../service/requests/login-request';
 import { AuthApiService } from '../../service/api-service/auth-api.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { LegalTermsService } from '../../service/legal-terms.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { finalize } from 'rxjs';
 export class LoginService {
   private authApiService = inject(AuthApiService);
   private router = inject(Router);
+  private legalTermsService = inject(LegalTermsService);
   isLoading = false;
 
   handleSubmit(f: NgForm) {
@@ -21,14 +23,9 @@ export class LoginService {
         .login(request)
         .pipe(finalize(() => (this.isLoading = false)))
         .subscribe(() => {
+          this.legalTermsService.checkPendingTerms();
           this.router.navigate(['/']);
         });
     }
-  }
-
-  cleanUserData() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('name');
-    sessionStorage.clear();
   }
 }

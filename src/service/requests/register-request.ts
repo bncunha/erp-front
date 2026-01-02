@@ -42,6 +42,8 @@ export class CreateCompanyRequest {
   cellphone!: string;
   address!: CreateCompanyAddress;
   user!: CreateCompanyUserRequest;
+  accepted_terms!: boolean;
+  accepted_privacy!: boolean;
 
   parseToRequest(form: any, isPessoaFisica: boolean): CreateCompanyRequest {
     if (isPessoaFisica && form?.companyData) {
@@ -61,6 +63,8 @@ export class CreateCompanyRequest {
     this.cellphone = companyData.cellphone;
     this.address = new CreateCompanyAddress().parseToRequest(address);
     this.user = new CreateCompanyUserRequest().parseToRequest(userData);
+    this.accepted_terms = form.accepted_terms;
+    this.accepted_privacy = form.accepted_privacy;
     return this;
   }
 
