@@ -5,7 +5,7 @@
 .card {
   background-color: var(--overlay-background);
   border: var(--card-border);
-  border-radius: 10px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 3px 0px hsl(0 0% 0% / .1), 0 8px 10px -1px hsl(0 0% 0% / .1);
   padding: 1.5rem;
 }

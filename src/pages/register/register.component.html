@@ -7,14 +7,15 @@
             <h2 class="text-xl font-semibold">
               {{ service.isPessoaFisica ? "Dados Pessoais" : "Dados da Empresa" }}
             </h2>
-            <div class="flex items-center">
-              <p-checkbox
-                [(ngModel)]="service.isPessoaFisica"
-                name="pessoaFisica"
-                [binary]="true"
-              ></p-checkbox>
-              <label class="ml-2">Não possuo empresa</label>
-            </div>
+          </div>
+        
+          <div class="flex items-center">
+            <p-checkbox
+              [(ngModel)]="service.isPessoaFisica"
+              name="pessoaFisica"
+              [binary]="true"
+            ></p-checkbox>
+            <label class="ml-2" style="margin-bottom: 0;">Não possuo empresa</label>
           </div>
 
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
