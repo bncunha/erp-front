@@ -134,8 +134,13 @@
                 required
                 pattern="\d{5}-\d{3}"
                 #cepModel="ngModel"
+                (onComplete)="handleCepComplete(cepModel.value)"
+                (onBlur)="handleCepComplete(cepModel.value)"
               ></p-inputMask>
-              <small class="helper-text">Digite o CEP para preencher o endereço automaticamente.</small>
+              <small class="helper-text">Digite o CEP para preencher o endere&ccedil;o automaticamente.</small>
+              <small class="helper-text" *ngIf="isCepLoading">Buscando endere&ccedil;o...</small>
+              <small class="danger-text" *ngIf="cepNotFound">CEP n&atilde;o encontrado.</small>
+              <small class="danger-text" *ngIf="cepLookupFailed">N&atilde;o foi poss&iacute;vel consultar o CEP.</small>
               <small class="danger-text" *ngIf="cepModel.invalid && (cepModel.dirty || cepModel.touched)">
                 CEP inválido.
               </small>
@@ -371,3 +376,4 @@
     </app-card>
   </div>
 </div>
+
