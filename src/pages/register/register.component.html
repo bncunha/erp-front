@@ -1,15 +1,24 @@
-<div class="auth-page">
+﻿<div class="auth-page">
   <div class="card-wrapper">
-    <app-card header="Cadastro de Empresa">
+    <app-card>
+      <div class="register-header">
+        <h1 class="register-title">Crie sua conta no Trinus</h1>
+        <p class="register-subtitle">
+          Leva menos de 2 minutos. Você terá 15 dias grátis para testar o sistema, sem cartão de crédito.
+        </p>
+        <a class="login-link" routerLink="/login">Já tem uma conta? Fazer login</a>
+      </div>
+
       <form #f="ngForm" class="mt-4 space-y-8" (ngSubmit)="handleSubmit(f)">
-        <section ngModelGroup="companyData" class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold">
+        <section ngModelGroup="companyData" class="form-section space-y-4">
+          <div class="section-header">
+            <i class="pi pi-building section-icon"></i>
+            <h2>
               {{ service.isPessoaFisica ? "Dados Pessoais" : "Dados da Empresa" }}
             </h2>
           </div>
-        
-          <div class="flex items-center">
+
+          <div class="flex items-center mb-0">
             <p-checkbox
               [(ngModel)]="service.isPessoaFisica"
               name="pessoaFisica"
@@ -17,9 +26,12 @@
             ></p-checkbox>
             <label class="ml-2" style="margin-bottom: 0;">Não possuo empresa</label>
           </div>
+          <small class="helper-text">
+            Marque esta opção se você ainda não tem CNPJ.
+          </small>
 
-          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
-            <div>
+          <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 mt-2">
+            <div class="form-field">
               <label
                 for="name"
                 [requiredUpdateText]="
@@ -35,9 +47,13 @@
                 pInputText
                 ngModel
                 required
+                #nameModel="ngModel"
               />
+              <small class="danger-text" *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)">
+                {{ service.isPessoaFisica ? "Informe seu nome completo." : "Informe o nome da empresa." }}
+              </small>
             </div>
-            <div *ngIf="!service.isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica" class="form-field">
               <label for="legalName">Razão Social</label>
               <input
                 id="legalName"
@@ -46,9 +62,13 @@
                 pInputText
                 ngModel
                 [required]="!service.isPessoaFisica"
+                #legalNameModel="ngModel"
               />
+              <small class="danger-text" *ngIf="legalNameModel.invalid && (legalNameModel.dirty || legalNameModel.touched)">
+                Informe a razão social.
+              </small>
             </div>
-            <div *ngIf="!service.isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica" class="form-field">
               <label for="cnpj">CNPJ</label>
               <p-inputMask
                 mask="99.999.999/9999-99"
@@ -56,9 +76,15 @@
                 name="cnpj"
                 ngModel
                 [required]="!service.isPessoaFisica"
+                pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}"
+                #cnpjModel="ngModel"
               ></p-inputMask>
+              <small class="helper-text">Informe apenas números (14 dígitos).</small>
+              <small class="danger-text" *ngIf="cnpjModel.invalid && (cnpjModel.dirty || cnpjModel.touched)">
+                CNPJ inválido.
+              </small>
             </div>
-            <div *ngIf="service.isPessoaFisica">
+            <div *ngIf="service.isPessoaFisica" class="form-field">
               <label for="cpf">CPF</label>
               <p-inputMask
                 mask="999.999.999-99"
@@ -66,9 +92,14 @@
                 name="cpf"
                 ngModel
                 [required]="service.isPessoaFisica"
+                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                #cpfModel="ngModel"
               ></p-inputMask>
+              <small class="danger-text" *ngIf="cpfModel.invalid && (cpfModel.dirty || cpfModel.touched)">
+                CPF inválido.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="cellphone">Telefone</label>
               <p-inputMask
                 mask="(99) 99999-9999"
@@ -76,17 +107,24 @@
                 name="cellphone"
                 ngModel
                 required
+                #cellphoneModel="ngModel"
               ></p-inputMask>
+              <small class="danger-text" *ngIf="cellphoneModel.invalid && (cellphoneModel.dirty || cellphoneModel.touched)">
+                Informe um telefone válido.
+              </small>
             </div>
           </div>
         </section>
 
-        <section ngModelGroup="address" class="space-y-4">
-          <h2 class="text-xl font-semibold">
-            {{ service.isPessoaFisica ? "Endereço" : "Endereço da Empresa" }}
-          </h2>
+        <section ngModelGroup="address" class="form-section space-y-4">
+          <div class="section-header">
+            <i class="pi pi-map-marker section-icon"></i>
+            <h2>
+              {{ service.isPessoaFisica ? "Endereço" : "Endereço da Empresa" }}
+            </h2>
+          </div>
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
-            <div>
+            <div class="form-field">
               <label for="cep">CEP</label>
               <p-inputMask
                 mask="99999-999"
@@ -94,9 +132,15 @@
                 name="cep"
                 ngModel
                 required
+                pattern="\d{5}-\d{3}"
+                #cepModel="ngModel"
               ></p-inputMask>
+              <small class="helper-text">Digite o CEP para preencher o endereço automaticamente.</small>
+              <small class="danger-text" *ngIf="cepModel.invalid && (cepModel.dirty || cepModel.touched)">
+                CEP inválido.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="street">Rua</label>
               <input
                 id="street"
@@ -105,9 +149,14 @@
                 pInputText
                 ngModel
                 required
+                #streetModel="ngModel"
+                autocomplete="address-line1"
               />
+              <small class="danger-text" *ngIf="streetModel.invalid && (streetModel.dirty || streetModel.touched)">
+                Informe a rua.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="number">Número</label>
               <input
                 id="number"
@@ -116,9 +165,13 @@
                 pInputText
                 ngModel
                 required
+                #numberModel="ngModel"
               />
+              <small class="danger-text" *ngIf="numberModel.invalid && (numberModel.dirty || numberModel.touched)">
+                Informe o número.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="neighborhood">Bairro</label>
               <input
                 id="neighborhood"
@@ -127,9 +180,13 @@
                 pInputText
                 ngModel
                 required
+                #neighborhoodModel="ngModel"
               />
+              <small class="danger-text" *ngIf="neighborhoodModel.invalid && (neighborhoodModel.dirty || neighborhoodModel.touched)">
+                Informe o bairro.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="city">Cidade</label>
               <input
                 id="city"
@@ -138,9 +195,14 @@
                 pInputText
                 ngModel
                 required
+                #cityModel="ngModel"
+                autocomplete="address-level2"
               />
+              <small class="danger-text" *ngIf="cityModel.invalid && (cityModel.dirty || cityModel.touched)">
+                Informe a cidade.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="uf">UF</label>
               <input
                 id="uf"
@@ -150,15 +212,25 @@
                 ngModel
                 required
                 maxlength="2"
+                pattern="[A-Za-z]{2}"
+                #ufModel="ngModel"
+                autocomplete="address-level1"
               />
+              <small class="helper-text">Use a sigla com 2 letras.</small>
+              <small class="danger-text" *ngIf="ufModel.invalid && (ufModel.dirty || ufModel.touched)">
+                UF inválida.
+              </small>
             </div>
           </div>
         </section>
 
-        <section ngModelGroup="userData" class="space-y-4">
-          <h2 class="text-xl font-semibold">Usuário</h2>
+        <section ngModelGroup="userData" class="form-section space-y-4">
+          <div class="section-header">
+            <i class="pi pi-user section-icon"></i>
+            <h2> Dados de Acesso</h2>
+          </div>
           <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
-            <div *ngIf="!service.isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica" class="form-field">
               <label for="user_name">Nome</label>
               <input
                 id="user_name"
@@ -167,9 +239,13 @@
                 pInputText
                 ngModel
                 [required]="!service.isPessoaFisica"
+                #userNameModel="ngModel"
               />
+              <small class="danger-text" *ngIf="userNameModel.invalid && (userNameModel.dirty || userNameModel.touched)">
+                Informe o nome do usuário.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="username">Username</label>
               <input
                 id="username"
@@ -178,9 +254,14 @@
                 pInputText
                 ngModel
                 required
+                #usernameModel="ngModel"
+                autocomplete="username"
               />
+              <small class="danger-text" *ngIf="usernameModel.invalid && (usernameModel.dirty || usernameModel.touched)">
+                Informe um username.
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="email">Email</label>
               <input
                 id="email"
@@ -190,9 +271,14 @@
                 ngModel
                 required
                 email
+                #emailModel="ngModel"
+                autocomplete="email"
               />
+              <small class="danger-text" *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+                {{ emailModel.errors?.['email'] ? "Email inválido." : "Informe seu email." }}
+              </small>
             </div>
-            <div *ngIf="!service.isPessoaFisica">
+            <div *ngIf="!service.isPessoaFisica" class="form-field">
               <label for="user_phone_number">Telefone</label>
               <p-inputMask
                 mask="(99) 99999-9999"
@@ -201,7 +287,7 @@
                 ngModel
               ></p-inputMask>
             </div>
-            <div>
+            <div class="form-field">
               <label for="password">Senha</label>
               <input
                 id="password"
@@ -210,10 +296,16 @@
                 pInputText
                 ngModel
                 required
+                minlength="8"
                 #passwordModel="ngModel"
+                autocomplete="new-password"
               />
+              <small class="helper-text">Mínimo de 8 caracteres.</small>
+              <small class="danger-text" *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+                {{ passwordModel.errors?.['minlength'] ? "Senha muito curta." : "Informe uma senha." }}
+              </small>
             </div>
-            <div>
+            <div class="form-field">
               <label for="confirm_password">Confirmar Senha</label>
               <input
                 id="confirm_password"
@@ -223,9 +315,13 @@
                 [(ngModel)]="service.confirmPassword"
                 #confirmPasswordModel="ngModel"
                 required
+                autocomplete="new-password"
               />
+              <small class="danger-text" *ngIf="confirmPasswordModel.invalid && (confirmPasswordModel.dirty || confirmPasswordModel.touched)">
+                Confirme a senha.
+              </small>
               <small class="danger-text" *ngIf="confirmPasswordModel.dirty && service.confirmPassword && passwordModel.value !== service.confirmPassword">
-                As senhas não conferem
+                As senhas não conferem.
               </small>
             </div>
           </div>
@@ -242,7 +338,7 @@
             ></p-checkbox>
             <label for="acceptTerms" class="terms-label leading-relaxed">
               Li e aceito os
-              <a target="/blank"routerLink="/termos" class="font-semibold legal-link">Termos de Uso</a>.
+              <a target="_blank" routerLink="/termos" class="font-semibold legal-link">Termos de Uso</a>.
             </label>
           </div>
           <div class="flex items-start gap-2">
@@ -255,19 +351,21 @@
             ></p-checkbox>
             <label for="acceptPrivacy" class="terms-label leading-relaxed">
               Li e aceito a
-              <a target="/blank" routerLink="/privacidade" class="font-semibold legal-link">Política de Privacidade</a>.
+              <a target="_blank" routerLink="/privacidade" class="font-semibold legal-link">Política de Privacidade</a>.
             </label>
           </div>
         </div>
 
-        <div class="flex justify-end mt-6">
+        <div class="cta-area">
           <button
             pButton
             type="submit"
-            label="Salvar"
+            label="Criar conta grátis"
+            class="w-full"
             [loading]="isLoading"
             [disabled]="passwordModel.value !== service.confirmPassword"
           ></button>
+          <p class="cta-helper">15 dias grátis • Sem cartão de crédito</p>
         </div>
       </form>
     </app-card>
