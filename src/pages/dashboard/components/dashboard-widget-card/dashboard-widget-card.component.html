@@ -1,0 +1,51 @@
+<app-card>
+  <div class="dashboard-card">
+    <header class="dashboard-card__header">
+      <div class="dashboard-card__title-wrapper">
+        <h3 class="dashboard-card__title">
+          {{ card?.title }}
+        </h3>
+        @if (card?.description) {
+          <p class="dashboard-card__description">
+            {{ card?.description }}
+          </p>
+        }
+      </div>
+      @if (showPeriod) {
+        <span class="dashboard-card__period">
+          {{ card?.period?.from | date:'shortDate' }} - {{ card?.period?.to | date:'shortDate' }}
+        </span>
+      }
+    </header>
+    <div class="dashboard-card__content">
+      <div class="dashboard-card__value">
+        @if (card?.prefix) {
+          <span class="dashboard-card__prefix">{{ card?.prefix }}</span>
+        }
+        <span class="dashboard-card__number">
+          {{ formatValue(card?.value) }}
+        </span>
+        @if (card?.suffix) {
+          <span class="dashboard-card__suffix">{{ card?.suffix }}</span>
+        }
+      </div>
+      @if (card?.secondaryValue !== undefined && card?.secondaryValue !== null) {
+        <div class="dashboard-card__secondary">
+          {{ formatValue(card?.secondaryValue) }}
+        </div>
+      }
+      @if (card?.delta !== undefined) {
+        <div class="dashboard-card__delta" [ngClass]="getDeltaClass(card?.delta)">
+          <span class="dashboard-card__delta-value">
+            {{ card?.delta | number: '1.0-2' }}%
+          </span>
+          @if (card?.deltaLabel) {
+            <span class="dashboard-card__delta-label">
+              {{ card?.deltaLabel }}
+            </span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</app-card>

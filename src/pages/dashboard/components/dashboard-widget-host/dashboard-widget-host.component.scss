@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  width: 100%;
+  grid-column: span 12;
+}
+
+:host([data-type='CARD']) {
+  grid-column: span 4;
+}
+
+:host([data-type='BAR']),
+:host([data-type='LINE']),
+:host([data-type='PIE']) {
+  grid-column: span 6;
+}
+
+:host([data-type='TABLE']) {
+  grid-column: span 12;
+}
+
+@media (max-width: 1200px) {
+  :host([data-type='CARD']) {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 900px) {
+  :host([data-type='CARD']),
+  :host([data-type='BAR']),
+  :host([data-type='LINE']),
+  :host([data-type='PIE']) {
+    grid-column: span 12;
+  }
+}
+
+.dashboard-widget {
+  width: 100%;
+}
+
+.dashboard-widget__error {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.dashboard-widget__error-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.dashboard-widget__error-text {
+  margin: 0.25rem 0 0;
+  color: var(--text-secondary-color);
+  font-size: 0.9rem;
+}

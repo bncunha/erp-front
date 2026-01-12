@@ -1,10 +1,71 @@
-.card {
-  flex: 1 0 300px;
+:host ::ng-deep .p-datepicker-input {
+  border-top-right-radius: 0 !important; 
+  border-bottom-right-radius: 0 !important;
 }
 
-.card-container {
+.dashboard {
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
   flex-wrap: wrap;
+}
+
+.dashboard__subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--text-secondary-color);
+}
+
+.dashboard__filters {
+  display: flex;
+  align-items: flex-end;
   gap: 1rem;
   flex-wrap: wrap;
+  flex-basis: 55%;
+}
+
+.dashboard__filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 12rem;
+}
+
+.dashboard__filter-error {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+}
+
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard__status {
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--card-background);
+  border: var(--card-border);
+  color: var(--text-secondary-color);
+}
+
+.dashboard__status--error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard__status--error {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

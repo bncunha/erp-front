@@ -1,7 +1,7 @@
 @forward "tailwindcss";
 @forward "./styles/variables.scss";
 @forward "primeicons/primeicons.css";
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @plugin "tailwindcss-primeui";
 
 html {
@@ -16,7 +16,7 @@ body {
   background-color: var(--ground-background);
   font-weight: 400;
   color: var(--text-color);
-  font-family: "Inter", sans-serif;
+  font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;;
   font-optical-sizing: auto;
   font-style: normal;
 }
@@ -49,17 +49,17 @@ body {
 }
 
 h1 {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
 h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -81,7 +81,7 @@ label {
   margin-bottom: 0.3rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-secondary-color);
+  color: var(--text-primary-color);
 }
 
 .p-inputtext,
@@ -116,6 +116,10 @@ nav.p-breadcrumb {
   padding: 0;
   margin-bottom: 1rem;
   background: initial;
+}
+
+button.p-button {
+  padding: 0.7rem;
 }
 
 button:not(.p-button) {

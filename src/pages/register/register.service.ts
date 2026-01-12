@@ -1,16 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { EMPTY, finalize, Observable, of, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { ToastService } from '../../shared/components/toast/toast.service';
 import { Router } from '@angular/router';
 import { RegisterApiService } from '../../service/api-service/register-api.service';
 import { CreateCompanyRequest } from '../../service/requests/register-request';
+import { ViaCepApiService, ViaCepResponse } from '../../service/api-service/viacep-api.service';
 
 @Injectable()
 export class RegisterService {
   private api = inject(RegisterApiService);
   private toast = inject(ToastService);
   private router = inject(Router);
+  private viaCepApi = inject(ViaCepApiService);
 
   isPessoaFisica = false;
   confirmPassword = '';
@@ -33,5 +35,9 @@ export class RegisterService {
         this.router.navigate(['/login']);
       }),
     );
+  }
+
+  fetchAddressByCep(cep: string): Observable<ViaCepResponse | null> {
+    return this.viaCepApi.fetchAddress(cep);
   }
 }

@@ -11,12 +11,7 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background-image: linear-gradient(
-        135deg,
-        rgba(97, 72, 195, 0.55),
-        rgba(209, 191, 255, 0.45)
-      ),
-      url('/login-background.png');
+    background-image: url('/login-background.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -24,36 +19,10 @@
     isolation: isolate;
   }
 
-  .auth-page::before,
-  .auth-page::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .auth-page::before {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    z-index: 0;
-  }
-
-  .auth-page::after {
-    background: linear-gradient(
-      140deg,
-      rgba(255, 255, 255, 0.16),
-      rgba(118, 84, 220, 0.25) 40%,
-      rgba(34, 25, 70, 0.35)
-    );
-    mix-blend-mode: screen;
-    opacity: 0.9;
-    z-index: 0;
-  }
-
   .card-wrapper {
     position: relative;
     width: 100%;
-    max-width: 540px;
+    max-width: 430px;
     z-index: 1;
   }
 
