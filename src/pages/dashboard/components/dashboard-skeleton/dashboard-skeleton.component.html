@@ -1,0 +1,30 @@
+<app-card>
+  <div class="dashboard-skeleton">
+    <header class="dashboard-skeleton__header">
+      <div class="dashboard-skeleton__title-group">
+        <p-skeleton width="60%" height="1.2rem"></p-skeleton>
+        <p-skeleton width="40%" height="0.9rem"></p-skeleton>
+      </div>
+      <p-skeleton width="5rem" height="0.85rem"></p-skeleton>
+    </header>
+
+    @if (type === widgetType.CARD) {
+      <div class="dashboard-skeleton__body">
+        <div class="dashboard-skeleton__card-value">
+          <p-skeleton width="8rem" height="2.2rem"></p-skeleton>
+          <p-skeleton width="4rem" height="1rem"></p-skeleton>
+        </div>
+        <p-skeleton width="6rem" height="1rem"></p-skeleton>
+        <p-skeleton width="5rem" height="1rem"></p-skeleton>
+      </div>
+    } @else if (type === widgetType.TABLE) {
+      <div class="dashboard-skeleton__table">
+        @for (row of tableRows; track row) {
+          <p-skeleton width="100%" height="2.25rem"></p-skeleton>
+        }
+      </div>
+    } @else if (isChart) {
+      <p-skeleton width="100%" height="320px" styleClass="dashboard-skeleton__chart"></p-skeleton>
+    }
+  </div>
+</app-card>

@@ -1,0 +1,20 @@
+<app-card>
+  <div class="dashboard-chart">
+    <header class="dashboard-chart__header">
+      <div>
+        <h3 class="dashboard-chart__title">{{ title }}</h3>
+        @if (description) {
+          <p class="dashboard-chart__description">{{ description }}</p>
+        }
+      </div>
+      @if (periodLabel && showPeriod) {
+        <span class="dashboard-chart__period">{{ periodLabel }}</span>
+      }
+    </header>
+    <highcharts-chart
+      class="dashboard-chart__canvas"
+      [options]="options"
+      style="width: 100%; height: 320px; display: block;"
+    ></highcharts-chart>
+  </div>
+</app-card>

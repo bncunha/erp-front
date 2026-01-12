@@ -1,0 +1,65 @@
+<div class="dashboard-widget">
+  @if (widget.status === 'loading') {
+    <app-dashboard-skeleton [type]="widget.type"></app-dashboard-skeleton>
+  } @else if (widget.status === 'error') {
+    <app-card>
+      <div class="dashboard-widget__error">
+        <div>
+          <p class="dashboard-widget__error-title">Erro ao carregar</p>
+          <p class="dashboard-widget__error-text">
+            {{ widget.errorMessage || 'Nao foi possivel carregar este widget.' }}
+          </p>
+        </div>
+        <button
+          pButton
+          type="button"
+          label="Recarregar widget"
+          severity="secondary"
+          (click)="retry.emit(widget)"
+        ></button>
+      </div>
+    </app-card>
+  } @else {
+    @switch (widget.type) {
+      @case (widgetType.CARD) {
+        <app-dashboard-widget-card 
+          [card]="widget.card" 
+          [showPeriod]="widget.showPeriod ?? false"
+        />
+      }
+      @case (widgetType.TABLE) {
+        <app-dashboard-widget-table 
+          [table]="widget.table" 
+          [showPeriod]="widget.showPeriod ?? false"
+        />
+      }
+      @case (widgetType.BAR) {
+        <app-dashboard-bar-chart
+          [title]="widget.chart?.title || ''"
+          [description]="widget.chart?.description"
+          [periodLabel]="(widget.chart?.period?.from | date:'shortDate') + '-' + (widget.chart?.period?.to | date:'shortDate')"
+          [showPeriod]="widget.showPeriod ?? false"
+          [options]="widget.chart?.options || {}"
+        />
+      }
+      @case (widgetType.LINE) {
+        <app-dashboard-line-chart
+          [title]="widget.chart?.title || ''"
+          [description]="widget.chart?.description"
+          [periodLabel]="(widget.chart?.period?.from | date:'shortDate') + '-' + (widget.chart?.period?.to | date:'shortDate')"
+          [showPeriod]="widget.showPeriod ?? false"
+          [options]="widget.chart?.options || {}"
+        />
+      }
+      @case (widgetType.PIE) {
+        <app-dashboard-pie-chart
+          [title]="widget.chart?.title || ''"
+          [description]="widget.chart?.description"
+          [periodLabel]="(widget.chart?.period?.from | date:'shortDate') + '-' + (widget.chart?.period?.to | date:'shortDate')"
+          [options]="widget.chart?.options || {}"
+          [showPeriod]="widget.showPeriod ?? false"
+        />
+      }
+    }
+  }
+</div>

@@ -1,0 +1,30 @@
+<app-card>
+  <div class="dashboard-table">
+    <header class="dashboard-table__header">
+      <div>
+        <h3 class="dashboard-table__title">
+          {{ table?.title }}
+        </h3>
+        @if (table?.description) {
+          <p class="dashboard-table__description">
+            {{ table?.description }}
+          </p>
+        }
+      </div>
+      @if (showPeriod) {
+        <span class="dashboard-table__period">
+          {{ table?.period?.from | date:'shortDate' }} - {{ table?.period?.to | date:'shortDate' }}
+        </span>
+      }
+    </header>
+    <app-table
+      [value]="table?.rows ?? []"
+      [columns]="table?.columns ?? []"
+      [showToolbar]="false"
+      [showAdd]="false"
+      [showEdit]="false"
+      [showDelete]="false"
+      [keepState]="false"
+    ></app-table>
+  </div>
+</app-card>

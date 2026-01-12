@@ -21,10 +21,12 @@ import { authInterceptor } from '../service/interceptors/auth.interceptor';
 import { ptBrLocale } from './locales/pt-br.locale';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { provideHighcharts } from 'highcharts-angular';
 registerLocaleData(localePt);
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHighcharts(),
     provideAnimationsAsync(),
     providePrimeNG({
       translation: ptBrLocale,

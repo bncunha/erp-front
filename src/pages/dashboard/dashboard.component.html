@@ -1,15 +1,67 @@
-<div class="card-container">
-  @for (item of menuItems; track $index) {
-  <a class="card" routerLink="{{ item.routerLink }}">
-    <app-card>
-      <div class="card-header">
-        <i [class]="item.icon"></i>
-        <p class="card-title">{{ item.name }}</p>
+<section class="dashboard">
+  <header class="dashboard__header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="dashboard__subtitle">Acompanhe os principais indicadores.</p>
+    </div>
+    <form class="dashboard__filters" [formGroup]="periodForm">
+      <div class="dashboard__filter-field">
+        <label for="dashboard-from">Data inicial</label>
+        <p-datepicker
+          inputId="dashboard-from"
+          formControlName="from"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-datepicker>
       </div>
-    </app-card>
-  </a>
-  }
-</div>
+      <div class="dashboard__filter-field">
+        <label for="dashboard-to">Data final</label>
+        <p-datepicker
+          inputId="dashboard-to"
+          formControlName="to"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+        ></p-datepicker>
+      </div>
+      <button
+        type="button"
+        pButton
+        severity="secondary"
+        label="Limpar"
+        (click)="clearPeriod()"
+      ></button>
+      @if (periodForm.errors?.['endAfterStart']) {
+        <small class="dashboard__filter-error">
+          Data final não pode ser maior que a data inicial.
+        </small>
+      }
+    </form>
+  </header>
 
-<!-- Floating action button to start a new sale -->
-<a class="fab" routerLink="/vendas/novo" aria-label="Nova venda">+</a>
+  @if (state$ | async; as state) {
+    @if (state.status === 'error') {
+      <div class="dashboard__status dashboard__status--error">
+        <div>
+          <h2>Algo deu errado</h2>
+          <p>{{ state.errorMessage || 'Nao foi possivel carregar o dashboard.' }}</p>
+        </div>
+        <button pButton type="button" label="Tentar novamente" (click)="reloadDashboard()"></button>
+      </div>
+    } @else if (state.status !== 'loading') {
+      @if (state.widgets.length === 0) {
+        <div class="dashboard__status">
+          <p>Nenhum widget disponivel.</p>
+        </div>
+      } @else {
+        <div class="dashboard__grid">
+          @for (widget of state.widgets; track widget.key) {
+            <app-dashboard-widget-host
+              [widget]="widget"
+              (retry)="reloadWidget($event)"
+            />
+          }
+        </div>
+      }
+    }
+  }
+</section>
