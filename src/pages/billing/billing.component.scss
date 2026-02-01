@@ -138,8 +138,74 @@
   color: var(--text-color-secondary, #6b7280);
 }
 
+.billing-upgrade-card {
+  border: 1px solid var(--p-amber-300, #fcd34d);
+  background: var(--p-amber-50, #fffbeb);
+  border-radius: 1rem;
+}
+
+.billing-upgrade-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.billing-upgrade-card__header h2 {
+  margin: 0;
+}
+
+.billing-upgrade-card__header p {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing-upgrade-card__action {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--primary-color, #2563eb);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.billing-upgrade-card__action:hover {
+  opacity: 0.9;
+}
+
+.billing-upgrade-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.billing-upgrade-card__value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-color, #111827);
+}
+
+.billing-upgrade-card__list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing-upgrade-card__text {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
 @media (min-width: 900px) {
   .billing__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .billing-upgrade-card__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

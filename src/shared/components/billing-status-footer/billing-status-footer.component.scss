@@ -11,9 +11,20 @@
   height: 28px;
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   font-size: 0.75rem;
   background-color: var(--surface-100, #f3f4f6);
   color: var(--text-color, #111827);
   border-top: 1px solid var(--surface-border, #e5e7eb);
   z-index: 999;
+}
+
+.billing-status-footer__link {
+  color: var(--primary-color, #2563eb);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.billing-status-footer__link:hover {
+  text-decoration: underline;
 }

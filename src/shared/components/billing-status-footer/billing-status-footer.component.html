@@ -1,7 +1,16 @@
 @if (isAdmin) {
-  @if (billingStatusStore.planLabel$ | async; as label) {
+  @if (billingStatusStore.planFooterLabel$ | async; as label) {
+  @let isTrial = (billingStatusStore.isTrial$ | async);
   <div class="billing-status-footer">
     <span>{{ label }}</span>
+    @if (isTrial) {
+    <a
+      class="billing-status-footer__link"
+      routerLink="/configuracoes/cobranca"
+    >
+      Fazer Upgrade
+    </a>
+    }
   </div>
   } @else {
   <div class="billing-status-footer">
@@ -9,3 +18,4 @@
   </div>
 }
 }
+

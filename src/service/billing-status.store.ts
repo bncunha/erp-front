@@ -28,7 +28,7 @@ export class BillingStatusStore {
     map((status) => status?.reason || DEFAULT_READONLY_REASON),
     distinctUntilChanged()
   );
-  readonly planLabel$ = this.status$.pipe(
+  readonly planFooterLabel$ = this.status$.pipe(
     map((status) => {
       if (!status) {
         return null;
@@ -37,8 +37,21 @@ export class BillingStatusStore {
         status.currentPeriodEnd,
         'dd/MM/yyyy'
       );
-      return `Plano: ${status.planName} - Válido até ${formattedDate}`;
+      const daysRemaining = this.getDaysRemaining(status.currentPeriodEnd);
+      const showRemaining =
+        typeof daysRemaining === 'number' && daysRemaining <= 15;
+      const remainingLabel = showRemaining
+        ? ` (${daysRemaining} ${
+            daysRemaining === 1 ? 'dia' : 'dias'
+          } restantes)`
+        : '';
+      return `Plano: ${status.planName} - Válido até ${formattedDate}${remainingLabel}`;
     }),
+    distinctUntilChanged()
+  );
+
+  readonly isTrial$ = this.status$.pipe(
+    map((status) => (status?.planName || '').toUpperCase() === 'TRIAL'),
     distinctUntilChanged()
   );
 
@@ -65,5 +78,25 @@ export class BillingStatusStore {
   reset(): void {
     this.statusSubject.next(null);
   }
+
+  private getDaysRemaining(endDate: Date | null | undefined): number | null {
+    if (!endDate) {
+      return null;
+    }
+    const today = new Date();
+    const startOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const end = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate()
+    );
+    const diffMs = end.getTime() - startOfToday.getTime();
+    const days = Math.ceil(diffMs / (24 * 60 * 60 * 1000));
+    return Math.max(days, 0);
+  }
 }
- 
+
