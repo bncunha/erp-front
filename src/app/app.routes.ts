@@ -169,6 +169,21 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'configuracoes',
+        data: { breadcrumb: 'Configurações' },
+        children: [
+          {
+            path: 'cobranca',
+            data: { breadcrumb: 'Cobrança', roles: [UserRoleEnum.ADMIN] },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/billing/billing.component').then(
+                (m) => m.BillingComponent
+              ),
+          },
+        ],
+      },
+      {
         path: 'vendas',
         data: { breadcrumb: 'Vendas' },
         children: [
@@ -221,3 +236,4 @@ export const routes: Routes = [
     ],
   },
 ];
+

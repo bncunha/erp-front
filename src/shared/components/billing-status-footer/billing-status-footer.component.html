@@ -1,0 +1,21 @@
+@if (isAdmin) {
+  @if (billingStatusStore.planFooterLabel$ | async; as label) {
+  @let isTrial = (billingStatusStore.isTrial$ | async);
+  <div class="billing-status-footer">
+    <span>{{ label }}</span>
+    @if (isTrial) {
+    <a
+      class="billing-status-footer__link"
+      routerLink="/configuracoes/cobranca"
+    >
+      Fazer Upgrade
+    </a>
+    }
+  </div>
+  } @else {
+  <div class="billing-status-footer">
+    <span>Plano: Não definido</span>
+  </div>
+}
+}
+

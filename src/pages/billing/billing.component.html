@@ -1,0 +1,170 @@
+<section class="billing">
+  <header class="billing__header">
+    <h1>Cobrança</h1>
+    <p>Veja seu plano, vigência e histórico de pagamentos.</p>
+  </header>
+
+  @if (service.state$ | async; as state) {
+    @let isTrial = state.summary?.planName === "TRIAL";
+    @if (state.summaryLoading) {
+      <div class="billing__grid">
+        <app-card>
+          <div class="billing-card__skeleton">
+            <p-skeleton width="40%" height="1.2rem" />
+            <p-skeleton width="60%" height="2rem" />
+            <p-skeleton width="35%" height="1.2rem" />
+          </div>
+        </app-card>
+        <app-card>
+          <div class="billing-card__skeleton">
+            <p-skeleton width="50%" height="1.2rem" />
+            <p-skeleton width="70%" height="1.6rem" />
+            <p-skeleton width="45%" height="1.2rem" />
+          </div>
+        </app-card>
+      </div>
+    } @else {
+      @if (state.summaryErrorMessage) {
+        <app-card>
+          <p class="billing-error">{{ state.summaryErrorMessage }}</p>
+        </app-card>
+      } @else {
+        @if (isTrial) {
+          <app-card class="billing-upgrade-card">
+            <div class="billing-upgrade-card__header">
+              <div>
+                <h2>Faça upgrade do seu plano</h2>
+                <p>Desbloqueie todos os recursos e continue evoluindo.</p>
+              </div>
+              <a
+                class="billing-upgrade-card__action"
+                href="https://wa.me/5527998784082?text=Olá, gostaria de fazer o upgrade do meu plano no Trinus!"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Fazer Upgrade
+              </a>
+            </div>
+            <div class="billing-upgrade-card__content">
+              <div>
+                <div class="billing-card__label">Preço</div>
+                <div class="billing-upgrade-card__value">
+                  {{ 79.9 | currency }} / mês
+                </div>
+              </div>
+              <div>
+                <div class="billing-card__label">Vantagens</div>
+                <ul class="billing-upgrade-card__list">
+                  <li>Gestão completa de cobranças e pagamentos.</li>
+                  <li>Relatórios avançados e indicadores do seu negócio.</li>
+                  <li>Suporte prioritário e migração assistida.</li>
+                </ul>
+              </div>
+              <div>
+                <div class="billing-card__label">Migração</div>
+                <p class="billing-upgrade-card__text">
+                  Envie um WhatsApp para <strong>(27)99878-4082</strong> ou um
+                  e-mail para <strong>admin&#64;trinus.app</strong> para
+                  realizar a migração.
+                </p>
+              </div>
+            </div>
+          </app-card>
+        }
+        <div class="billing__grid">
+          <app-card>
+            <div class="billing-card__header">
+              <h2>Plano atual</h2>
+              <span
+                class="billing-badge"
+                [ngClass]="service.getStatusClass(state.summary?.status)"
+              >
+                {{ service.getStatusLabel(state.summary?.status) }}
+              </span>
+            </div>
+            <div class="billing-card__content">
+              <div>
+                <div class="billing-card__label">Plano</div>
+                <div class="billing-card__value">
+                  {{ state.summary?.planName || "-" }}
+                </div>
+              </div>
+              <div>
+                <div class="billing-card__label">Preço</div>
+                <div class="billing-card__value">
+                  {{ service.formatPrice(state.summary) }}
+                </div>
+              </div>
+            </div>
+          </app-card>
+
+          @if (!isTrial) {
+            <app-card>
+              <div class="billing-card__header">
+                <h2>Próxima cobrança</h2>
+              </div>
+              <div class="billing-card__content">
+                <div>
+                  <div class="billing-card__label">Próxima</div>
+                  <div class="billing-card__value">
+                    @if (state.summary?.nextPaymentAt) {
+                      {{ state.summary?.nextPaymentAt | date: "dd/MM/yyyy" }}
+                    } @else {
+                      -
+                    }
+                  </div>
+                </div>
+                <div>
+                  <div class="billing-card__label">Último pagamento</div>
+                  <div class="billing-card__value">
+                    @if (state.summary?.lastPaymentAt) {
+                      {{ state.summary?.lastPaymentAt | date: "dd/MM/yyyy" }}
+                    } @else {
+                      Nenhum pagamento registrado
+                    }
+                  </div>
+                </div>
+              </div>
+            </app-card>
+          }
+        </div>
+      }
+    }
+    @if (!isTrial) {
+      @if (state.paymentsLoading) {
+        <section class="billing-table">
+          <h2>Histórico de pagamentos</h2>
+          <div class="billing-table__skeleton">
+            <p-skeleton width="30%" height="1.2rem" />
+            <p-skeleton width="100%" height="280px" />
+          </div>
+        </section>
+      } @else {
+        @if (state.paymentsErrorMessage) {
+          <section class="billing-table">
+            <h2>Histórico de pagamentos</h2>
+            <app-card>
+              <p class="billing-error">{{ state.paymentsErrorMessage }}</p>
+            </app-card>
+          </section>
+        } @else {
+          <section class="billing-table">
+            <h2>Histórico de pagamentos</h2>
+            @if (state.payments.length === 0) {
+              <p class="billing-empty">Nenhum pagamento registrado.</p>
+            } @else {
+              <app-table
+                [columns]="columns"
+                [value]="state.payments"
+                [showAdd]="false"
+                [showEdit]="false"
+                [showDelete]="false"
+                stateKey="billing-payments"
+              />
+            }
+          </section>
+        }
+      }
+    }
+  }
+</section>

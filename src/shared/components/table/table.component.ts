@@ -18,6 +18,8 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BillingStatusStore } from '../../../service/billing-status.store';
+import { DisableWhenReadonlyDirective } from '../../directives/disable-when-readonly/disable-when-readonly.directive';
 
 @Component({
   selector: 'app-table',
@@ -30,6 +32,7 @@ import { CommonModule } from '@angular/common';
     InputIconModule,
     InputTextModule,
     RouterModule,
+    DisableWhenReadonlyDirective,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -59,6 +62,10 @@ export class TableComponent implements OnInit {
 
   selected?: any;
   tableService = inject(TableService);
+  billingStatusStore = inject(BillingStatusStore);
+
+  canWrite$ = this.billingStatusStore.canWrite$;
+  readonlyReason$ = this.billingStatusStore.readonlyReason$;
 
   filterFields!: string[];
   initialSearch?: string;

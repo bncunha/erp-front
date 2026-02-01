@@ -1,0 +1,211 @@
+:host {
+  display: block;
+}
+
+.billing {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.billing__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.billing__header p {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.billing-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.billing-card__header h2 {
+  margin: 0;
+}
+
+.billing-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.billing-card__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-color-secondary, #6b7280);
+  margin-bottom: 0.35rem;
+}
+
+.billing-card__value {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.billing-card__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.billing-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.billing-table h2 {
+  margin: 0;
+}
+
+.billing-table__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.billing-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background-color: var(--surface-200, #e5e7eb);
+  color: var(--text-color, #111827);
+}
+
+:host ::ng-deep .billing-badge--active {
+  background-color: var(--p-green-200);
+  color: var(--p-green-900);
+}
+
+:host ::ng-deep .billing-badge--past-due {
+  background-color: var(--p-amber-200);
+  color: var(--p-amber-900);
+}
+
+:host ::ng-deep .billing-badge--canceled {
+  background-color: var(--p-red-200);
+  color: var(--p-red-900);
+}
+
+:host ::ng-deep .billing-badge--paid {
+  background-color: var(--p-green-200);
+  color: var(--p-green-900);
+}
+
+:host ::ng-deep .billing-badge--pending {
+  background-color: var(--p-amber-200);
+  color: var(--p-amber-900);
+}
+
+:host ::ng-deep .billing-badge--failed {
+  background-color: var(--p-red-200);
+  color: var(--p-red-900);
+}
+
+:host ::ng-deep .billing-badge--default {
+  background-color: var(--surface-200, #e5e7eb);
+  color: var(--text-color, #111827);
+}
+
+.billing-error {
+  margin: 0;
+  color: var(--danger-color, #dc2626);
+  font-weight: 600;
+}
+
+.billing-empty {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing-upgrade-card {
+  border: 1px solid var(--p-amber-300, #fcd34d);
+  background: var(--p-amber-50, #fffbeb);
+  border-radius: 1rem;
+}
+
+.billing-upgrade-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.billing-upgrade-card__header h2 {
+  margin: 0;
+}
+
+.billing-upgrade-card__header p {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing-upgrade-card__action {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--primary-color, #2563eb);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.billing-upgrade-card__action:hover {
+  opacity: 0.9;
+}
+
+.billing-upgrade-card__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.billing-upgrade-card__value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-color, #111827);
+}
+
+.billing-upgrade-card__list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+.billing-upgrade-card__text {
+  margin: 0;
+  color: var(--text-color-secondary, #6b7280);
+}
+
+@media (min-width: 900px) {
+  .billing__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .billing-upgrade-card__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
