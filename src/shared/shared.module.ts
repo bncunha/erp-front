@@ -26,6 +26,7 @@ import { PanelModule } from 'primeng/panel';
 import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { DisableWhenReadonlyDirective } from './directives/disable-when-readonly/disable-when-readonly.directive';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -56,6 +57,7 @@ const PRIME_NG_MODULES = [
     RequiredAsteriscDirective,
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
+    DisableWhenReadonlyDirective,
     ToastComponent,
     MaskPipe,
   ],
@@ -70,6 +72,7 @@ const PRIME_NG_MODULES = [
     RequiredAsteriscDirective,
     FormGroupRequiredAsteriscDirective,
     ValidatorMessageDirective,
+    DisableWhenReadonlyDirective,
     ToastComponent,
     MaskPipe,
   ],

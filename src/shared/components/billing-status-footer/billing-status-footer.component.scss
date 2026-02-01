@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.billing-status-footer {
+  position: fixed;
+  padding: 0 1rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  background-color: var(--surface-100, #f3f4f6);
+  color: var(--text-color, #111827);
+  border-top: 1px solid var(--surface-border, #e5e7eb);
+  z-index: 999;
+}

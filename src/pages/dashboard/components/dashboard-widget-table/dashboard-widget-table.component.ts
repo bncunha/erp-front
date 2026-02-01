@@ -15,8 +15,5 @@ export class DashboardWidgetTableComponent {
   @Input() showPeriod: boolean = false;
 
   constructor() {
-    setInterval(() => {
-      console.log(this.table);
-    },  1000);
   }
 }

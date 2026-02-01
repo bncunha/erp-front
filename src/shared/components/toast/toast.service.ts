@@ -26,6 +26,15 @@ export class ToastService {
     });
   }
 
+  showWarning(message: string, title: string = 'Atenção') {
+    this.messageService.add({
+      severity: 'warn',
+      summary: title,
+      detail: message,
+      life: 4500,
+    });
+  }
+
   confirm(
     accept: () => any,
     message: string = 'Deseja realmente realizar esta operação?',

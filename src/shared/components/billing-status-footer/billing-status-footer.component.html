@@ -1,0 +1,11 @@
+@if (isAdmin) {
+  @if (billingStatusStore.planLabel$ | async; as label) {
+  <div class="billing-status-footer">
+    <span>{{ label }}</span>
+  </div>
+  } @else {
+  <div class="billing-status-footer">
+    <span>Plano: Não definido</span>
+  </div>
+}
+}

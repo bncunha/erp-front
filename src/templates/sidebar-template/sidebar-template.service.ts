@@ -41,6 +41,12 @@ export class SidebarTemplateService {
       roles: [UserRoleEnum.ADMIN],
     },
     {
+      icon: PrimeIcons.CREDIT_CARD,
+      name: 'Cobrança',
+      routerLink: '/configuracoes/cobranca',
+      roles: [UserRoleEnum.ADMIN],
+    },
+    {
       icon: PrimeIcons.DOLLAR,
       name: 'Vendas',
       routerLink: '/vendas',
@@ -67,3 +73,4 @@ export class SidebarTemplateService {
     return this.isSidebarOpenSubject.asObservable();
   }
 }
+

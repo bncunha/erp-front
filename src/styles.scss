@@ -137,6 +137,15 @@ button:not(.p-button) {
   }
 }
 
+.app-readonly-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.app-readonly-disabled.p-button {
+  pointer-events: auto;
+}
+
 .pi::before {
   backface-visibility: visible;
 }
