@@ -1,0 +1,14 @@
+<p-dialog
+  [(visible)]="service.isDialogVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  header="Novidades"
+  (onHide)="onHide()"
+>
+  <div class="news-dialog__content" [innerHTML]="service.contentHtml"></div>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Fechar" (click)="onHide()"></button>
+  </ng-template>
+</p-dialog>

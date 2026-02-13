@@ -6,6 +6,7 @@ import { ToastComponent } from '../shared/components/toast/toast.component';
 import { LegalTermsDialogComponent } from '../shared/components/legal-terms-dialog/legal-terms-dialog.component';
 import { BillingStatusFooterComponent } from '../shared/components/billing-status-footer/billing-status-footer.component';
 import { BillingStatusStore } from '../service/billing-status.store';
+import { NewsDialogComponent } from '../shared/components/news-dialog/news-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { BillingStatusStore } from '../service/billing-status.store';
     LoaderComponent,
     ToastComponent,
     LegalTermsDialogComponent,
+    NewsDialogComponent,
     BillingStatusFooterComponent,
   ],
   templateUrl: './app.component.html',
