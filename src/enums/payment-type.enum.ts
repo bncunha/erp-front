@@ -4,6 +4,7 @@ export enum PaymentTypeEnum {
   DEBIT_CARD = 'DEBIT_CARD',
   PIX = 'PIX',
   CREDIT_STORE = 'CREDIT_STORE',
+  PAYMENT_RETURN = 'PAYMENT_RETURN',
 }
 
 export interface PaymentList {
@@ -30,6 +31,10 @@ export const GetPaymentTypeNmae = (paymentType: PaymentTypeEnum) => {
       return 'PIX';
     case PaymentTypeEnum.CREDIT_STORE:
       return 'Notinha';
+    case PaymentTypeEnum.PAYMENT_RETURN:
+      return 'Devolução';
+    default:
+      return paymentType;
   }
 };
 

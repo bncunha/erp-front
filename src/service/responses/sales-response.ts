@@ -36,6 +36,7 @@ export interface GetSaleResponse {
   payment_status: string;
   payments: GetSalePaymentResponse[];
   items: GetSaleItemResponse[];
+  returns: GetSaleReturnResponse[];
 }
 
 export interface GetSalePaymentResponse {
@@ -54,6 +55,23 @@ export class GetSaleInstallmentResponse {
 }
 
 export interface GetSaleItemResponse {
+  sku_id: number;
+  code: string;
+  description: string;
+  quantity: number;
+  unit_price: number;
+  total_value: number;
+}
+
+export interface GetSaleReturnResponse {
+  id: number;
+  return_date: string;
+  returner: string;
+  reason: string;
+  items: GetSaleReturnItemResponse[];
+}
+
+export interface GetSaleReturnItemResponse {
   code: string;
   description: string;
   quantity: number;

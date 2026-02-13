@@ -2,7 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { Column } from '../../../shared/components/table/models/column';
 import { SalesApiService } from '../../../service/api-service/sales-api.service';
 import { finalize, Observable } from 'rxjs';
-import { GetSaleResponse } from '../../../service/responses/sales-response';
+import {
+  GetSalePaymentResponse,
+  GetSaleResponse,
+} from '../../../service/responses/sales-response';
 import {
   GetPaymentTypeNmae,
   PaymentTypeEnum,
@@ -19,6 +22,18 @@ export class SalesDetailsService {
 
   getPaymentType(paymentType: PaymentTypeEnum): string {
     return GetPaymentTypeNmae(paymentType);
+  }
+
+  sortPayments(payments: GetSalePaymentResponse[] = []): GetSalePaymentResponse[] {
+    return [...payments].sort((current, next) => {
+      if (current.payment_type === PaymentTypeEnum.PAYMENT_RETURN) {
+        return -1;
+      }
+      if (next.payment_type === PaymentTypeEnum.PAYMENT_RETURN) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   getSale(id: number): Observable<GetSaleResponse> {
@@ -61,5 +76,9 @@ export class SalesDetailsService {
         },
       },
     ];
+  }
+
+  getReturnItemsColumns(): Column[] {
+    return this.getItensColumns();
   }
 }

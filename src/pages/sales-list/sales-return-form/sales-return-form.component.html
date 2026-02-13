@@ -1,0 +1,150 @@
+<p-dialog
+  [(visible)]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '960px': '95vw', '640px': '98vw' }"
+  [style]="{ width: '900px', maxWidth: '95vw' }"
+  header="Devolução"
+  (onHide)="close()"
+>
+  @if (isVisible) {
+    <form class="sales-return-form" [formGroup]="form" (submit)="submit(form)">
+      <p class="sales-return-form__info">
+        Registre a devolução para recalcular as parcelas da venda e devolver os
+        produtos ao estoque. Atenção, esta operação é irreversível!
+      </p>
+
+      <div class="sales-return-form__grid">
+        <div>
+          <label for="returner_name">Nome de quem devolve</label>
+          <input
+            id="returner_name"
+            type="text"
+            pInputText
+            formControlName="returner_name"
+            maxlength="255"
+            placeholder="Informe o nome"
+          />
+        </div>
+        @if (service.isAdmin) {
+          <div>
+            <label for="inventory_destination_id">Local da devolução</label>
+            <p-select
+              inputId="inventory_destination_id"
+              formControlName="inventory_destination_id"
+              [options]="(service.inventories$ | async) ?? []"
+              optionLabel="type"
+              optionValue="id"
+              [filter]="true"
+              appendTo="body"
+              placeholder="Selecione o estoque de destino"
+            />
+          </div>
+        }
+      </div>
+
+      <div class="sales-return-form__reason">
+        <label for="reason">Motivo</label>
+        <textarea
+          pTextarea
+          id="reason"
+          formControlName="reason"
+          maxlength="2000"
+          placeholder="Descreva o motivo da devolução"
+        ></textarea>
+      </div>
+
+      <div class="sales-return-form__items">
+        <div class="sales-return-form__items-header">
+          <h4>Itens devolvidos</h4>
+          <button
+            type="button"
+            pButton
+            icon="pi pi-plus"
+            label="Adicionar item"
+            [disabled]="!service.canAddItem(form) || service.isLoading"
+            (click)="service.addItemControl(form)"
+          ></button>
+        </div>
+
+        <div class="sales-return-form__list" formArrayName="items">
+          @for (
+            control of service.getItemControls(form);
+            track $index;
+            let i = $index
+          ) {
+            @let maxQuantity = service.getMaxQuantity(form, i);
+            <div class="sales-return-form__item" [formGroup]="control">
+              <div class="sales-return-form__item-grid">
+                <div>
+                  <label [for]="'sku-' + i">Produto</label>
+                  <p-select
+                    [inputId]="'sku-' + i"
+                    formControlName="sku_id"
+                    [options]="service.getAvailableItems(form, i)"
+                    optionLabel="label"
+                    optionValue="sku_id"
+                    [filter]="true"
+                    appendTo="body"
+                    placeholder="Selecione o item vendido"
+                    (onChange)="service.onSkuChange(form, i)"
+                  />
+                </div>
+
+                <div>
+                  <label [for]="'quantity-' + i">Quantidade</label>
+                  <p-inputNumber
+                    [inputId]="'quantity-' + i"
+                    formControlName="quantity"
+                    [min]="1"
+                    [max]="maxQuantity ?? undefined"
+                    [useGrouping]="false"
+                  />
+                  @if (maxQuantity !== null) {
+                    <small class="sales-return-form__hint">
+                      Máximo vendido: {{ maxQuantity }}
+                    </small>
+                  }
+                </div>
+              </div>
+
+              <div class="sales-return-form__item-actions">
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-trash"
+                  severity="danger"
+                  [text]="true"
+                  [disabled]="service.getItemControls(form).length === 1"
+                  (click)="service.removeItemControl(form, i)"
+                ></button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="sales-return-form__actions">
+        <button
+          type="submit"
+          pButton
+          [loading]="service.isLoading"
+          [disabled]="service.isLoading || form.invalid"
+        >
+          Confirmar
+        </button>
+        <button
+          type="button"
+          pButton
+          severity="secondary"
+          [disabled]="service.isLoading"
+          (click)="close()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  }
+</p-dialog>

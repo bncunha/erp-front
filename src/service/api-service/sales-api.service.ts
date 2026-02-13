@@ -12,6 +12,7 @@ import {
   GetAllSalesRequest,
   UpdatePaymentStatusRequest,
 } from '../requests/sales-request';
+import { CreateSalesReturnRequest } from '../requests/sales-return-request';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +52,13 @@ export class SalesApiService {
   ): Observable<void> {
     return this.http.put<void>(
       `${environment.API_URL}/sales/${saleId}/payments/${paymentId}`,
+      request
+    );
+  }
+
+  createReturn(saleId: number, request: CreateSalesReturnRequest): Observable<void> {
+    return this.http.post<void>(
+      `${environment.API_URL}/sales/${saleId}/returns`,
       request
     );
   }

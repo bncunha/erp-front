@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { finalize, take } from 'rxjs';
+import { Subject, finalize, take } from 'rxjs';
 import { UserApiService } from './api-service/user-api.service';
 import { LegalTermStatusResponse } from './responses/legal-terms-response';
 import { AuthService } from './auth.service';
@@ -10,6 +10,9 @@ import { AuthService } from './auth.service';
 export class LegalTermsService {
   private userApiService = inject(UserApiService);
   private authService = inject(AuthService);
+  private acceptedSubject = new Subject<void>();
+
+  readonly accepted$ = this.acceptedSubject.asObservable();
 
   pendingTerms: LegalTermStatusResponse[] = [];
   isDialogVisible = false;
@@ -61,6 +64,7 @@ export class LegalTermsService {
         next: () => {
           this.pendingTerms = [];
           this.isDialogVisible = false;
+          this.acceptedSubject.next();
         },
       });
   }

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { LegalTermsService } from '../../service/legal-terms.service';
 import { BillingStatusStore } from '../../service/billing-status.store';
+import { NewsService } from '../../service/news.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class LoginService {
   private router = inject(Router);
   private legalTermsService = inject(LegalTermsService);
   private billingStatusStore = inject(BillingStatusStore);
+  private newsService = inject(NewsService);
   isLoading = false;
 
   handleSubmit(f: NgForm) {
@@ -26,6 +28,7 @@ export class LoginService {
         .pipe(finalize(() => (this.isLoading = false)))
         .subscribe(() => {
           this.legalTermsService.checkPendingTerms();
+          this.newsService.checkLatestNewsAfterLogin();
           this.billingStatusStore.loadStatus().subscribe();
           this.router.navigate(['/']);
         });

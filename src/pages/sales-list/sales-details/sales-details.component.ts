@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { SalesDetailsService } from './sales-details.service';
 import { TimelineModule } from 'primeng/timeline';
@@ -10,6 +10,7 @@ import {
 } from '../../../service/responses/sales-response';
 import { DividerModule } from 'primeng/divider';
 import { CurrencyPipe } from '@angular/common';
+import { SalesReturnFormComponent } from '../sales-return-form/sales-return-form.component';
 
 @Component({
   selector: 'app-sales-details',
@@ -18,6 +19,7 @@ import { CurrencyPipe } from '@angular/common';
     TimelineModule,
     PaymentBadgeComponent,
     ChangePaymentFormComponent,
+    SalesReturnFormComponent,
     DividerModule,
   ],
   templateUrl: './sales-details.component.html',
@@ -28,6 +30,7 @@ export class SalesDetailsComponent {
   @Output() changePaymentSuccess = new EventEmitter<void>();
   service = inject(SalesDetailsService);
   itensColumns = this.service.getItensColumns();
+  returnItemsColumns = this.service.getReturnItemsColumns();
   sale?: GetSaleResponse;
 
   open(ev: GetSimplifiedSaleResponse) {
@@ -37,11 +40,19 @@ export class SalesDetailsComponent {
 
   getSale(id: number) {
     this.service.getSale(id).subscribe((response) => {
-      this.sale = response;
+      this.sale = {
+        ...response,
+        payments: this.service.sortPayments(response.payments),
+      };
     });
   }
 
   onChangePaymentSuccess() {
+    this.getSale(this.sale!.id);
+    this.changePaymentSuccess.emit();
+  }
+
+  onReturnSuccess() {
     this.getSale(this.sale!.id);
     this.changePaymentSuccess.emit();
   }
