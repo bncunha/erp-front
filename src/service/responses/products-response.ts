@@ -20,6 +20,6 @@ export class GetSkuResponse {
 
   constructor(data: GetSkuResponse) {
     Object.assign(this, data);
-    this.filterName = `${this.product_name} - ${this.name} - ${this.code}`;
+    this.filterName = `${this.name} - ${this.code}`;
   }
 }

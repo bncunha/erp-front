@@ -117,7 +117,9 @@ export class QuotesFormService {
   }
 
   getTotal(): number {
-    return this.getSubtotal() - this.getDiscountAmount() + this.getShippingCost();
+    return (
+      this.getSubtotal() - this.getDiscountAmount() + this.getShippingCost()
+    );
   }
 
   getDownPayment(): number {
@@ -244,7 +246,7 @@ export class QuotesFormService {
       group.patchValue(
         {
           unit_price: sku.price,
-          product_description: `${sku.product_name} - ${sku.name || ''}`,
+          product_description: `${sku.filterName || ''}`,
         },
         { emitEvent: false },
       );

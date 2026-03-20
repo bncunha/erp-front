@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '../../shared.module';
 import { QuickProductDialogService } from './quick-product-dialog.service';
 
 @Component({

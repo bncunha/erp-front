@@ -1,9 +1,10 @@
-﻿import { inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ProductsApiService } from '../../../service/api-service/products-api.service';
 import { SkuApiService } from '../../../service/api-service/sku-api.service';
 import { CreatProductRequest } from '../../../service/requests/products-request';
 import { CreateSkuRequest } from '../../../service/requests/skus-request';
-import { ToastService } from '../../../shared/components/toast/toast.service';
+import { ToastService } from '../toast/toast.service';
+import { generateSkuId } from '../../utils/sku-id.util';
 
 @Injectable()
 export class QuickProductDialogService {
@@ -27,7 +28,7 @@ export class QuickProductDialogService {
     this.formData = {
       name: '',
       description: '',
-      code: '',
+      code: generateSkuId('SKU'),
       color: '',
       size: '',
       price: null,

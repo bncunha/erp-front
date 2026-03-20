@@ -11,6 +11,7 @@ import { GetSkuResponse } from '../../../service/responses/products-response';
 import { NgFor } from '@angular/common';
 import { InventoryApiService } from '../../../service/api-service/inventory-api.service';
 import { GetInventoryResponse } from '../../../service/responses/inventory-response';
+import { generateSkuId } from '../../../shared/utils/sku-id.util';
 
 @Injectable()
 export class SkuFormDialogService {
@@ -49,7 +50,7 @@ export class SkuFormDialogService {
       this.skuEditing = sku;
       f.form.patchValue(sku);
     } else {
-      const generatedSkuId = this.generateSkuId('SKU');
+      const generatedSkuId = generateSkuId('SKU');
       f.form.patchValue({
         code: generatedSkuId,
       });
@@ -86,14 +87,5 @@ export class SkuFormDialogService {
         this.toastService.showSuccess('Variação alterada com sucesso!');
       })
     );
-  }
-
-  private generateSkuId(prefix: string = '', length: number = 8) {
-    const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let s = '';
-    for (let i = 0; i < length; i++) {
-      s += charset[Math.floor(Math.random() * charset.length)];
-    }
-    return prefix ? `${prefix}-${s}` : s;
   }
 }

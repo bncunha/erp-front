@@ -4,8 +4,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { QuoteShippingTypeOptions } from '../../enums/quote-shipping-type.enum';
 import { GetCustomerResponse } from '../../service/responses/customers-response';
 import { GetSkuResponse } from '../../service/responses/products-response';
+import { QuickProductDialogComponent } from '../../shared/components/quick-product-dialog/quick-product-dialog.component';
 import { CustomersFormDialogComponent } from '../sales-form/customers-form-dialog/customers-form-dialog.component';
-import { QuickProductDialogComponent } from './quick-product-dialog/quick-product-dialog.component';
 import { QuotesFormService } from './quotes-form.service';
 
 @Component({
