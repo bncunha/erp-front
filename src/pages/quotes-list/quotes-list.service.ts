@@ -204,7 +204,9 @@ export class QuotesListService {
         this.quotesApi.patchStatus(item.id, { status }).subscribe({
           next: () => this.fetch(),
           error: () =>
-            this.toast.showError('Não foi possível alterar o status do orçamento.'),
+            this.toast.showError(
+              'Não foi possível alterar o status do orçamento.',
+            ),
         });
       },
       `Confirma alterar o status do orçamento ${item.quote_number} para ${nextStatusLabel}?`,

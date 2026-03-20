@@ -1,5 +1,7 @@
 import {
   AbstractControl,
+  FormArray,
+  FormGroup,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
@@ -61,6 +63,23 @@ export class FormUtil {
           }
         }
       });
+    }
+  }
+
+  static markInvalidControlsAsDirty(control: AbstractControl): void {
+    if (control.disabled) {
+      return;
+    }
+
+    if (control instanceof FormGroup || control instanceof FormArray) {
+      Object.values(control.controls).forEach((childControl) =>
+        this.markInvalidControlsAsDirty(childControl),
+      );
+      return;
+    }
+
+    if (control.invalid) {
+      control.markAsDirty({ onlySelf: true });
     }
   }
 }

@@ -1,5 +1,11 @@
 ﻿import { inject, Injectable } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   QuoteShippingTypeEnum,
@@ -14,6 +20,7 @@ import { GetCustomerResponse } from '../../service/responses/customers-response'
 import { GetSkuResponse } from '../../service/responses/products-response';
 import { ToastService } from '../../shared/components/toast/toast.service';
 import { DateUtils } from '../../shared/utils/date.utils';
+import { FormUtil } from '../../shared/utils/form.utils';
 
 @Injectable()
 export class QuotesFormService {
@@ -150,6 +157,7 @@ export class QuotesFormService {
     this.applyShippingValidation();
     if (this.form.invalid || this.items.length === 0) {
       this.form.markAllAsTouched();
+      FormUtil.markInvalidControlsAsDirty(this.form);
       this.toast.showError('Preencha os campos obrigatórios do orçamento.');
       return;
     }
@@ -165,14 +173,7 @@ export class QuotesFormService {
         this.id = response.id;
         this.toast.showSuccess('Orçamento salvo com sucesso!');
         this.isLoading = false;
-        if (!this.route.snapshot.params['id']) {
-          this.router.navigate(['/producao/orcamentos', this.id]);
-        }
-        if (afterSave) {
-          afterSave();
-        } else {
-          this.loadQuote();
-        }
+        this.router.navigate(['/producao/orcamentos']);
       },
       error: (err) => {
         this.isLoading = false;
