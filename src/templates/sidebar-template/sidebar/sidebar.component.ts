@@ -15,4 +15,13 @@ export class SidebarComponent {
   @Output() onClose = new EventEmitter();
   @Input() isOpen: boolean = false;
   @Input() itemsList: MenuItem[] = [];
+  expandedMenus: Record<string, boolean> = {};
+
+  toggleParent(itemName: string): void {
+    this.expandedMenus[itemName] = !this.expandedMenus[itemName];
+  }
+
+  isExpanded(itemName: string): boolean {
+    return !!this.expandedMenus[itemName];
+  }
 }

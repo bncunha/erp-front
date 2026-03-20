@@ -8,20 +8,60 @@
   ></button>
   <nav class="menu">
     @for (item of itemsList; track $index) {
-    <a
-      class="menu-item"
-      [routerLink]="item.routerLink"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: item.routerLink === '/'  }"
-      (click)="onClose.emit()"
-      [attr.aria-label]="item.name"
-      pTooltip="{{ item.name }}"
-      tooltipPosition="right"
-      tooltipAppendTo="body"
-    >
-      <i [class]="item.icon"></i>
-      <span class="menu-label">{{ item.name }}</span>
-    </a>
+      @if (item.children && item.children.length > 0) {
+        <button
+          type="button"
+          class="menu-item menu-item--parent"
+          (click)="toggleParent(item.name)"
+          [attr.aria-label]="item.name"
+          pTooltip="{{ item.name }}"
+          tooltipPosition="right"
+          tooltipAppendTo="body"
+        >
+          <i [class]="item.icon"></i>
+          <span class="menu-label">{{ item.name }}</span>
+          <i
+            class="pi arrow-icon"
+            [ngClass]="
+              isExpanded(item.name) ? 'pi-chevron-up' : 'pi-chevron-down'
+            "
+          ></i>
+        </button>
+        @if (isExpanded(item.name)) {
+          <div class="submenu">
+            @for (child of item.children; track child.name) {
+              <a
+                class="menu-item menu-item--child"
+                [routerLink]="child.routerLink"
+                routerLinkActive="active"
+                (click)="onClose.emit()"
+                [attr.aria-label]="child.name"
+                pTooltip="{{ child.name }}"
+                tooltipPosition="right"
+                tooltipAppendTo="body"
+              >
+                <i [class]="child.icon"></i>
+                <span class="menu-label">{{ child.name }}</span>
+              </a>
+            }
+          </div>
+        }
+      } @else {
+        <a
+          class="menu-item"
+          [routerLink]="item.routerLink"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.routerLink === '/' }"
+          (click)="onClose.emit()"
+          [attr.aria-label]="item.name"
+          pTooltip="{{ item.name }}"
+          tooltipPosition="right"
+          tooltipAppendTo="body"
+        >
+          <i [class]="item.icon"></i>
+          <span class="menu-label">{{ item.name }}</span>
+        </a>
+      }
     }
     <a
       class="menu-item"

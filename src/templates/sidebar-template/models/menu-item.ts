@@ -1,8 +1,9 @@
 import { UserRoleEnum } from '../../../enums/user-role.enum';
 
 export interface MenuItem {
-  routerLink: string;
+  routerLink?: string;
   name: string;
   icon: string;
   roles: UserRoleEnum[];
+  children?: MenuItem[];
 }

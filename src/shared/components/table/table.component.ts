@@ -20,6 +20,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BillingStatusStore } from '../../../service/billing-status.store';
 import { DisableWhenReadonlyDirective } from '../../directives/disable-when-readonly/disable-when-readonly.directive';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-table',
@@ -48,6 +49,7 @@ export class TableComponent implements OnInit {
   @Output() onRowExpand = new EventEmitter<any>();
   @Output() onRowCollapse = new EventEmitter<any>();
   @Output() onRowClick = new EventEmitter<any>();
+  @Output() onLazyLoad = new EventEmitter<TableLazyLoadEvent>();
   @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;
@@ -59,6 +61,10 @@ export class TableComponent implements OnInit {
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
   @Input() dataKey?: string;
+  @Input() lazy: boolean = false;
+  @Input() loading: boolean = false;
+  @Input() totalRecords: number = 0;
+  @Input() rows: number = 10;
 
   selected?: any;
   tableService = inject(TableService);

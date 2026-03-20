@@ -1,0 +1,146 @@
+<div class="print-page">
+  <div class="toolbar no-print">
+    <button
+      pButton
+      type="button"
+      icon="pi pi-print"
+      label="Imprimir / Salvar PDF"
+      (click)="print()"
+    ></button>
+  </div>
+
+  @if (loading) {
+    <p-card>
+      <p>Carregando orçamento...</p>
+    </p-card>
+  }
+
+  @if (!loading && quote) {
+    <div class="quote-sheet">
+      @if (shouldShowWatermark()) {
+        <div class="watermark">
+          <span> {{ shouldShowWatermark() }} </span>
+        </div>
+      }
+      <h1 class="titulo">PROPOSTA COMERCIAL</h1>
+      <header class="sheet-header">
+        <div class="sheet-logo" *ngIf="quote.company.logo_url">
+          <img
+            [src]="'/assets/companies/' + quote.company.logo_url"
+            alt="Logo da empresa"
+          />
+        </div>
+        <div>
+          <h2>{{ quote.company.legal_name || quote.company.name }}</h2>
+          <p *ngIf="quote.company.cnpj">
+            CNPJ: {{ quote.company.cnpj || "-" }}
+          </p>
+          <p *ngIf="quote.company.phone">
+            Telefone: {{ quote.company.phone || "-" }}
+          </p>
+          <p *ngIf="quote.company.email">
+            Email: {{ quote.company.email || "-" }}
+          </p>
+          <p *ngIf="quote.company.address">
+            Endereço: {{ quote.company.address || "-" }}
+          </p>
+        </div>
+      </header>
+
+      <section class="block sheet-info">
+        <div class="header-right">
+          <p><strong>Cliente:</strong> {{ quote.customer.name }}</p>
+          <p><strong>Telefone:</strong> {{ quote.customer.phone }}</p>
+        </div>
+        <div class="header-left">
+          <p><strong>Número:</strong> {{ quote.quote_number }}</p>
+          <p>
+            <strong>Data:</strong> {{ quote.created_at | date: "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>Validade:</strong>
+            {{ quote.valid_until | date: "dd/MM/yyyy" }}
+          </p>
+        </div>
+      </section>
+
+      <section class="block">
+        <h3>Itens</h3>
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>SKU</th>
+              <th>Descrição</th>
+              <th class="text-right">Qtd</th>
+              <th class="text-right">Valor Unitário</th>
+              <th class="text-right">Valor Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of quote.items; track item.id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.sku_code || item.sku_id }}</td>
+                <td>{{ item.product_description }}</td>
+                <td class="text-right">{{ item.quantity }}</td>
+                <td class="text-right">
+                  {{ item.unit_price | currency: "BRL" }}
+                </td>
+                <td class="text-right">
+                  {{ item.total_price | currency: "BRL" }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <section class="block totals">
+        <table class="totals-table">
+          <tr>
+            <th>Subtotal</th>
+            <td>{{ quote.subtotal_amount | currency: "BRL" }}</td>
+          </tr>
+          @if (quote.discount_percentage > 0) {
+            <tr>
+              <th>Desconto ({{ quote.discount_percentage }}%)</th>
+              <td>-{{ quote.discount_amount | currency: "BRL" }}</td>
+            </tr>
+          }
+          @if (quote.shipping_cost > 0) {
+            <tr>
+              <th>Frete</th>
+              <td>{{ quote.shipping_cost | currency: "BRL" }}</td>
+            </tr>
+          }
+          <tr>
+            <th>Total</th>
+            <td>{{ quote.total_amount | currency: "BRL" }}</td>
+          </tr>
+          <tr>
+            <th>Entrada ({{ quote.down_payment_percentage }}%)</th>
+            <td>{{ quote.down_payment_amount | currency: "BRL" }}</td>
+          </tr>
+          <tr>
+            <th>Valor restante</th>
+            <td>{{ quote.remaining_amount | currency: "BRL" }}</td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="block notes">
+        <h3>Observações</h3>
+        @if (!quote.shipping_cost) {
+          <p>
+            <strong>Frete:</strong>
+            {{ quote.shipping_description }}
+          </p>
+        }
+        @if (quote.notes) {
+          <p>{{ quote.notes || "-" }}</p>
+        }
+      </section>
+    </div>
+  }
+</div>

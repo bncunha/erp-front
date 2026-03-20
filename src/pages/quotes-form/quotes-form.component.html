@@ -1,0 +1,230 @@
+﻿<app-customers-form-dialog
+  #customerDialog
+  (onSubmitSuccess)="onCustomerCreated()"
+/>
+<app-quick-product-dialog
+  #quickProductDialog
+  (onSubmitSuccess)="onQuickProductCreated()"
+/>
+
+<h1>{{ id ? "Editar orçamento" : "Novo orçamento" }}</h1>
+
+<form [formGroup]="form" class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+  <div class="sm:col-span-2">
+    <div class="flex items-end gap-2">
+      <div class="w-full">
+        <label>Cliente</label>
+        <p-select
+          [options]="customers"
+          optionLabel="name"
+          optionValue="id"
+          formControlName="customer_id"
+          [filter]="true"
+        >
+          <ng-template let-customer #item>
+            <div>
+              <div>{{ customer.name }}</div>
+              <small>Telefone: {{ customer.phone_number }}</small>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        severity="secondary"
+        (click)="customerDialog?.open()"
+      ></button>
+    </div>
+  </div>
+
+  <div class="sm:col-span-2 flex justify-between items-center mt-2">
+    <h2>Itens do orçamento</h2>
+    <div class="flex gap-2">
+      <button
+        type="button"
+        pButton
+        severity="secondary"
+        icon="pi pi-plus"
+        (click)="addItem()"
+      >
+        Adicionar item
+      </button>
+      <button
+        type="button"
+        pButton
+        severity="secondary"
+        icon="pi pi-box"
+        (click)="quickProductDialog?.open()"
+      >
+        Novo produto
+      </button>
+    </div>
+  </div>
+
+  <div class="sm:col-span-2" formArrayName="items">
+    @for (item of items.controls; track $index; let i = $index) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-6 gap-2 mb-2"
+        [formGroupName]="i"
+      >
+        <div class="sm:col-span-2">
+          <label>Produto</label>
+          <p-select
+            [options]="skus"
+            optionLabel="filterName"
+            optionValue="id"
+            formControlName="sku_id"
+            [filter]="true"
+          ></p-select>
+        </div>
+        <div>
+          <label>Quantidade</label>
+          <p-inputnumber
+            formControlName="quantity"
+            mode="decimal"
+            [minFractionDigits]="2"
+            [min]="0.01"
+          ></p-inputnumber>
+        </div>
+        <div>
+          <label>Valor unitário</label>
+          <p-inputnumber
+            formControlName="unit_price"
+            mode="currency"
+            currency="BRL"
+          ></p-inputnumber>
+        </div>
+        <div>
+          <label>Total item</label>
+          <p-inputnumber
+            formControlName="total_price"
+            mode="currency"
+            currency="BRL"
+            [readonly]="true"
+          ></p-inputnumber>
+        </div>
+        <div class="flex items-end">
+          <button
+            type="button"
+            pButton
+            icon="pi pi-trash"
+            severity="danger"
+            (click)="removeItem(i)"
+          ></button>
+        </div>
+        <div class="sm:col-span-6">
+          <small>{{ item.get("product_description")?.value }}</small>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div>
+    <label>Validade</label>
+    <p-datepicker formControlName="valid_until" appendTo="body"></p-datepicker>
+  </div>
+  <div>
+    <label>Entrada (%)</label>
+    <p-inputnumber
+      formControlName="down_payment_percentage"
+      mode="decimal"
+      [minFractionDigits]="2"
+      [min]="0"
+      [max]="100"
+    ></p-inputnumber>
+  </div>
+
+  <div>
+    <label>Desconto (%)</label>
+    <p-inputnumber
+      formControlName="discount_percentage"
+      mode="decimal"
+      [minFractionDigits]="2"
+      [min]="0"
+      [max]="100"
+    ></p-inputnumber>
+  </div>
+  <div>
+    <label>Tipo de frete</label>
+    <p-dropdown
+      [options]="shippingOptions"
+      optionLabel="label"
+      optionValue="value"
+      formControlName="shipping_type"
+      (onChange)="onShippingTypeChange()"
+      appendTo="body"
+    />
+  </div>
+
+  @if (form.get("shipping_type")?.value === "TO_CALCULATE") {
+    <div>
+      <label>Valor frete (R$)</label>
+      <p-inputnumber
+        formControlName="shipping_cost"
+        mode="currency"
+        currency="BRL"
+      />
+    </div>
+  }
+
+  @if (form.get("shipping_type")?.value === "FREE_REGION") {
+    <div>
+      <label>Região</label>
+      <input pInputText formControlName="shipping_region" />
+    </div>
+  }
+
+  @if (form.get("shipping_type")?.value === "FREE_MIN_VALUE") {
+    <div>
+      <label>Valor mínimo</label>
+      <p-inputnumber
+        formControlName="shipping_min_value"
+        mode="currency"
+        currency="BRL"
+      ></p-inputnumber>
+    </div>
+  }
+
+  <div class="sm:col-span-2">
+    <label>Observações</label>
+    <textarea pInputTextarea formControlName="notes"></textarea>
+  </div>
+
+  <div class="sm:col-span-2 quote-summary">
+    <h3>Resumo financeiro</h3>
+    <p>Subtotal: {{ getSubtotal() | currency: "BRL" }}</p>
+    @if (getDiscountPercentage() > 0) {
+      <p>
+        Desconto:
+        {{ getDiscountAmount() | currency: "BRL" }} ({{
+          getDiscountPercentage()
+        }}%)
+      </p>
+    }
+    @if (getShippingCost() > 0) {
+      <p>Frete: {{ getShippingCost() | currency: "BRL" }}</p>
+    }
+    <p>Total: {{ getTotal() | currency: "BRL" }}</p>
+    <p>Entrada: {{ getDownPayment() | currency: "BRL" }}</p>
+    <p>Restante: {{ getRemaining() | currency: "BRL" }}</p>
+  </div>
+
+  <div class="sm:col-span-2 flex gap-2">
+    <button pButton type="button" [disabled]="isLoading" (click)="saveDraft()">
+      Salvar rascunho
+    </button>
+    @if (id) {
+      <button
+        pButton
+        type="button"
+        severity="danger"
+        [disabled]="isLoading"
+        (click)="viewPdf()"
+      >
+        Visualizar PDF
+      </button>
+    }
+  </div>
+</form>

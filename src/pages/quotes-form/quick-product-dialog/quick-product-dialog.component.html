@@ -1,0 +1,39 @@
+﻿<p-dialog
+  [(visible)]="isOpen"
+  header="Novo produto rápido"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+>
+  <form class="grid grid-cols-1 sm:grid-cols-2 gap-4" (submit)="$event.preventDefault(); submit()">
+    <div class="sm:col-span-2">
+      <label>Nome do produto</label>
+      <input pInputText [(ngModel)]="formData.name" name="name" required />
+    </div>
+    <div class="sm:col-span-2">
+      <label>Descrição</label>
+      <textarea pInputTextarea [(ngModel)]="formData.description" name="description"></textarea>
+    </div>
+    <div>
+      <label>Código SKU</label>
+      <input pInputText [(ngModel)]="formData.code" name="code" required />
+    </div>
+    <div>
+      <label>Preço de venda</label>
+      <p-inputnumber [(ngModel)]="formData.price" name="price" mode="currency" currency="BRL" />
+    </div>
+    <div>
+      <label>Cor</label>
+      <input pInputText [(ngModel)]="formData.color" name="color" />
+    </div>
+    <div>
+      <label>Tamanho</label>
+      <input pInputText [(ngModel)]="formData.size" name="size" />
+    </div>
+    <div class="sm:col-span-2">
+      <button pButton type="button" [disabled]="isLoading" (click)="submit()" fluid>
+        Salvar
+      </button>
+    </div>
+  </form>
+</p-dialog>

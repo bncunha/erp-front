@@ -71,10 +71,14 @@
     [globalFilterFields]="filterFields"
     selectionMode="single"
     [paginator]="true"
-    [rows]="10"
+    [rows]="rows"
+    [lazy]="lazy"
+    [loading]="loading"
+    [totalRecords]="totalRecords"
     [(selection)]="selected"
     (onRowExpand)="onRowExpand.emit($event.data)"
     (onRowCollapse)="onRowCollapse.emit($event.data)"
+    (onLazyLoad)="onLazyLoad.emit($event)"
   >
     <ng-template #header let-columns>
       <tr>
