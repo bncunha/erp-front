@@ -8,7 +8,12 @@ import {
   QuoteListItemResponse,
   QuoteStatus,
 } from '../../service/responses/quotes-response';
-import { QuoteStatusEnum } from '../../enums/quote-status.enum';
+import {
+  getQuoteStatusActionLabel,
+  getQuoteStatusClass,
+  getQuoteStatusLabel,
+  QuoteStatusEnum,
+} from '../../enums/quote-status.enum';
 import { QuotesListService } from './quotes-list.service';
 
 @Component({
@@ -57,6 +62,14 @@ export class QuotesListComponent implements OnInit {
     return this.service.columns;
   }
 
+  get selectedItem(): QuoteListItemResponse | undefined {
+    return this.service.selectedItem;
+  }
+
+  getQuoteStatusLabel = getQuoteStatusLabel;
+  getQuoteStatusActionLabel = getQuoteStatusActionLabel;
+  getQuoteStatusClass = getQuoteStatusClass;
+
   onFilter(): void {
     this.service.onFilter();
   }
@@ -91,5 +104,9 @@ export class QuotesListComponent implements OnInit {
 
   canEdit(item: QuoteListItemResponse): boolean {
     return this.service.canEdit(item);
+  }
+
+  onSelectionChange(item?: QuoteListItemResponse): void {
+    this.service.setSelectedItem(item);
   }
 }

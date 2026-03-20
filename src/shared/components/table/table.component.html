@@ -76,6 +76,7 @@
     [loading]="loading"
     [totalRecords]="totalRecords"
     [(selection)]="selected"
+    (selectionChange)="onSelectionChange.emit($event)"
     (onRowExpand)="onRowExpand.emit($event.data)"
     (onRowCollapse)="onRowCollapse.emit($event.data)"
     (onLazyLoad)="onLazyLoad.emit($event)"

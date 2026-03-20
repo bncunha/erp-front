@@ -90,6 +90,23 @@
   </form>
 </p-panel>
 
+@if (selectedItem; as item) {
+  <div class="flex gap-2">
+    @for (status of getAllowedStatuses(item); track status) {
+      <button
+        pButton
+        type="button"
+        size="small"
+        severity="contrast"
+        [ngClass]="getQuoteStatusClass(status)"
+        (click)="changeStatus(item, status)"
+      >
+        {{ getQuoteStatusActionLabel(status) }}
+      </button>
+    }
+  </div>
+}
+
 <app-table
   [value]="items"
   [columns]="columns"
@@ -102,6 +119,7 @@
   [totalRecords]="totalRecords"
   (onAddClick)="goToNew()"
   (onLazyLoad)="onLazyLoad($event)"
+  (onSelectionChange)="onSelectionChange($event)"
 >
   <ng-template #actions let-item>
     <div class="flex gap-2 items-center">
@@ -123,17 +141,6 @@
         severity="danger"
         (click)="openPdf(item)"
       ></button>
-      @for (status of getAllowedStatuses(item); track status) {
-        <button
-          pButton
-          type="button"
-          size="small"
-          severity="contrast"
-          (click)="changeStatus(item, status)"
-        >
-          {{ status }}
-        </button>
-      }
     </div>
   </ng-template>
 </app-table>

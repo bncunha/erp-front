@@ -17,6 +17,23 @@ export function getQuoteStatusOptions(): {
   }));
 }
 
+export function getQuoteStatusActionLabel(status?: string | null): string {
+  switch ((status || '').toUpperCase()) {
+    case QuoteStatusEnum.DRAFT:
+      return 'Salvar';
+    case QuoteStatusEnum.SENT:
+      return 'Enviar';
+    case QuoteStatusEnum.APPROVED:
+      return 'Aprovar';
+    case QuoteStatusEnum.REJECTED:
+      return 'Rejeitar';
+    case QuoteStatusEnum.CANCELED:
+      return 'Cancelar';
+    default:
+      return 'Salvar';
+  }
+}
+
 export function getQuoteStatusLabel(status?: string | null): string {
   switch ((status || '').toUpperCase()) {
     case QuoteStatusEnum.DRAFT:

@@ -1,3 +1,13 @@
 ﻿:host {
   display: block;
 }
+
+.table-badge--info {
+  background-color: #007bff;
+  border: none;
+}
+
+.table-badge--danger {
+  background-color: #dc3545;
+  border: none;
+}

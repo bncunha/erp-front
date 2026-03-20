@@ -50,6 +50,7 @@ export class TableComponent implements OnInit {
   @Output() onRowCollapse = new EventEmitter<any>();
   @Output() onRowClick = new EventEmitter<any>();
   @Output() onLazyLoad = new EventEmitter<TableLazyLoadEvent>();
+  @Output() onSelectionChange = new EventEmitter<any>();
   @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;

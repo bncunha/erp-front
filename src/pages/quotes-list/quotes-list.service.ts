@@ -16,6 +16,7 @@ import {
   QuoteListItemResponse,
   QuoteStatus,
 } from '../../service/responses/quotes-response';
+import { ToastService } from '../../shared/components/toast/toast.service';
 
 @Injectable()
 export class QuotesListService {
@@ -24,11 +25,13 @@ export class QuotesListService {
   private datePipe = inject(DatePipe);
   private currencyPipe = inject(CurrencyPipe);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   loading = false;
   rows = 10;
   totalRecords = 0;
   items: QuoteListItemResponse[] = [];
+  selectedItem?: QuoteListItemResponse;
   customers: GetCustomerResponse[] = [];
 
   filters: any = {
@@ -195,9 +198,22 @@ export class QuotesListService {
   }
 
   changeStatus(item: QuoteListItemResponse, status: QuoteStatus): void {
-    this.quotesApi
-      .patchStatus(item.id, { status })
-      .subscribe(() => this.fetch());
+    const nextStatusLabel = getQuoteStatusLabel(status);
+    this.toast.confirm(
+      () => {
+        this.quotesApi.patchStatus(item.id, { status }).subscribe({
+          next: () => this.fetch(),
+          error: () =>
+            this.toast.showError('Não foi possível alterar o status do orçamento.'),
+        });
+      },
+      `Confirma alterar o status do orçamento ${item.quote_number} para ${nextStatusLabel}?`,
+      'Alterar status',
+    );
+  }
+
+  setSelectedItem(item?: QuoteListItemResponse): void {
+    this.selectedItem = item;
   }
 
   private fetch(): void {
@@ -206,6 +222,12 @@ export class QuotesListService {
       next: (response) => {
         this.items = response.items || [];
         this.totalRecords = response.total || 0;
+        if (this.selectedItem) {
+          const selectedFromList = this.items.find(
+            (item) => item.id === this.selectedItem?.id,
+          );
+          this.selectedItem = selectedFromList;
+        }
         this.loading = false;
       },
       error: () => {
