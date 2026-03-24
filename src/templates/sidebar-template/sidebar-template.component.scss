@@ -9,7 +9,11 @@
 }
 
 @media (min-width: 992px) {
-  .template {
+  .template.sidebar-expanded {
+    padding-left: 200px;
+  }
+
+  .template.sidebar-collapsed {
     padding-left: 80px;
   }
 

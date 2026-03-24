@@ -1,8 +1,14 @@
-<div class="template">
+<div
+  class="template"
+  [class.sidebar-expanded]="!isDesktopCollapsed"
+  [class.sidebar-collapsed]="isDesktopCollapsed"
+>
   <app-header (menuClicked)="sidebarTemplateService.toggleSidebar(true)" />
   <app-sidebar
     [isOpen]="(isSidebarOpen$ | async)!"
     [itemsList]="itemsList"
+    [isDesktopCollapsed]="isDesktopCollapsed"
+    (desktopCollapsedChange)="isDesktopCollapsed = $event"
     (onClose)="sidebarTemplateService.toggleSidebar(false)"
   />
   <div class="p-4">

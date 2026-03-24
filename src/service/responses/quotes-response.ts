@@ -84,3 +84,7 @@ export interface QuoteListResponse {
   page_size: number;
   total_pages: number;
 }
+
+export interface DuplicateQuoteResponse {
+  id: number;
+}

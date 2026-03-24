@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ContentChild,
   EventEmitter,
@@ -39,7 +40,7 @@ import { TableLazyLoadEvent } from 'primeng/table';
   styleUrl: './table.component.scss',
   providers: [TableService],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
   @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
   @ContentChild('rowExpand') rowExpandTemplate?: TemplateRef<any>;
 
@@ -80,5 +81,18 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     this.filterFields = this.tableService.getFilterFields(this.columns);
     this.initialSearch = this.tableService.getInitialSearch(this.stateKey);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.lazy) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.onLazyLoad.emit({
+        first: 0,
+        rows: this.rows,
+      });
+    });
   }
 }

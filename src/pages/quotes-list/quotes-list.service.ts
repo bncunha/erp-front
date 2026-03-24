@@ -110,7 +110,6 @@ export class QuotesListService {
       ...this.filters,
     });
     this.loadCustomers();
-    this.fetch();
   }
 
   onFilter(): void {
@@ -180,6 +179,23 @@ export class QuotesListService {
       this.router.createUrlTree(['/producao/orcamentos', item.id, 'impressao']),
     );
     window.open(url, '_blank');
+  }
+
+  duplicate(item: QuoteListItemResponse): void {
+    this.toast.confirm(
+      () => {
+        this.quotesApi.duplicate(item.id).subscribe({
+          next: (response) => {
+            this.toast.showSuccess('Orçamento duplicado com sucesso!');
+            this.router.navigate(['/producao/orcamentos', response.id]);
+          },
+          error: () =>
+            this.toast.showError('Não foi possível duplicar o orçamento.'),
+        });
+      },
+      `Confirma duplicar o orçamento ${item.quote_number}?`,
+      'Duplicar orçamento',
+    );
   }
 
   getAllowedStatuses(item: QuoteListItemResponse): QuoteStatus[] {

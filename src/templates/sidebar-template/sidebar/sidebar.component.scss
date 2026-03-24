@@ -22,6 +22,10 @@
   align-self: flex-end;
 }
 
+.desktop-toggle-button {
+  display: none;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -51,6 +55,12 @@
   }
 }
 
+.menu-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .menu-item--parent {
   justify-content: space-between;
 }
@@ -68,7 +78,7 @@
 }
 
 .menu-label {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .arrow-icon {
@@ -78,22 +88,27 @@
 @media (min-width: 992px) {
   .sidebar-container {
     left: 0;
-    width: 80px;
-    padding: 1.5rem 0.75rem;
+    width: 200px;
+    padding: 1rem 0.75rem;
     background-color: var(--overlay-background);
     border-right: 1px solid var(--border-color);
-    transition: none;
-    align-items: center;
-    gap: 0;
+    transition: width 0.2s ease;
+    align-items: stretch;
+    gap: 1rem;
   }
 
   .close-button {
     display: none;
   }
 
+  .desktop-toggle-button {
+    display: inline-flex;
+    align-self: flex-end;
+  }
+
   .menu {
     width: 100%;
-    align-items: center;
+    align-items: stretch;
     gap: 1.5rem;
   }
 
@@ -102,7 +117,7 @@
     justify-content: flex-start;
     width: 100%;
     color: var(--text-color);
-    padding: 0.25rem;
+    padding: 0.35rem 0.5rem;
 
     &:hover,
     &.active {
@@ -122,7 +137,34 @@
     padding-left: 0;
   }
 
-  .menu-label {
+  .sidebar-container.desktop-collapsed {
+    width: 80px;
+    align-items: center;
+  }
+
+  .sidebar-container.desktop-collapsed .desktop-toggle-button {
+    align-self: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu {
+    align-items: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-item {
+    justify-content: center;
+    padding: 0.35rem;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-content {
+    justify-content: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-label,
+  .sidebar-container.desktop-collapsed .arrow-icon {
     display: none;
+  }
+
+  .sidebar-container.desktop-collapsed .submenu {
+    padding: 0.75rem 0.25rem;
   }
 }

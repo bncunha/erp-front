@@ -1,10 +1,27 @@
-<div class="sidebar-container" [ngClass]="{ open: isOpen }">
+<div
+  class="sidebar-container"
+  [ngClass]="{ open: isOpen, 'desktop-collapsed': isDesktopCollapsed }"
+>
   <button
     class="close-button"
     pButton
     severity="secondary"
     icon="pi pi-times"
     (click)="onClose.emit()"
+  ></button>
+  <button
+    type="button"
+    class="desktop-toggle-button"
+    pButton
+    severity="secondary"
+    [icon]="
+      isDesktopCollapsed ? 'pi pi-angle-double-right' : 'pi pi-angle-double-left'
+    "
+    [attr.aria-label]="isDesktopCollapsed ? 'Expandir menu' : 'Recuar menu'"
+    [pTooltip]="isDesktopCollapsed ? 'Expandir menu' : 'Recuar menu'"
+    tooltipPosition="right"
+    tooltipAppendTo="body"
+    (click)="toggleDesktopCollapsed()"
   ></button>
   <nav class="menu">
     @for (item of itemsList; track $index) {
@@ -18,8 +35,10 @@
           tooltipPosition="right"
           tooltipAppendTo="body"
         >
-          <i [class]="item.icon"></i>
-          <span class="menu-label">{{ item.name }}</span>
+          <span class="menu-content">
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.name }}</span>
+          </span>
           <i
             class="pi arrow-icon"
             [ngClass]="
@@ -40,8 +59,10 @@
                 tooltipPosition="right"
                 tooltipAppendTo="body"
               >
-                <i [class]="child.icon"></i>
-                <span class="menu-label">{{ child.name }}</span>
+                <span class="menu-content">
+                  <i [class]="child.icon"></i>
+                  <span class="menu-label">{{ child.name }}</span>
+                </span>
               </a>
             }
           </div>
@@ -58,8 +79,10 @@
           tooltipPosition="right"
           tooltipAppendTo="body"
         >
-          <i [class]="item.icon"></i>
-          <span class="menu-label">{{ item.name }}</span>
+          <span class="menu-content">
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.name }}</span>
+          </span>
         </a>
       }
     }
@@ -72,8 +95,10 @@
       tooltipPosition="right"
       tooltipAppendTo="body"
     >
-      <i class="pi pi-sign-out"></i>
-      <span class="menu-label">Sair</span>
+      <span class="menu-content">
+        <i class="pi pi-sign-out"></i>
+        <span class="menu-label">Sair</span>
+      </span>
     </a>
   </nav>
 </div>

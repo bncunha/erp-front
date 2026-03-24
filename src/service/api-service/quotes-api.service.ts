@@ -7,7 +7,11 @@ import {
   PatchQuoteStatusRequest,
   UpsertQuoteRequest,
 } from '../requests/quotes-request';
-import { QuoteListResponse, QuoteResponse } from '../responses/quotes-response';
+import {
+  DuplicateQuoteResponse,
+  QuoteListResponse,
+  QuoteResponse,
+} from '../responses/quotes-response';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +41,13 @@ export class QuotesApiService {
     return this.http.patch<QuoteResponse>(
       `${environment.API_URL}/quotes/${id}/status`,
       request
+    );
+  }
+
+  duplicate(id: number): Observable<DuplicateQuoteResponse> {
+    return this.http.post<DuplicateQuoteResponse>(
+      `${environment.API_URL}/quotes/${id}/duplicate`,
+      {}
     );
   }
 }

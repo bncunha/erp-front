@@ -94,6 +94,10 @@ export class QuotesListComponent implements OnInit {
     this.service.openPdf(item);
   }
 
+  duplicate(item: QuoteListItemResponse): void {
+    this.service.duplicate(item);
+  }
+
   getAllowedStatuses(item: QuoteListItemResponse): QuoteStatus[] {
     return this.service.getAllowedStatuses(item);
   }
