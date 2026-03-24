@@ -44,6 +44,15 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'producao/orcamentos/:id/impressao',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER] },
+    loadComponent: () =>
+      import('../pages/quote-print/quote-print.component').then(
+        (m) => m.QuotePrintComponent
+      ),
+  },
+  {
     path: '',
     component: SidebarTemplateComponent,
     canActivateChild: [authGuard],
@@ -222,6 +231,48 @@ export const routes: Routes = [
               import(
                 './../pages/sales-form/sales-payment-form/sales-payment-form.component'
               ).then((m) => m.SalesPaymentFormComponent),
+          },
+        ],
+      },
+      {
+        path: 'producao',
+        data: { breadcrumb: 'Produção' },
+        children: [
+          {
+            path: 'orcamentos',
+            data: {
+              breadcrumb: 'Orçamentos',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/quotes-list/quotes-list.component').then(
+                (m) => m.QuotesListComponent
+              ),
+          },
+          {
+            path: 'orcamentos/novo',
+            data: {
+              breadcrumb: 'Novo orçamento',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/quotes-form/quotes-form.component').then(
+                (m) => m.QuotesFormComponent
+              ),
+          },
+          {
+            path: 'orcamentos/:id',
+            data: {
+              breadcrumb: 'Editar orçamento',
+              roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+            },
+            canActivate: [roleGuard],
+            loadComponent: () =>
+              import('../pages/quotes-form/quotes-form.component').then(
+                (m) => m.QuotesFormComponent
+              ),
           },
         ],
       },

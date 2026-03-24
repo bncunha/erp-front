@@ -22,6 +22,10 @@
   align-self: flex-end;
 }
 
+.desktop-toggle-button {
+  display: none;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -36,6 +40,10 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
 
   &:hover,
   &.active {
@@ -47,38 +55,69 @@
   }
 }
 
+.menu-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-item--parent {
+  justify-content: space-between;
+}
+
+.submenu {
+  margin-top: -0.8rem;
+  margin-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.menu-item--child {
+  padding-left: 0.75rem;
+}
+
 .menu-label {
-  font-size: 1rem;
+  font-size: 0.8rem;
+}
+
+.arrow-icon {
+  font-size: 0.75rem !important;
 }
 
 @media (min-width: 992px) {
   .sidebar-container {
     left: 0;
-    width: 80px;
-    padding: 1.5rem 0.75rem;
+    width: 200px;
+    padding: 1rem 0.75rem;
     background-color: var(--overlay-background);
     border-right: 1px solid var(--border-color);
-    transition: none;
-    align-items: center;
-    gap: 0;
+    transition: width 0.2s ease;
+    align-items: stretch;
+    gap: 1rem;
   }
 
   .close-button {
     display: none;
   }
 
+  .desktop-toggle-button {
+    display: inline-flex;
+    align-self: flex-end;
+  }
+
   .menu {
     width: 100%;
-    align-items: center;
+    align-items: stretch;
     gap: 1.5rem;
   }
 
   .menu-item {
     position: relative;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     color: var(--text-color);
-    padding: 0.25rem;
+    padding: 0.35rem 0.5rem;
 
     &:hover,
     &.active {
@@ -86,7 +125,46 @@
     }
   }
 
-  .menu-label {
+  .submenu {
+    margin: 0;
+    width: 100%;
+    gap: 1rem;
+    background-color: var(--ground-background);
+    padding: 1rem;
+  }
+
+  .menu-item--child {
+    padding-left: 0;
+  }
+
+  .sidebar-container.desktop-collapsed {
+    width: 80px;
+    align-items: center;
+  }
+
+  .sidebar-container.desktop-collapsed .desktop-toggle-button {
+    align-self: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu {
+    align-items: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-item {
+    justify-content: center;
+    padding: 0.35rem;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-content {
+    justify-content: center;
+  }
+
+  .sidebar-container.desktop-collapsed .menu-label,
+  .sidebar-container.desktop-collapsed .arrow-icon {
     display: none;
+  }
+
+  .sidebar-container.desktop-collapsed .submenu {
+    padding: 0.75rem 0.25rem;
   }
 }

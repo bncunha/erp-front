@@ -24,6 +24,7 @@ export class SidebarTemplateComponent {
   breadcrumbService = inject(BreadcrumbService);
   sidebarTemplateService = inject(SidebarTemplateService);
 
+  isDesktopCollapsed = false;
   breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
   isSidebarOpen$ = this.sidebarTemplateService.getIsSidebarOpen$();
   itemsList = this.sidebarTemplateService.getMenuItems();

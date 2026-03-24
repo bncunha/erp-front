@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ContentChild,
   EventEmitter,
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BillingStatusStore } from '../../../service/billing-status.store';
 import { DisableWhenReadonlyDirective } from '../../directives/disable-when-readonly/disable-when-readonly.directive';
+import { TableLazyLoadEvent } from 'primeng/table';
 
 @Component({
   selector: 'app-table',
@@ -38,7 +40,7 @@ import { DisableWhenReadonlyDirective } from '../../directives/disable-when-read
   styleUrl: './table.component.scss',
   providers: [TableService],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
   @ContentChild('actions') actionsTemplate?: TemplateRef<any>;
   @ContentChild('rowExpand') rowExpandTemplate?: TemplateRef<any>;
 
@@ -48,6 +50,8 @@ export class TableComponent implements OnInit {
   @Output() onRowExpand = new EventEmitter<any>();
   @Output() onRowCollapse = new EventEmitter<any>();
   @Output() onRowClick = new EventEmitter<any>();
+  @Output() onLazyLoad = new EventEmitter<TableLazyLoadEvent>();
+  @Output() onSelectionChange = new EventEmitter<any>();
   @Input() value!: any[];
   @Input() stateKey?: string;
   @Input() keepState: boolean = true;
@@ -59,6 +63,10 @@ export class TableComponent implements OnInit {
   @Input() columns: Column[] = [];
   @Input() addRoute?: string;
   @Input() dataKey?: string;
+  @Input() lazy: boolean = false;
+  @Input() loading: boolean = false;
+  @Input() totalRecords: number = 0;
+  @Input() rows: number = 10;
 
   selected?: any;
   tableService = inject(TableService);
@@ -73,5 +81,18 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     this.filterFields = this.tableService.getFilterFields(this.columns);
     this.initialSearch = this.tableService.getInitialSearch(this.stateKey);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.lazy) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.onLazyLoad.emit({
+        first: 0,
+        rows: this.rows,
+      });
+    });
   }
 }

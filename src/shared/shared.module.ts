@@ -27,6 +27,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DisableWhenReadonlyDirective } from './directives/disable-when-readonly/disable-when-readonly.directive';
+import { TextareaModule } from 'primeng/textarea';
 
 const PRIME_NG_MODULES = [
   CardModule,
@@ -46,6 +47,7 @@ const PRIME_NG_MODULES = [
   PaginatorModule,
   CheckboxModule,
   SplitButtonModule,
+  TextareaModule,
 ];
 
 @NgModule({

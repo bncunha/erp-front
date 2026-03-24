@@ -1,0 +1,155 @@
+.print-page {
+  background: #f5f5f5;
+  min-height: 100vh;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.quote-sheet {
+  width: 210mm;
+  margin: 0 auto;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  padding: 16mm;
+  position: relative;
+}
+
+.watermark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  z-index: 1;
+  font-size: 7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ff00004f;
+  transform: rotate(-45deg);
+}
+
+.sheet-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sheet-header {
+  padding-bottom: 0.75rem;
+  display: flex;
+  gap: 20px;
+}
+
+.sheet-logo {
+  img {
+    max-width: 100px;
+  }
+}
+
+.sheet-header h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.sheet-header h2 {
+  margin: 0;
+}
+
+.sheet-header p {
+  margin: 0.15rem 0;
+}
+
+.block {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-top: 1px solid #9ca3af;
+}
+
+.block h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.info-table,
+.items-table,
+.totals-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.info-table th,
+.info-table td,
+.items-table th,
+.items-table td,
+.totals-table th,
+.totals-table td {
+  border: 1px solid #9ca3af;
+  padding: 0.35rem 0.45rem;
+}
+
+.items-table thead th {
+  background: #f3f4f6;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.totals {
+  display: flex;
+  border: none;
+}
+
+.totals-table {
+  width: 320px;
+}
+
+.notes p {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-page {
+    background: #fff;
+    padding: 0;
+  }
+
+  .quote-sheet {
+    width: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+}

@@ -1,0 +1,154 @@
+<h1>Orçamentos</h1>
+
+<p-panel
+  header="Filtros"
+  [toggleable]="true"
+  [collapsed]="true"
+  class="my-4 block"
+>
+  <form
+    class="grid grid-cols-1 sm:grid-cols-4 gap-4"
+    (submit)="$event.preventDefault(); onFilter()"
+  >
+    <div>
+      <label>Status</label>
+      <p-multiSelect
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="filters.status"
+        [showClear]="true"
+        name="status"
+        appendTo="body"
+      />
+    </div>
+    <div>
+      <label>Cliente</label>
+      <p-dropdown
+        [options]="customers"
+        optionLabel="name"
+        optionValue="id"
+        [(ngModel)]="filters.customer_id"
+        [showClear]="true"
+        name="customer_id"
+        [filter]="true"
+        appendTo="body"
+      />
+    </div>
+    <div>
+      <label>Busca</label>
+      <input
+        pInputText
+        [(ngModel)]="filters.search"
+        name="search"
+        placeholder="Número, cliente, observação"
+      />
+    </div>
+    <div>
+      <label>Validade inicial</label>
+      <p-datepicker
+        [(ngModel)]="filters.valid_until_start"
+        name="valid_until_start"
+        appendTo="body"
+      />
+    </div>
+    <div>
+      <label>Validade final</label>
+      <p-datepicker
+        [(ngModel)]="filters.valid_until_end"
+        name="valid_until_end"
+        appendTo="body"
+      />
+    </div>
+    <div>
+      <label>Criação inicial</label>
+      <p-datepicker
+        [(ngModel)]="filters.created_at_start"
+        name="created_at_start"
+        appendTo="body"
+      />
+    </div>
+    <div>
+      <label>Criação final</label>
+      <p-datepicker
+        [(ngModel)]="filters.created_at_end"
+        name="created_at_end"
+        appendTo="body"
+      />
+    </div>
+    <div class="flex items-end gap-2 sm:col-span-3">
+      <button pButton type="button" (click)="onFilter()">Filtrar</button>
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        (click)="cleanFilters()"
+      >
+        Limpar
+      </button>
+    </div>
+  </form>
+</p-panel>
+
+@if (selectedItem; as item) {
+  <div class="flex gap-2">
+    @for (status of getAllowedStatuses(item); track status) {
+      <button
+        pButton
+        type="button"
+        size="small"
+        severity="contrast"
+        [ngClass]="getQuoteStatusClass(status)"
+        (click)="changeStatus(item, status)"
+      >
+        {{ getQuoteStatusActionLabel(status) }}
+      </button>
+    }
+  </div>
+}
+
+<app-table
+  [value]="items"
+  [columns]="columns"
+  [showEdit]="false"
+  [showDelete]="false"
+  [addRoute]="'/producao/orcamentos/novo'"
+  [lazy]="true"
+  [rows]="rows"
+  [loading]="loading"
+  [totalRecords]="totalRecords"
+  (onAddClick)="goToNew()"
+  (onLazyLoad)="onLazyLoad($event)"
+  (onSelectionChange)="onSelectionChange($event)"
+>
+  <ng-template #actions let-item>
+    <div class="flex gap-2 items-center">
+      @if (canEdit(item)) {
+        <button
+          pButton
+          type="button"
+          size="small"
+          icon="pi pi-pencil"
+          severity="secondary"
+          (click)="edit(item)"
+        ></button>
+      }
+      <button
+        pButton
+        type="button"
+        size="small"
+        icon="pi pi-file-pdf"
+        severity="danger"
+        (click)="openPdf(item)"
+      ></button>
+      <button
+        pButton
+        type="button"
+        size="small"
+        icon="pi pi-copy"
+        severity="secondary"
+        (click)="duplicate(item)"
+      ></button>
+    </div>
+  </ng-template>
+</app-table>

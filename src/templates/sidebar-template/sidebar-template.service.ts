@@ -53,6 +53,19 @@ export class SidebarTemplateService {
       roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
     },
     {
+      icon: PrimeIcons.BRIEFCASE,
+      name: 'Produção',
+      roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+      children: [
+        {
+          icon: PrimeIcons.FILE,
+          name: 'Orçamento',
+          routerLink: '/producao/orcamentos',
+          roles: [UserRoleEnum.ADMIN, UserRoleEnum.RESELLER],
+        },
+      ],
+    },
+    {
       icon: PrimeIcons.USER,
       name: 'Clientes',
       routerLink: '/clientes',
@@ -62,7 +75,13 @@ export class SidebarTemplateService {
 
   getMenuItems(): MenuItem[] {
     const userRole = this.userApiService.getUserRole();
-    return this.menuItems.filter((item) => item.roles.includes(userRole));
+    return this.menuItems
+      .filter((item) => item.roles.includes(userRole))
+      .map((item) => ({
+        ...item,
+        children: item.children?.filter((child) => child.roles.includes(userRole)),
+      }))
+      .filter((item) => !item.children || item.children.length > 0 || !!item.routerLink);
   }
 
   toggleSidebar(isOpen: boolean): void {

@@ -1,0 +1,312 @@
+﻿<app-customers-form-dialog
+  #customerDialog
+  (onSubmitSuccess)="onCustomerCreated()"
+/>
+<app-quick-product-dialog
+  #quickProductDialog
+  (onSubmitSuccess)="onQuickProductCreated()"
+/>
+
+<div class="quote-page">
+  <h1>{{ id ? "Editar orçamento" : "Novo orçamento" }}</h1>
+  <p class="page-subtitle">
+    Preencha os dados abaixo para montar o orçamento de forma rápida e clara.
+  </p>
+
+  <form [formGroup]="form" class="quote-form">
+    <section class="form-section section-customer">
+      <div class="section-header">
+        <h2>Cliente</h2>
+        <p>Escolha o cliente que vai receber este orçamento.</p>
+      </div>
+
+      <div class="customer-row">
+        <div class="field-grow">
+          <label for="customer_id"
+            >Cliente <span class="required">*</span></label
+          >
+          <p-select
+            inputId="customer_id"
+            [options]="customers"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="customer_id"
+            [filter]="true"
+          >
+            <ng-template let-customer #item>
+              <div>
+                <div>{{ customer.name }}</div>
+                <small>Telefone: {{ customer.phone_number }}</small>
+              </div>
+            </ng-template>
+          </p-select>
+        </div>
+
+        <button
+          type="button"
+          pButton
+          icon="pi pi-user-plus"
+          severity="secondary"
+          class="btn-inline-action"
+          (click)="customerDialog?.open()"
+        >
+          Novo cliente
+        </button>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-header section-header-row">
+        <div>
+          <h2>Itens do orçamento</h2>
+          <p>Adicione produtos, ajuste quantidade e confira os totais.</p>
+        </div>
+
+        <div class="products-actions">
+          <button
+            type="button"
+            pButton
+            icon="pi pi-plus"
+            class="btn-add-item"
+            (click)="addItem()"
+          >
+            Adicionar item
+          </button>
+          <button
+            type="button"
+            pButton
+            severity="secondary"
+            icon="pi pi-box"
+            (click)="quickProductDialog?.open()"
+          >
+            Novo produto
+          </button>
+        </div>
+      </div>
+
+      <div class="products-wrapper" formArrayName="items">
+        <div class="item-head">
+          <span>Produto*</span>
+          <span>Quantidade*</span>
+          <span>Valor unitário*</span>
+          <span>Total do item</span>
+          <span>Ação</span>
+        </div>
+
+        @for (item of items.controls; track $index; let i = $index) {
+          <div class="item-row" [formGroupName]="i">
+            <div class="field-product">
+              <p-select
+                [options]="skus"
+                optionLabel="filterName"
+                optionValue="id"
+                formControlName="sku_id"
+                [filter]="true"
+              ></p-select>
+            </div>
+
+            <div>
+              <p-inputnumber
+                formControlName="quantity"
+                mode="decimal"
+                [minFractionDigits]="2"
+                [min]="0.01"
+              ></p-inputnumber>
+            </div>
+
+            <div>
+              <p-inputnumber
+                formControlName="unit_price"
+                mode="currency"
+                currency="BRL"
+              ></p-inputnumber>
+            </div>
+
+            <div class="calculated-field">
+              <p-inputnumber
+                formControlName="total_price"
+                mode="currency"
+                currency="BRL"
+                [readonly]="true"
+              ></p-inputnumber>
+            </div>
+
+            <div class="field-remove">
+              <button
+                type="button"
+                pButton
+                icon="pi pi-trash"
+                severity="danger"
+                (click)="removeItem(i)"
+              ></button>
+            </div>
+
+            <div class="item-description">
+              <small>{{ item.get("product_description")?.value }}</small>
+            </div>
+          </div>
+        }
+
+        @if (items.length === 0) {
+          <div class="empty-items">
+            <p>Nenhum produto adicionado ainda.</p>
+            <small>Use "Adicionar item" para começar o orçamento.</small>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-header">
+        <h2>Condições do orçamento</h2>
+        <p>Defina prazo e condições comerciais aplicadas ao valor final.</p>
+      </div>
+
+      <div class="conditions-grid">
+        <div>
+          <label>Validade <span class="required">*</span></label>
+          <p-datepicker
+            formControlName="valid_until"
+            appendTo="body"
+          ></p-datepicker>
+          <small>Data limite para aprovação.</small>
+        </div>
+
+        <div>
+          <label>Entrada (%)</label>
+          <p-inputnumber
+            formControlName="down_payment_percentage"
+            mode="decimal"
+            [minFractionDigits]="2"
+            [min]="0"
+            [max]="100"
+          ></p-inputnumber>
+          <small>Percentual pago antecipadamente pelo cliente.</small>
+          <p class="money-impact">
+            Equivale a {{ getDownPayment() | currency: "BRL" }}
+          </p>
+        </div>
+
+        <div>
+          <label>Desconto (%)</label>
+          <p-inputnumber
+            formControlName="discount_percentage"
+            mode="decimal"
+            [minFractionDigits]="2"
+            [min]="0"
+            [max]="100"
+          ></p-inputnumber>
+          <small>Aplicado sobre o subtotal dos itens.</small>
+          <p class="money-impact">
+            Equivale a {{ getDiscountAmount() | currency: "BRL" }}
+          </p>
+        </div>
+
+        <div>
+          <label>Tipo de frete <span class="required">*</span></label>
+          <p-dropdown
+            [options]="shippingOptions"
+            optionLabel="label"
+            optionValue="value"
+            formControlName="shipping_type"
+            (onChange)="onShippingTypeChange()"
+            appendTo="body"
+          />
+          <small>Define se o frete compõe o valor final.</small>
+        </div>
+
+        @if (form.get("shipping_type")?.value === "TO_CALCULATE") {
+          <div>
+            <label>Valor frete (R$)</label>
+            <p-inputnumber
+              formControlName="shipping_cost"
+              mode="currency"
+              currency="BRL"
+            />
+          </div>
+        }
+
+        @if (form.get("shipping_type")?.value === "FREE_REGION") {
+          <div>
+            <label>Região</label>
+            <input pInputText formControlName="shipping_region" />
+          </div>
+        }
+
+        @if (form.get("shipping_type")?.value === "FREE_MIN_VALUE") {
+          <div>
+            <label>Valor mínimo</label>
+            <p-inputnumber
+              formControlName="shipping_min_value"
+              mode="currency"
+              currency="BRL"
+            ></p-inputnumber>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="section-header">
+        <h2>Observações</h2>
+        <p>Informações adicionais para registrar no orçamento.</p>
+      </div>
+      <textarea pInputTextarea formControlName="notes" rows="4"></textarea>
+    </section>
+
+    <section class="form-section quote-summary">
+      <div class="section-header">
+        <h2>Resumo financeiro</h2>
+        <p>Confira os valores antes de salvar ou finalizar.</p>
+      </div>
+
+      <div class="summary-list">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <strong>{{ getSubtotal() | currency: "BRL" }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Desconto</span>
+          <strong>- {{ getDiscountAmount() | currency: "BRL" }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Frete</span>
+          <strong>{{ getShippingCost() | currency: "BRL" }}</strong>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <strong>{{ getTotal() | currency: "BRL" }}</strong>
+        </div>
+        <div class="summary-row">
+          <span>Entrada</span>
+          <strong>{{ getDownPayment() | currency: "BRL" }}</strong>
+        </div>
+        <div class="summary-row remaining-row">
+          <span>Restante</span>
+          <strong>{{ getRemaining() | currency: "BRL" }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions-row">
+      <button
+        pButton
+        type="button"
+        [disabled]="isLoading"
+        (click)="saveDraft()"
+      >
+        Salvar
+      </button>
+      <button
+        *ngIf="id"
+        pButton
+        type="button"
+        severity="secondary"
+        [disabled]="isLoading"
+        (click)="viewPdf()"
+      >
+        Visualizar PDF
+      </button>
+    </div>
+  </form>
+</div>
