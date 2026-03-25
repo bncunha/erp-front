@@ -131,14 +131,14 @@
 
       <section class="block notes">
         <h3>Observações</h3>
-        @if (!quote.shipping_cost) {
+        @if (!quote.shipping_cost && quote.shipping_description) {
           <p>
             <strong>Frete:</strong>
             {{ quote.shipping_description }}
           </p>
         }
         @if (quote.notes) {
-          <p>{{ quote.notes || "-" }}</p>
+          <p class="notes-content">{{ quote.notes || "-" }}</p>
         }
       </section>
     </div>
